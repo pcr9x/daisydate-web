@@ -1,8 +1,9 @@
-from fastapi import FastAPI, WebSocket
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from api import user
+from api import users
 from api import websocket
-from PySide6.QtWebSockets import QWebSocket
+from api import matching
+from api import chatting
 
 
 app = FastAPI()
@@ -17,5 +18,7 @@ app.add_middleware(
 )
 
 # Include your regular HTTP routes
-app.include_router(user.router)
+app.include_router(users.router)
 app.include_router(websocket.router)
+app.include_router(matching.router)
+app.include_router(chatting.router)

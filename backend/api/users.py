@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, status
-from models.user import BaseUser, UserInfo, UserLogin, UserDetail, UserPreferences
+from models.users import BaseUser, UserInfo, UserLogin, UserDetail, UserPreferences
 from zodb_utils import get_zodb_storage
 from passlib.context import CryptContext
 from datetime import datetime, timedelta

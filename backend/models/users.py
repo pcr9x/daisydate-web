@@ -14,14 +14,20 @@ class BaseUser(BaseModel):
 
 class UserDetail(BaseModel):
     bio: str = None
-    relationship_goals: str = None
+    relationship_goals: str = (
+        None  # Long-term, Short-term, New friends, Still figuring it out
+    )
     languages: str = None
-    height: int = None
-    interests: List[str] = None
+    height: int = None  # [100, 250]
+    interests: List[str] = (
+        None  # Online Games, Football, Car Racing, Drawing, Theater, Travel, Music, Table Tennis, Anime
+    )
     education: str = (
         None  # Bachelors, In College, High School, PhD, In Grad School, Masters, Trade School
     )
-    pet: str = None
+    pet: str = (
+        None  # Dog, Cat, Reptile, Amphibian, Bird, Fish, Don't have but love, Other, Turtle, Hamster, Rabbit, Pet-free, Want a pet, Allergic to pets
+    )
     drinking: str = (
         None  # Not for me, Sober, Sober serious, On special occasions, Socially on weekends, Most Nights
     )
@@ -46,7 +52,14 @@ class UserPreferences(BaseModel):
 class UserInfo(BaseUser):
     password: str
     date_of_birth: str
-    age: int
+    age: int = None
     id: str = None
-    detail: UserDetail
-    preferences: UserPreferences
+    detail: UserDetail = UserDetail()
+    preferences: UserPreferences = UserPreferences()
+    liked: List[str] = []
+    matches: List[str] = []
+
+
+class UserLikeRequest(BaseModel):
+    current_user_id: str
+    other_user_id: str
