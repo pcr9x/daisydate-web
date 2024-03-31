@@ -1,9 +1,10 @@
-from fastapi import APIRouter, HTTPException, status
-from models.users import BaseUser, UserInfo, UserLogin, UserDetail, UserPreferences
+from fastapi import HTTPException, APIRouter, File, UploadFile, Form, status
+from models.users import UserInfo, UserLogin, UserDetail, UserPreferences
 from zodb_utils import get_zodb_storage
 from passlib.context import CryptContext
 from datetime import datetime, timedelta
-import jwt, transaction, uuid
+from typing import List
+import jwt, transaction, uuid, os
 
 router = APIRouter()
 
@@ -16,6 +17,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+
 def create_access_token(data: dict, expires_delta: timedelta = None):
     to_encode = data.copy()
     if expires_delta:
@@ -27,15 +29,54 @@ def create_access_token(data: dict, expires_delta: timedelta = None):
     return encoded_jwt
 
 
-@router.post("/signup")
-async def signup_user(user: UserInfo):
-    existing_email = next((u for u in root.values() if u.email == user.email), None)
-    if existing_email:
+in_progress_registrations = {}
+
+
+@router.post("/auth/signup/identifier", response_model=dict)
+async def signup_email(user_data: dict):
+    email = user_data.get("email")
+    if email in root:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT, detail="Email already exists"
         )
 
-    date_of_birth = datetime.strptime(user.date_of_birth, "%Y-%m-%d")
+    registration_id = str(uuid.uuid4())
+    in_progress_registrations[registration_id] = {"email": email}
+    return {"registration_id": registration_id, "message": "Email is valid"}
+
+
+@router.post("/auth/signup/password", response_model=dict)
+async def signup_password(user_data: dict):
+    registration_id = user_data.get("registration_id")
+    password = user_data.get("password")
+
+    registration_data = in_progress_registrations.get(registration_id)
+    if not registration_data:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid registration process.",
+        )
+
+    hashed_password = pwd_context.hash(password)
+    registration_data["password"] = hashed_password
+    in_progress_registrations[registration_id] = registration_data
+
+    return {"message": "Password is valid"}
+
+
+@router.post("/auth/signup/date-of-birth", response_model=dict)
+async def signup_date_of_birth(user_data: dict):
+    registration_id = user_data.get("registration_id")
+    date_of_birth = user_data.get("date_of_birth")
+
+    registration_data = in_progress_registrations.get(registration_id)
+    if not registration_data:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid registration process.",
+        )
+
+    date_of_birth = datetime.strptime(date_of_birth, "%Y-%m-%d")
     age = (datetime.now() - date_of_birth).days // 365
 
     if age < 18:
@@ -44,15 +85,118 @@ async def signup_user(user: UserInfo):
             detail="Users must be at least 18 years old to sign up",
         )
 
-    user.age = age
-    user.password = pwd_context.hash(user.password)
-    user.id = str(uuid.uuid4())
-    root[user.id] = user
+    registration_data["date_of_birth"] = date_of_birth
+    registration_data["age"] = age
+    in_progress_registrations[registration_id] = registration_data
+
+    return {"message": "Date of birth is valid"}
+
+
+@router.post("/auth/signup/details")
+async def signup_details(user_data: dict):
+    registration_id = user_data.get("registration_id")
+    name = user_data.get("name")
+    gender = user_data.get("gender")
+
+    registration_data = in_progress_registrations.get(registration_id)
+    if not registration_data:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid registration process.",
+        )
+
+    registration_data["name"] = name
+    registration_data["gender"] = gender
+    in_progress_registrations[registration_id] = registration_data
+
+    return {"message": "User details are valid"}
+
+
+UPLOAD_FOLDER = "assets/userImages"
+
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+
+def save_uploaded_file(contents, filename, user_id):
+    user_directory = os.path.join(UPLOAD_FOLDER, user_id)
+    os.makedirs(user_directory, exist_ok=True)
+    file_path = os.path.join(user_directory, filename)
+    with open(file_path, "wb") as new_file:
+        new_file.write(contents)
+    return file_path
+
+
+@router.post("/auth/signup/photos")
+async def signup_photos(
+    registration_id: str = Form(...),
+    photos: List[UploadFile] = File(...),
+):
+    registration_data = in_progress_registrations.get(registration_id)
+    if not registration_data:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid registration process.",
+        )
+
+    email = registration_data.get("email")
+    hash_password = registration_data.get("password")
+    date_of_birth = registration_data.get("date_of_birth")
+    age = registration_data.get("age")
+    name = registration_data.get("name")
+    gender = registration_data.get("gender")
+    user_id = str(uuid.uuid4())
+    photo_paths = []
+    for photo in photos:
+        contents = await photo.read()
+        file_path = save_uploaded_file(contents, photo.filename, user_id)
+        photo_paths.append(file_path)
+
+    user = UserInfo(
+        name=name,
+        email=email,
+        password=hash_password,
+        date_of_birth=date_of_birth,
+        age=age,
+        photos=photo_paths,
+        gender=gender,
+        id=user_id,
+    )
+    root[user_id] = user
     transaction.commit()
-    return BaseUser(name=user.name, email=user.email)
+
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(
+        data={"sub": user.id}, expires_delta=access_token_expires
+    )
+    return {"access_token": access_token, "token_type": "bearer"}
 
 
-@router.post("/login", response_model=dict)
+# @router.post("/auth/signup/user-details")
+# async def signup_user(user: UserInfo):
+#     existing_email = next((u for u in root.values() if u.email == user.email), None)
+#     if existing_email:
+#         raise HTTPException(
+#             status_code=status.HTTP_409_CONFLICT, detail="Email already exists"
+#         )
+
+#     date_of_birth = datetime.strptime(user.date_of_birth, "%Y-%m-%d")
+#     age = (datetime.now() - date_of_birth).days // 365
+
+#     if age < 18:
+#         raise HTTPException(
+#             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+#             detail="Users must be at least 18 years old to sign up",
+#         )
+
+#     user.age = age
+#     user.password = pwd_context.hash(user.password)
+#     user.id = str(uuid.uuid4())
+#     root[user.id] = user
+#     transaction.commit()
+#     return BaseUser(name=user.name, email=user.email)
+
+
+@router.post("/auth/login", response_model=dict)
 async def login_user(login_user: UserLogin):
     user = next((u for u in root.values() if u.email == login_user.email), None)
     if not user:
@@ -78,7 +222,7 @@ async def get_user(user_id: str):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
         )
-    
+
     user = root[user_id]
     return user
 

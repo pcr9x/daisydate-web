@@ -1,5 +1,6 @@
 from pydantic import BaseModel, EmailStr
 from typing import Tuple, List
+from datetime import datetime
 
 
 class UserLogin(BaseModel):
@@ -51,13 +52,17 @@ class UserPreferences(BaseModel):
 
 class UserInfo(BaseUser):
     password: str
-    date_of_birth: str
+    date_of_birth: datetime
     age: int = None
+    photos: List[str]
+    gender: str
     id: str = None
     detail: UserDetail = UserDetail()
     preferences: UserPreferences = UserPreferences()
     liked: List[str] = []
+    daisied: List[str] = []
     matches: List[str] = []
+    daisies: int = 100
 
 
 class UserLikeRequest(BaseModel):
