@@ -1,9 +1,12 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Request
 from models.chatting import Message
 from api.matching import chatting
 import transaction
+from fastapi.templating import Jinja2Templates
 
 router = APIRouter()
+
+templates = Jinja2Templates(directory="../frontend/pages")
 
 @router.post("/messages/{chat_id}")
 async def send_message(chat_id: str, message: Message):
@@ -28,3 +31,20 @@ async def send_message(chat_id: str, message: Message):
     transaction.commit()
 
     return {"message": "Message sent successfully"}
+
+
+def get_all_chats(user_id: str):
+    results = []
+    for c in chatting:
+        chat = chatting[c]
+        if chat.userID1 == user_id or chat.userID2 == user_id:
+            results.append(chat)
+    print(results)
+    return results
+
+@router.get("/messages/{user_id}")
+async def index(user_id: str, request: Request):
+    if user_id == "all":
+        return chatting
+    data = get_all_chats(user_id)
+    return templates.TemplateResponse("chat-page.html", {"request": request, "data" : data})

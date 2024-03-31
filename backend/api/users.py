@@ -1,10 +1,15 @@
 from fastapi import HTTPException, APIRouter, File, UploadFile, Form, status
 from models.users import UserInfo, UserLogin, UserDetail, UserPreferences
+from fastapi import APIRouter, HTTPException, status, Depends
+from pydantic import BaseModel
+from fastapi.security import OAuth2PasswordBearer
+from models.users import BaseUser, UserInfo, UserLogin, UserDetail, UserPreferences
 from zodb_utils import get_zodb_storage
 from passlib.context import CryptContext
 from datetime import datetime, timedelta
 from typing import List
 import jwt, transaction, uuid, os
+
 
 router = APIRouter()
 
@@ -78,7 +83,6 @@ async def signup_date_of_birth(user_data: dict):
 
     date_of_birth = datetime.strptime(date_of_birth, "%Y-%m-%d")
     age = (datetime.now() - date_of_birth).days // 365
-
     if age < 18:
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
@@ -162,6 +166,11 @@ async def signup_photos(
         id=user_id,
     )
     root[user_id] = user
+    user.age = age
+    user.password = pwd_context.hash(user.password)
+    user.id = str(uuid.uuid4())
+    user.logged_in = True
+    root[user.id] = user
     transaction.commit()
 
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
@@ -194,6 +203,7 @@ async def signup_photos(
 #     root[user.id] = user
 #     transaction.commit()
 #     return BaseUser(name=user.name, email=user.email)
+    
 
 
 @router.post("/auth/login", response_model=dict)
@@ -208,7 +218,8 @@ async def login_user(login_user: UserLogin):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid password"
         )
-
+    root[user.id].logged_in = True
+    transaction.commit()
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
         data={"sub": user.id}, expires_delta=access_token_expires
@@ -265,3 +276,99 @@ async def delete_user(user_id: str):
     del root[user_id]
     transaction.commit()
     return {"message": "User deleted successfully"}
+
+class NewUserNameRequest(BaseModel):
+    user_id: str
+    new_user_name: str
+
+@router.patch("/user/settings/profileName")
+async def update_user_name(new_user: NewUserNameRequest):
+    if new_user.user_id not in root:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
+        )
+    if not root[new_user.user_id].logged_in:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="User not logged in"
+        )
+    if not new_user.new_user_name:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail="invalid user name"
+        )
+    root[new_user.user_id].name = new_user.new_user_name
+    transaction.commit()
+    return {"message": "Rename successfully"}
+
+class NewUserNameRequest(BaseModel):
+    user_id: str
+    new_user_name: str
+
+@router.patch("/user/settings/profileName")
+async def update_user_name(new_user: NewUserNameRequest):
+    if new_user.user_id not in root:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
+        )
+    if not root[new_user.user_id].logged_in:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="User not logged in"
+        )
+    if not new_user.new_user_name:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail="invalid user name"
+        )
+    root[new_user.user_id].name = new_user.new_user_name
+    transaction.commit()
+    return {"message": "Rename successfully"}
+
+
+# Helper function to get current user
+async def get_current_user(token: str = Depends(oauth2_scheme)):
+    # Decode the token to get user information
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username: str = payload.get("sub")
+        if username is None:
+            raise credentials_exception
+    except jwt.PyJWTError:
+        raise credentials_exception
+
+    # Check if user exists and is logged in
+    user = get_user_from_db(username)
+    if user is None or not user.logged_in:
+        raise credentials_exception
+    
+    return user
+
+# Middleware to check token expiration and log out if expired
+@router.middleware("http")
+async def check_token_expiration(request: Request, call_next):
+    try:
+        # Extract token from request headers
+        token = request.headers.get("Authorization").split("Bearer ")[1]
+        # Decode the token to get expiration time
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        expiration_time = datetime.utcfromtimestamp(payload.get("exp"))
+
+        # If token has expired, log out the user
+        if expiration_time <= datetime.utcnow():
+            username: str = payload.get("sub")
+            user = get_user_from_db(username)
+            if user is not None:
+                user.logged_in = False
+    except Exception as e:
+        pass  # Handle token extraction or decoding errors gracefully
+    finally:
+        response = await call_next(request)
+        return response
+    
+@router.post("/logout")
+async def logout_user(current_user: UserInfo = Depends(get_current_user)):
+    # Set the user's logged_in status to False
+    current_user.logged_in = False
+    return {"message": "Logout successful"}

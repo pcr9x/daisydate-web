@@ -1,0 +1,26 @@
+
+html{
+    height: 100vh;
+    overflow: hidden;
+}
+
+body{
+    height: 100%;
+}
+
+.chat-page{
+    display: flex;
+    height: 100%;
+    flex-direction: row;
+}
+
+.chat-bar{
+    width: 25%;
+    background-color: aqua;
+    height: 100%;
+}
+
+.display-chat{
+    width: 75%;
+    background-color: aquamarine;
+}

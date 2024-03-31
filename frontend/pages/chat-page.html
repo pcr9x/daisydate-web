@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+        <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css" />
+        <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
+
+        <!--=============== CSS ===============-->
+        <link rel="stylesheet" href="../css/chatStyles.css" />
+
+        <title>Chat</title>
+    </head>
+    <body>
+        <div class="chat-page">
+            <section class="chat-bar" id="chat-bar">
+                {% for item in data %}
+                    <li>{{item["userID1"]}}</li>
+                {% endfor %}
+            </section>
+            <section class="display-chat" id="display-chat">
+                display chat here
+            </section> 
+        </div>
+
+                         <!-- <a href="signup-page.html" class="login-btn">Let’s find your daisy!</a> -->
+        <script type="py" src="../actions/chat.actions.py"></script>
+    </body>
+</html>

@@ -63,6 +63,7 @@ class UserInfo(BaseUser):
     daisied: List[str] = []
     matches: List[str] = []
     daisies: int = 100
+    logged_in: bool = False
 
 
 class UserLikeRequest(BaseModel):
