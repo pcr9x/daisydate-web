@@ -6,10 +6,9 @@ from models.users import (
     UserPreferences,
     NewUserNameRequest,
 )
-from fastapi import APIRouter, HTTPException, status, Depends, Request
-from pydantic import BaseModel
+from fastapi import APIRouter, HTTPException, status, Depends
 from fastapi.security import OAuth2PasswordBearer
-from models.users import BaseUser, UserInfo, UserLogin, UserDetail, UserPreferences
+from models.users import UserInfo, UserLogin, UserDetail, UserPreferences
 from zodb_utils import get_zodb_storage
 from passlib.context import CryptContext
 from datetime import datetime, timedelta

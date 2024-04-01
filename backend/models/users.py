@@ -16,7 +16,7 @@ class BaseUser(BaseModel):
 class UserDetail(BaseModel):
     bio: str = None
     relationship_goals: str = (
-        None  # Long-term, Short-term, New friends, Still figuring it out
+        None  # Long-term, Short-term, New friends, Open to all, Casual, Just chatting
     )
     languages: str = None
     height: int = None  # [100, 250]
@@ -47,7 +47,7 @@ class UserDetail(BaseModel):
 class UserPreferences(BaseModel):
     age: Tuple[int, int] = (18, 100)
     gender: str = "Everyone"
-    relationship_goals: str = "Open to all"
+    relationship_goals: str = None
 
 
 class UserInfo(BaseUser):

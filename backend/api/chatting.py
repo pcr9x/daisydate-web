@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, Request
 from models.chatting import Message
-from api.matching import chatting
+from api.suggested import chatting
 import transaction
 from fastapi.templating import Jinja2Templates
 

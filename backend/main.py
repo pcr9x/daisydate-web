@@ -1,10 +1,9 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from api import users, websocket, matching, chatting
+from api import users, websocket, chatting, suggested, discover
 from api.users import get_user, SECRET_KEY, ALGORITHM
 from datetime import datetime
 import jwt
-
 
 app = FastAPI()
 
@@ -46,5 +45,6 @@ async def check_token_expiration(request: Request, call_next):
 # Include your regular HTTP routes
 app.include_router(users.router)
 app.include_router(websocket.router)
-app.include_router(matching.router)
+app.include_router(suggested.router)
 app.include_router(chatting.router)
+app.include_router(discover.router)

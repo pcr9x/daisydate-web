@@ -3,7 +3,7 @@ import transaction, uuid
 from api.users import root
 from datetime import datetime
 from passlib.context import CryptContext
-from api.matching import createChatRoom
+from api.suggested import createChatRoom
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -16,6 +16,9 @@ user1 = UserInfo(
     photos=["assets/petch.jpg"],
     gender="Man",
     id=str(uuid.uuid4()),
+    preferences={"age": (18,24),
+                 "gender": "Woman",
+    }
 )
 
 user2 = UserInfo(
@@ -27,6 +30,7 @@ user2 = UserInfo(
     photos=["assets/capt.jpg"],
     gender="Man",
     id=str(uuid.uuid4()),
+    preferences={"age": (19,26)}
 )
 
 user3 = UserInfo(
@@ -88,8 +92,8 @@ user8 = UserInfo(
     name="Wonyoung",
     email="jangwonyoung@gmail.com",
     password=pwd_context.hash("wonyoung1234"),
-    date_of_birth=datetime.strptime("2008-08-31", "%Y-%m-%d"),
-    age=(datetime.now() - datetime.strptime("2008-08-31", "%Y-%m-%d")).days // 365,
+    date_of_birth=datetime.strptime("2004-08-31", "%Y-%m-%d"),
+    age=(datetime.now() - datetime.strptime("2004-08-31", "%Y-%m-%d")).days // 365,
     photos=["assets/wonyoung.jpg"],
     gender="Woman",
     id=str(uuid.uuid4()),
@@ -153,8 +157,6 @@ root[user10.id] = user10
 root[user11.id] = user11
 root[user12.id] = user12
 
-root[user1.id].liked.append(user10.id)
-root[user10.id].liked.append(user1.id)
 createChatRoom(user1.id, user10.id)
 
 transaction.commit()
