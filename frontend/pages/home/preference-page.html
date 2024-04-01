@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Daisydate | Just buy them a daisy</title>
+    <link
+      rel="stylesheet"
+      href="https://pyscript.net/releases/2024.1.1/core.css"
+    />
+    <script
+      type="module"
+      src="https://pyscript.net/releases/2024.1.1/core.js"
+    ></script>
+
+    <!--=============== CSS ===============-->
+    <style>
+      .preferences-container {
+        background-color: #fff;
+        display: flex;
+        max-width: 480px;
+        width: 100%;
+        padding-bottom: 80px;
+        flex-direction: column;
+        margin: 0 auto;
+      }
+
+      .preferences-header {
+        border: 1px solid rgba(217, 217, 217, 1);
+        background-color: #fff;
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        align-items: start;
+        padding: 72px 16px 17px;
+      }
+
+      .arrow-left-icon {
+        aspect-ratio: 1.49;
+        object-fit: auto;
+        object-position: center;
+        width: 18px;
+        fill: #ebce38;
+      }
+
+      .preferences-content {
+        display: flex;
+        margin-top: 19px;
+        width: 100%;
+        flex-direction: column;
+        font-size: 14px;
+        color: #666;
+        font-weight: 500;
+        padding: 0 16px;
+      }
+
+      .preferences-title {
+        color: #454545;
+        font: 600 20px Inter, sans-serif;
+      }
+
+      .preferences-description {
+        font-family: Inter, sans-serif;
+        margin-top: 9px;
+      }
+
+      .preferences-divider {
+        border-top: 1px solid rgba(217, 217, 217, 1);
+        background-color: #d9d9d9;
+        margin-top: 31px;
+      }
+
+      .preferences-label {
+        font-family: Inter, sans-serif;
+        margin-top: 20px;
+      }
+
+      .preferences-value {
+        font-family: Inter, sans-serif;
+        font-weight: 400;
+        margin-top: 12px;
+      }
+
+      .preferences-divider-small {
+        border-top: 1px solid rgba(217, 217, 217, 1);
+        background-color: #d9d9d9;
+        margin-top: 18px;
+      }
+
+      .preferences-divider-small-alt {
+        border-top: 1px solid rgba(217, 217, 217, 1);
+        background-color: #d9d9d9;
+        margin-top: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="preferences-container">
+      <header class="preferences-header">
+        <img
+          src="../../assets/icons/arrows/arrow-left-icon.svg"
+          alt="arrow-left-icon"
+          class="arrow-left-icon"
+        />
+      </header>
+      <div class="preferences-content">
+        <h2 class="preferences-title">What's your type?</h2>
+        <p class="preferences-description">
+          Preferences help us personalize your daily bath in <br />
+          Suggested. Changes apply on the next day.
+        </p>
+        <div class="preferences-divider" aria-hidden="true"></div>
+        <h3 class="preferences-label">Gender</h3>
+        <p class="preferences-value">Women</p>
+        <div class="preferences-divider-small" aria-hidden="true"></div>
+        <div class="preferences-divider-small-alt" aria-hidden="true"></div>
+        <h3 class="preferences-label">Age</h3>
+        <p class="preferences-value">18 - 26</p>
+        <div class="preferences-divider-small" aria-hidden="true"></div>
+        <div class="preferences-divider-small-alt" aria-hidden="true"></div>
+        <h3 class="preferences-label">Relationship Goals</h3>
+        <p class="preferences-value">Open to all</p>
+        <div class="preferences-divider-small-alt" aria-hidden="true"></div>
+      </div>
+    </section>
+  </body>
+</html>
