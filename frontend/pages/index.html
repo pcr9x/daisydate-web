@@ -13,7 +13,11 @@
       src="https://pyscript.net/releases/2024.1.1/core.js"
     ></script>
 
-    <!--=============== CSS ===============-->
+    <!--=============== CSS ======    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    create_access_token(
+        data={"sub": user.id}, expires_delta=access_token_expires
+    )
+    return BaseUser(name=user.name, email=user.email)=========-->
     <style>
       .container {
         background-color: #fff;

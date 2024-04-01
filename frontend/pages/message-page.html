@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100vh; background-color:aquamarine; overflow: hidden; display:flex; justify-content: center;">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+        <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css" />
+        <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
+
+        <!--=============== CSS ===============-->
+
+        <title>Chat</title>
+    </head>
+    <body style=" width:60%; background-color: rgb(255, 219, 225);">
+        <div style="height: 100%; display:flex; flex-direction: column;">
+            {% for message in data.messages %}
+                {% if message.senderID == data.user_id %}
+                    <div style="display: flex; align-self:flex-end; margin-top: 1rem; flex-direction:column;">
+                        <div style="background-color: white; max-width:80%;
+                         width:fit-content; border-radius:40px; padding:1rem; display:inline-block; max-width: 80%; word-wrap:break-word;">
+                            <a style="font-family:'Times New Roman', Times, serif; font-weight:semi-bold;
+                            font-size:1.5rem;">{{message.message}}</a>
+                        </div>
+                        <a>{{message.timeStamp}}</a>
+                    </div>
+
+                {% else %}
+                    <div style="display: flex; margin-top: 1rem; flex-direction:column;">
+                        <div style="background-color: white;
+                        width:fit-content; border-radius:40px; padding:1rem; display:inline-block; max-width: 80%; word-wrap:break-word;">
+                            <a style="font-family:'Times New Roman', Times, serif; font-weight:semi-bold;
+                            font-size:1.5rem;">{{message.message}}</a>
+                        </div>
+                        <a>{{message.timeStamp}}</a>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </body>
+</html>
