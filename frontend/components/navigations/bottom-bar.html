@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Daisydate | Just buy them a daisy</title>
+    <link
+      rel="stylesheet"
+      href="https://pyscript.net/releases/2024.1.1/core.css"
+    />
+    <script
+      type="module"
+      src="https://pyscript.net/releases/2024.1.1/core.js"
+    ></script>
+
+    <!--=============== CSS ===============-->
+    <style>
+      .bottom-nav {
+        background-color: #fff;
+        display: flex;
+        width: 100%;
+        align-items: start;
+        gap: 20px;
+        padding: 17px 27px;
+      }
+
+      .nav-item {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        align-items: center;
+        text-align: center;
+      }
+
+      .nav-icon {
+        width: 40px;
+        height: auto;
+        margin-bottom: 5px;
+      }
+
+      .nav-label {
+        font-family: Inter, sans-serif;
+      }
+
+      .nav-label .active{
+        color: #ebce38;
+      }
+
+      .discover .nav-icon {
+        width: 35px;
+      }
+
+      .chats .nav-icon,
+      .profile .nav-icon {
+        width: 36px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="bottom-nav">
+      <div class="nav-item suggested">
+        <img
+          src="../../assets/icons/bottom-bar/suggested-icon.svg"
+          alt="Suggested icon"
+          class="nav-icon"
+        />
+        <span class="nav-label">Suggested</span>
+      </div>
+      <div class="nav-item discover">
+        <img
+          src="../../assets/icons/bottom-bar/discover-icon.svg"
+          alt="Discover icon"
+          class="nav-icon"
+        />
+        <span class="nav-label">Discover</span>
+      </div>
+      <div class="nav-item chats">
+        <img
+          src="../../assets/icons/bottom-bar/chats-icon.svg"
+          alt="Chats icon"
+          class="nav-icon"
+        />
+        <span class="nav-label">Chats</span>
+      </div>
+      <div class="nav-item profile">
+        <img
+          src="../../assets/icons/bottom-bar/profile-icon.svg"
+          alt="Profile icon"
+          class="nav-icon"
+        />
+        <span class="nav-label">Profile</span>
+      </div>
+    </nav>
+  </body>
+</html>

@@ -1,28 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Daisydate | Just buy them a daisy</title>
+    <link
+      rel="stylesheet"
+      href="https://pyscript.net/releases/2024.1.1/core.css"
+    />
+    <script
+      type="module"
+      src="https://pyscript.net/releases/2024.1.1/core.js"
+    ></script>
 
-        <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css" />
-        <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
+    <!--=============== CSS ===============-->
+    <style>
+      .container {
+        background-color: #fff;
+        display: flex;
+        max-width: 480px;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        font-size: 16px;
+        color: #2c2c2c;
+        font-weight: 500;
+        margin: 0 auto;
+        padding: 80px 16px;
+      }
 
-        <!--=============== CSS ===============-->
-        <link rel="stylesheet" href="../css/styles.css" />
+      .logo {
+        aspect-ratio: 0.87;
+        object-fit: auto;
+        object-position: center;
+        width: 126px;
+        margin-top: 40px;
+        max-width: 100%;
+      }
 
-        <title>Daisydate | Just buy them a daisy</title>
-    </head>
-    <body>
+      .brand-name {
+        margin-top: 16px;
+        font: 48px Inter, sans-serif;
+      }
 
-     <!--==================== ONBOARDING PAGE ====================-->
-      <section class="flow-base-page" id="onboarding-page">
-          <h1 class="flow-page-header">daisydate.</h1>
-          <p class="flow-page-description">Just by them a daisy</p>
+      .tagline {
+        margin-top: 27px;
+        font: 20px Inter, sans-serif;
+      }
 
-        <div class="onboarding-btn-contianer">
-          <a href="signup-page.html" class="signup-btn">I'm new here</a>
-          <a href="login-page.html" class="login-btn">I've been here before</a>
-        </div>
-      </section>
-    </body>
+      .new-user-button {
+        font-family: Inter, sans-serif;
+        justify-content: center;
+        align-items: center;
+        border-radius: 15px;
+        background-color: #2c2c2c;
+        align-self: stretch;
+        margin-top: 267px;
+        color: #ebce38;
+        padding: 20px 60px;
+      }
+
+      .returning-user-button {
+        font-family: Inter, sans-serif;
+        justify-content: center;
+        align-items: center;
+        border-radius: 15px;
+        background-color: #ebce38;
+        align-self: stretch;
+        margin-top: 11px;
+        color: #000;
+        padding: 20px 60px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container">
+      <img
+        src="../assets/images/daisy-date-logo.svg"
+        alt="Daisy Date logo"
+        class="logo"
+      />
+      <h1 class="brand-name">daisydate.</h1>
+      <p class="tagline">Just buy them a daisy</p>
+      <button class="new-user-button">I'm new here</button>
+      <button class="returning-user-button">I've been here before</button>
+    </main>
+  </body>
 </html>
