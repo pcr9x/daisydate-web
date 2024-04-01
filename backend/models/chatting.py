@@ -3,7 +3,7 @@ from pydantic import BaseModel, Field
 import persistent
 
 class Message(BaseModel):
-    userID: str
+    senderID: str
     message: str
     timeStamp: datetime = Field(default_factory=datetime.now)
 

@@ -1,14 +1,13 @@
-from models import users
-from ZODB.FileStorage import FileStorage
+from models.users import UserInfo
 import transaction, uuid
 from api.users import root
-from pydantic import EmailStr
 from datetime import datetime
 from passlib.context import CryptContext
+from api.matching import createChatRoom
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-user1 = users.UserInfo(
+user1 = UserInfo(
     name="Petch",
     email="lnwpetchza@gmail.com",
     password=pwd_context.hash("petch1234"),
@@ -19,7 +18,7 @@ user1 = users.UserInfo(
     id=str(uuid.uuid4()),
 )
 
-user2 = users.UserInfo(
+user2 = UserInfo(
     name="Capt",
     email="lnwcaptza@gmail.com",
     password=pwd_context.hash("capt1234"),
@@ -30,7 +29,7 @@ user2 = users.UserInfo(
     id=str(uuid.uuid4()),
 )
 
-user3 = users.UserInfo(
+user3 = UserInfo(
     name="Wit",
     email="lnwwitza@gmail.com",
     password=pwd_context.hash("wit1234"),
@@ -41,7 +40,7 @@ user3 = users.UserInfo(
     id=str(uuid.uuid4()),
 )
 
-user4 = users.UserInfo(
+user4 = UserInfo(
     name="Minji",
     email="kimminji@gmail.com",
     password=pwd_context.hash("minji1234"),
@@ -52,7 +51,7 @@ user4 = users.UserInfo(
     id=str(uuid.uuid4()),
 )
 
-user5 = users.UserInfo(
+user5 = UserInfo(
     name="Yunjin",
     email="huhyunjin@gmail.com",
     password=pwd_context.hash("yunjin1234"),
@@ -63,7 +62,7 @@ user5 = users.UserInfo(
     id=str(uuid.uuid4()),
 )
 
-user6 = users.UserInfo(
+user6 = UserInfo(
     name="IU",
     email="leejieun@gmail.com",
     password=pwd_context.hash("iu1234"),
@@ -74,7 +73,7 @@ user6 = users.UserInfo(
     id=str(uuid.uuid4()),
 )
 
-user7 = users.UserInfo(
+user7 = UserInfo(
     name="Chaewon",
     email="kimchaewon@gmail.com",
     password=pwd_context.hash("chaewon1234"),
@@ -85,7 +84,7 @@ user7 = users.UserInfo(
     id=str(uuid.uuid4()),
 )
 
-user8 = users.UserInfo(
+user8 = UserInfo(
     name="Wonyoung",
     email="jangwonyoung@gmail.com",
     password=pwd_context.hash("wonyoung1234"),
@@ -96,7 +95,7 @@ user8 = users.UserInfo(
     id=str(uuid.uuid4()),
 )
 
-user9 = users.UserInfo(
+user9 = UserInfo(
     name="Sakura",
     email="miyawakisakura@gmail.com",
     password=pwd_context.hash("sakura1234"),
@@ -107,7 +106,7 @@ user9 = users.UserInfo(
     id=str(uuid.uuid4()),
 )
 
-user10 = users.UserInfo(
+user10 = UserInfo(
     name="Hanni",
     email="phamhanni@gmail.com",
     password=pwd_context.hash("hanni1234"),
@@ -118,7 +117,7 @@ user10 = users.UserInfo(
     id=str(uuid.uuid4()),
 )
 
-user11 = users.UserInfo(
+user11 = UserInfo(
     name="Jennie",
     email="kimjennie@gmail.com",
     password=pwd_context.hash("jennie1234"),
@@ -129,7 +128,7 @@ user11 = users.UserInfo(
     id=str(uuid.uuid4()),
 )
 
-user12 = users.UserInfo(
+user12 = UserInfo(
     name="Yujin",
     email="anyujin@gmail.com",
     password=pwd_context.hash("yujin1234"),
@@ -153,5 +152,9 @@ root[user9.id] = user9
 root[user10.id] = user10
 root[user11.id] = user11
 root[user12.id] = user12
+
+root[user1.id].liked.append(user10.id)
+root[user10.id].liked.append(user1.id)
+createChatRoom(user1.id, user10.id)
 
 transaction.commit()

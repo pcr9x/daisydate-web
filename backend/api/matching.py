@@ -19,7 +19,10 @@ def user_screening(current_user):
         if (pref_age[0] <= p.age <= pref_age[1]
         and current_user.preferences.gender == p.gender
         and current_user.preferences.relationship_goals == p.relationship_goals
-        and p.id not in current_user.matches)
+        and p.id not in current_user.matches
+        and p.id not in current_user.liked
+        and p.id not in current_user.daisied
+        and p.id != current_user.id)
         or current_user.id in p.liked
     ]
 
@@ -41,7 +44,6 @@ def createChatRoom(user1, user2):
     chatting[chatID] = ChatMessage(chatID, user1, user2)
     root[user1].matches.append(user2)
     root[user2].matches.append(user1)
-    transaction.commit()
     return {"chatID": chatID}
 
 @router.post("/suggested/{other_user_id}/like")

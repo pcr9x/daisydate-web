@@ -69,3 +69,8 @@ class UserInfo(BaseUser):
 class UserLikeRequest(BaseModel):
     current_user_id: str
     other_user_id: str
+
+
+class NewUserNameRequest(BaseModel):
+    user_id: str
+    new_user_name: str
