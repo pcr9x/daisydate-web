@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Request
+from fastapi import APIRouter, HTTPException, Request, FastAPI
 from starlette.responses import HTMLResponse
 from models.chatting import Message
 from api.suggested import chatting
@@ -81,7 +81,7 @@ def get_all_chats(user_id: str):
             chatResponse = ChatResponse(
                 otherUserProfile= "", # add path to other user profile here
                 otherUserName=otherUser.name,
-                latestMessage=latesMessage,
+                latestMessage="",
                 chatID=chat.chatID,
                 user_id=user_id,
                 messages=chat.message
