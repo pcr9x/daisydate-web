@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Daisydate | Just buy them a daisy</title>
+    <link
+      rel="stylesheet"
+      href="https://pyscript.net/releases/2024.1.1/core.css"
+    />
+    <script
+      type="module"
+      src="https://pyscript.net/releases/2024.1.1/core.js"
+    ></script>
+
+    <!--=============== CSS ===============-->
+    <style>
+      .div {
+        background-color: #fff;
+        display: flex;
+        max-width: 393px;
+        flex-direction: column;
+        align-items: center;
+        font-size: 14px;
+        color: #707070;
+        font-weight: 500;
+        padding: 16px;
+      }
+      .img {
+        aspect-ratio: 1.49;
+        object-fit: auto;
+        object-position: center;
+        width: 18px;
+        fill: #ebce38;
+        align-self: start;
+      }
+      .div-2 {
+        color: #2c2c2c;
+        margin-top: 26px;
+        font: 20px Inter, sans-serif;
+      }
+      .div-3 {
+        font-family: Inter, sans-serif;
+        border-radius: 5px;
+        background-color: #d9d9d9;
+        margin-top: 27px;
+        width: 300px;
+        max-width: 100%;
+        align-items: start;
+        white-space: nowrap;
+        justify-content: center;
+        padding: 15px 16px;
+        border: none;
+      }
+      .div-4 {
+        font-family: Inter, sans-serif;
+        border-radius: 5px;
+        background-color: #d9d9d9;
+        margin-top: 10px;
+        width: 300px;
+        max-width: 100%;
+        align-items: start;
+        white-space: nowrap;
+        justify-content: center;
+        padding: 15px 16px;
+        border: none;
+      }
+      .div-5 {
+        font-family: Inter, sans-serif;
+        border-radius: 5px;
+        background-color: #d9d9d9;
+        margin-top: 10px;
+        width: 300px;
+        max-width: 100%;
+        align-items: start;
+        justify-content: center;
+        padding: 15px 16px;
+        border: none;
+      }
+      .div-6 {
+        width: 300px;
+        max-width: 100%;
+        display: flex;
+        border-radius: 15px;
+        background-color: #ebce38;
+        margin-top: 126px;
+        align-items: center;
+        color: #000;
+        justify-content: center;
+        padding: 24px ;
+        font: 16px Inter, sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="div">
+      <img
+        loading="lazy"
+        src="../../assets/icons/arrows/arrow-left-icon.svg"
+        alt="arrow-left-icon"
+        class="img"
+      />
+      <div class="div-2">Tell us about you!</div>
+      <input  
+        type="text" 
+        placeholder="What's your name?" 
+        class="div-3"
+      >
+      </input>
+      <input
+        type="text" 
+        placeholder="What's your gender?"
+        class="div-4"
+      >
+      </input>
+      <input
+        type="text" 
+        placeholder="Show me" 
+        class="div-5">
+      </input>
+      <div class="div-6">Add some pictures</div>
+    </div>
+  </body>
+</html>
