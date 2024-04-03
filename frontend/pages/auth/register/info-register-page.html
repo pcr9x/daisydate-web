@@ -57,7 +57,8 @@
         border-radius: 5px;
         background-color: #d9d9d9;
         margin-top: 10px;
-        width: 300px;
+        width: 330px;
+        color: #707070;
         max-width: 100%;
         align-items: start;
         white-space: nowrap;
@@ -112,12 +113,14 @@
         class="div-3"
       >
       </input>
-      <input
-        type="text" 
-        placeholder="What's your gender?"
-        class="div-4"
-      >
-      </input>
+      <!-- Gender selection dropdown -->
+      <select class="div-4" name="gender">
+          <option value="">What's your gender?</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
+          <option value="prefer_not_to_say">Prefer not to say</option>
+      </select>
       <input
         type="text" 
         placeholder="Show me" 

@@ -97,28 +97,71 @@
         font: 500 16px Inter, sans-serif;
       }
     </style>
+    <script>
+      function updateImagePreview(input) {
+        if (input.files && input.files[0]) {
+          var reader = new FileReader();
+          reader.onload = function(e) {
+            input.style.backgroundImage = 'url(' + e.target.result + ')';
+            input.style.backgroundSize = 'cover'; 
+            input.style.backgroundPosition = 'center'; 
+          };
+          reader.readAsDataURL(input.files[0]); 
+        }
+      }
+    </script>
   </head>
   <body>
     <div class="div">
-      <div class="div-2">Add your photo!</div>
-      <div class="div-3">Add at least 2 photo</div>
-      <div class="div-4">
+    <div class="div-2">Add your photo!</div>
+    <div class="div-3">Add at least 2 photo</div>
+    <div class="div-4">
         <div class="div-5">
-          <div class="div-6"></div>
-          <div class="div-7">
-            <div class="div-8"></div>
-            <div class="div-9"></div>
-          </div>
+            <input 
+              type="file" 
+              accept="image/*" 
+              class="div-6" 
+              onchange="updateImagePreview(this)"
+            >
+            <div class="div-7">
+                <input 
+                  type="file" 
+                  accept="image/*" 
+                  class="div-8" 
+                  onchange="updateImagePreview(this)"
+                >
+                <input 
+                  type="file" 
+                  accept="image/*" 
+                  class="div-9" 
+                  onchange="updateImagePreview(this)"
+                >
+            </div>
         </div>
         <div class="div-10">
-          <div class="div-11"></div>
-          <div class="div-12"></div>
-          <div class="div-13"></div>
+            <input 
+              type="file" 
+              accept="image/*" 
+              class="div-11" 
+              onchange="updateImagePreview(this)"
+            >
+            <input 
+              type="file" 
+              accept="image/*" 
+              class="div-12" 
+              onchange="updateImagePreview(this)"
+            >
+            <input 
+              type="file" 
+              accept="image/*" 
+              class="div-13" 
+              onchange="updateImagePreview(this)"
+            >
         </div>
         <a href="../../home/home-page.html" style="text-decoration: none;">
-          <div class="div-14">Let’s find my daisy!</div>
+            <div class="div-14">Let’s find my daisy!</div>
         </a>
-      </div>
     </div>
+</div>
   </body>
 </html>
