@@ -13,6 +13,14 @@ class ChatMessageModel(BaseModel):
     userID2: str
     message: list[Message]
 
+class ChatResponse(BaseModel):
+    otherUserProfile: str
+    otherUserName: str
+    latestMessage: str
+    user_id: str
+    chatID: str
+    messages: list[Message]
+
 
 class ChatMessage(persistent.Persistent):
     def __init__(self, chatID: str, userID1: str, userID2: str):

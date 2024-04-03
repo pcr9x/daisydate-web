@@ -121,37 +121,3 @@ async def daisy_user(user: UserLikeRequest, other_user_id: str):
 
     transaction.commit()
     return {"message": "Daisy sent successfully"}
-
-
-# @router.post("/messages/{chatID}")
-# async def send_message(chatID: str, sender_id: str, message: str):
-#     if chatID not in root:
-#         raise HTTPException(status_code=404, detail="Message key not found")
-
-#     sender = root.get(sender_id)
-#     if sender is None:
-#         raise HTTPException(status_code=404, detail="Sender not found")
-
-#     recipient_id = chatID.replace(sender_id, "")
-#     recipient = root.get(recipient_id)
-#     if recipient is None:
-#         raise HTTPException(status_code=404, detail="Recipient not found")
-
-#     # Prepare message metadata
-#     timestamp = datetime.now().isoformat()
-
-#     # Store the message in the sender's sent messages
-#     sender_sent_messages = root.get(sender_id, {}).setdefault("sent_messages", [])
-#     sender_sent_messages.append(
-#         {"timestamp": timestamp, "recipient_id": recipient_id, "message": message}
-#     )
-
-#     # Store the message in the recipient's received messages
-#     recipient_received_messages = root.get(recipient_id, {}).setdefault(
-#         "received_messages", []
-#     )
-#     recipient_received_messages.append(
-#         {"timestamp": timestamp, "sender_id": sender_id, "message": message}
-#     )
-
-#     return {"message": "Message sent successfully"}

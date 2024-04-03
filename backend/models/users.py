@@ -14,11 +14,11 @@ class BaseUser(BaseModel):
 
 
 class UserDetail(BaseModel):
-    bio: str = None
+    bio: str = None # Max 100 characters
     relationship_goals: str = (
-        None  # Long-term, Short-term, New friends, Open to all, Casual, Just chatting
+        None  # Long-term, Short-term, New friends, Casual, Just chatting, Open to all
     )
-    languages: str = None
+    languages: str = None # No choices
     height: int = None  # [100, 250]
     interests: List[str] = (
         None  # Online Games, Football, Car Racing, Drawing, Theater, Travel, Music, Table Tennis, Anime
@@ -36,9 +36,9 @@ class UserDetail(BaseModel):
         None  # Social smoker, Smoker when drinking, Non-smoker, Smoker, Trying to quit
     )
     workout: str = None  # Everyday, Often, Sometimes, Never
-    job_title: str = None
-    company: str = None
-    living_in: str = None
+    job_title: str = None # No choices
+    company: str = None # No choices
+    living_in: str = None # No choices
     mbti: str = (
         None  # INTJ, INTP, ENTJ, ENTP, INFJ, INFP, ENFJ, ENFP, ISTJ, ISFJ, ESTJ, ESFJ, ISTP, ISFP, ESTP, ESFP
     )
@@ -46,7 +46,7 @@ class UserDetail(BaseModel):
 
 class UserPreferences(BaseModel):
     age: Tuple[int, int] = (18, 100)
-    gender: str = "Everyone"
+    gender: str = "Everyone" # Everyone, Man, Woman
     relationship_goals: str = None
 
 

@@ -46,7 +46,8 @@ in_progress_registrations = {}
 @router.post("/auth/signup/identifier", response_model=dict)
 async def signup_identifier(user_data: dict):
     email = user_data.get("email")
-    if email in root:
+    existing_email = next((u for u in root.values() if u.email == email), None)
+    if existing_email:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT, detail="Email already exists"
         )
@@ -96,6 +97,7 @@ async def signup_details(user_data: dict):
     registration_id = user_data.get("registration_id")
     name = user_data.get("name")
     gender = user_data.get("gender")
+    pref_gender = user_data.get("show_me")
 
     registration_data = in_progress_registrations.get(registration_id)
     if not registration_data:
@@ -106,6 +108,7 @@ async def signup_details(user_data: dict):
 
     registration_data["name"] = name
     registration_data["gender"] = gender
+    registration_data["show_me"] = pref_gender
     in_progress_registrations[registration_id] = registration_data
 
     return {"message": "User details are valid"}
@@ -143,6 +146,7 @@ async def signup_photos(
     age = registration_data.get("age")
     name = registration_data.get("name")
     gender = registration_data.get("gender")
+    pref_gender = registration_data.get("show_me")
     user_id = str(uuid.uuid4())
     photo_paths = []
     for photo in photos:
@@ -161,6 +165,7 @@ async def signup_photos(
         id=user_id,
     )
 
+    user.preferences.gender = pref_gender
     user.logged_in = True
     root[user.id] = user
     transaction.commit()

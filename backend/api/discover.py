@@ -78,7 +78,7 @@ async def daisy_user(user: UserLikeRequest, other_user_id: str):
     if user.current_user_id not in root:
         raise HTTPException(status_code=404, detail="Current user not found")
 
-    if root[user.current_user_id].daisies < 100:
+    if root[user.current_user_id].daisies < 200:
         raise HTTPException(status_code=403, detail="Not enough daisies")
 
     root[user.current_user_id].daisied.append(other_user_id)

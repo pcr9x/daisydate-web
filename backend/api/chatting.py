@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, Request, FastAPI
 from starlette.responses import HTMLResponse
-from models.chatting import Message
+from models.chatting import Message, ChatResponse
 from api.suggested import chatting
 import transaction
 from fastapi.templating import Jinja2Templates
@@ -59,13 +59,6 @@ async def send_message(chat_id: str, message: Message):
 async def get_all_chat_id():
     return list(chatting.values())
 
-class ChatResponse(BaseModel):
-    otherUserProfile: str
-    otherUserName: str
-    latestMessage: str
-    user_id: str
-    chatID: str
-    messages: list[Message]
 
 def get_all_chats(user_id: str):
     results = []
