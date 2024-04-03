@@ -101,67 +101,96 @@
       function updateImagePreview(input) {
         if (input.files && input.files[0]) {
           var reader = new FileReader();
-          reader.onload = function(e) {
-            input.style.backgroundImage = 'url(' + e.target.result + ')';
-            input.style.backgroundSize = 'cover'; 
-            input.style.backgroundPosition = 'center'; 
+          reader.onload = function (e) {
+            input.style.backgroundImage = "url(" + e.target.result + ")";
+            input.style.backgroundSize = "cover";
+            input.style.backgroundPosition = "center";
           };
-          reader.readAsDataURL(input.files[0]); 
+          reader.readAsDataURL(input.files[0]);
+        }
+      }
+
+      async function submitPhotos() {
+        const form = document.getElementById("photo-form");
+        const formData = new FormData(form);
+
+        const registration_id = localStorage.getItem('registration_id'); 
+        // Append registration_id to formData
+        formData.append('registration_id', registrationId);
+
+        try {
+          const response = await fetch(
+            "http://127.0.0.1:8000/auth/signup/photos",
+            {
+              method: "POST",
+              body: formData, // FormData will be sent as multipart/form-data
+            }
+          );
+
+          if (response.ok) {
+            const data = await response.json();
+            console.log("Photos uploaded:", data);
+            window.location.href = "../../home/home-page.html";
+          } else {
+            const errorData = await response.json();
+            alert("Failed to upload photos: " + errorData.detail);
+          }
+        } catch (error) {
+          console.error("Error during photo upload:", error);
+          alert("An error occurred while uploading photos.");
         }
       }
     </script>
   </head>
   <body>
     <div class="div">
-    <div class="div-2">Add your photo!</div>
-    <div class="div-3">Add at least 2 photo</div>
-    <div class="div-4">
+      <div class="div-2">Add your photo!</div>
+      <div class="div-3">Add at least 2 photo</div>
+      <form id="photo-form" class="div-4" enctype="multipart/form-data">
         <div class="div-5">
-            <input 
-              type="file" 
-              accept="image/*" 
-              class="div-6" 
+          <input
+            type="file"
+            accept="image/*"
+            class="div-6"
+            onchange="updateImagePreview(this)"
+          />
+          <div class="div-7">
+            <input
+              type="file"
+              accept="image/*"
+              class="div-8"
               onchange="updateImagePreview(this)"
-            >
-            <div class="div-7">
-                <input 
-                  type="file" 
-                  accept="image/*" 
-                  class="div-8" 
-                  onchange="updateImagePreview(this)"
-                >
-                <input 
-                  type="file" 
-                  accept="image/*" 
-                  class="div-9" 
-                  onchange="updateImagePreview(this)"
-                >
-            </div>
+            />
+            <input
+              type="file"
+              accept="image/*"
+              class="div-9"
+              onchange="updateImagePreview(this)"
+            />
+          </div>
         </div>
         <div class="div-10">
-            <input 
-              type="file" 
-              accept="image/*" 
-              class="div-11" 
-              onchange="updateImagePreview(this)"
-            >
-            <input 
-              type="file" 
-              accept="image/*" 
-              class="div-12" 
-              onchange="updateImagePreview(this)"
-            >
-            <input 
-              type="file" 
-              accept="image/*" 
-              class="div-13" 
-              onchange="updateImagePreview(this)"
-            >
+          <input
+            type="file"
+            accept="image/*"
+            class="div-11"
+            onchange="updateImagePreview(this)"
+          />
+          <input
+            type="file"
+            accept="image/*"
+            class="div-12"
+            onchange="updateImagePreview(this)"
+          />
+          <input
+            type="file"
+            accept="image/*"
+            class="div-13"
+            onchange="updateImagePreview(this)"
+          />
         </div>
-        <a href="../../home/home-page.html" style="text-decoration: none;">
-            <div class="div-14">Let’s find my daisy!</div>
-        </a>
+        <input type="button" value="Let’s find my daisy!" class="div-14" onclick="submitPhotos()" />
+      </div>
     </div>
-</div>
   </body>
 </html>

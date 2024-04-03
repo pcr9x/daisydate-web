@@ -77,6 +77,46 @@
         font: 16px Inter, sans-serif;
       }
     </style>
+    <script>
+      async function signup() {
+        const email = document.querySelector('.div-3').value;
+        const password = document.querySelector('.div-4').value;
+
+        try {
+          const response = await fetch('http://127.0.0.1:8000/auth/signup/identifier', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password }),
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            console.log('Signup successful:', data);
+
+            // Registeration Id return from backend data -> store in localStorage
+            localStorage.setItem('registration_id', data.registration_id);
+
+            window.location.href = './dob-register-page.html';
+          } else {
+            const errorData = await response.json();
+            alert('Signup failed: ' + errorData.detail);
+          }
+        } catch (error) {
+          console.error('Error during signup:', error);
+          alert('An error occurred during signup.');
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', function() {
+        const getStartedButton = document.querySelector('.div-5');
+        getStartedButton.addEventListener('click', function(event) {
+          event.preventDefault();
+          signup();
+        });
+      });
+    </script>
   </head>
   <body>
     <div class="div">
@@ -103,9 +143,8 @@
         class="div-4"
       >
       </input>
-      <a href="./dob-register-page.html" style="text-decoration: none;">
         <div class="div-5">Get started</div>
-      </a>
+
     </div>
   </body>
 </html>

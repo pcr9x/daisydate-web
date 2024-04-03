@@ -83,6 +83,47 @@
         font: 16px Inter, sans-serif;
       }
     </style>
+
+    <script>
+      async function submitDateOfBirth() {
+        const day = document.getElementById('day').value;
+        const month = document.getElementById('month').value;
+        const year = document.getElementById('year').value;
+        const registration_id = localStorage.getItem('registration_id'); 
+
+        if (!day || !month || !year) {
+          alert('Please enter a valid date.');
+          return;
+        }
+
+        const date_of_birth = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+
+        try {
+          const response = await fetch('http://127.0.0.1:8000/auth/signup/date-of-birth', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              registration_id: registration_id,
+              date_of_birth: date_of_birth
+            }),
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            console.log('Date of birth submission successful:', data);
+            window.location.href = './info-register-page.html';
+          } else {
+            const errorData = await response.json();
+            alert('Error: ' + errorData.detail);
+          }
+        } catch (error) {
+          console.error('Error during date of birth submission:', error);
+          alert('An error occurred while submitting your date of birth.');
+        }
+      }
+    </script>
   </head>
   <body>
     <div class="div">
@@ -120,9 +161,7 @@
           <!-- Year input -->
           <input type="number" class="div-6" name="year" min="2000" max="2024" placeholder="Year" required>
       </div>
-      <a href="./info-register-page.html" style="text-decoration: none;">
-        <div class="div-7">Next</div>
-      </a>
+      <div class="div-7" onclick="submitDateOfBirth()">Next</div>
     </div>
   </body>
 </html>

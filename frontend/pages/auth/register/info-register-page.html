@@ -92,6 +92,41 @@
         font: 16px Inter, sans-serif;
       }
     </style>
+    <script>
+      async function submitDetails() {
+        const name = document.getElementById('name').value;
+        const gender = document.getElementById('gender').value;
+        const pref_gender = document.getElementById('pref_gender').value;
+        const registration_id = localStorage.getItem('registration_id'); 
+
+        try {
+          const response = await fetch('http://127.0.0.1:8000/auth/signup/details', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              registration_id: registration_id,
+              name: name,
+              gender: gender,
+              show_me: pref_gender
+            }),
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            console.log('User details are valid:', data);
+            window.location.href = './profile-register-page.html';
+          } else {
+            const errorData = await response.json();
+            alert('Error: ' + errorData.detail);
+          }
+        } catch (error) {
+          console.error('Error during details submission:', error);
+          alert('An error occurred while submitting your details.');
+        }
+      }
+    </script>
   </head>
   <body>
     <div class="div">
@@ -107,12 +142,7 @@
         />
       </a>
       <div class="div-2">Tell us about you!</div>
-      <input  
-        type="text" 
-        placeholder="What's your name?" 
-        class="div-3"
-      >
-      </input>
+      <input id="name" type="text" placeholder="What's your name?" class="div-3">
       <!-- Gender selection dropdown -->
       <select class="div-4" name="gender">
           <option value="">What's your gender?</option>
@@ -121,14 +151,8 @@
           <option value="other">Other</option>
           <option value="prefer_not_to_say">Prefer not to say</option>
       </select>
-      <input
-        type="text" 
-        placeholder="Show me" 
-        class="div-5">
-      </input>
-      <a href="./profile-register-page.html" style="text-decoration: none;">
-        <div class="div-6">Add some pictures</div>
-      </a>
+      <input id="pref_gender" type="text" placeholder="Show me" class="div-5">
+      <div class="div-6" onclick="submitDetails()">Add some pictures</div>
     </div>
   </body>
 </html>

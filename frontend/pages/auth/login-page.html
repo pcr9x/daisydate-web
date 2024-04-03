@@ -76,6 +76,41 @@
         font: 16px Inter, sans-serif;
       }
     </style>
+    <script>
+      async function login() {
+        const email = document.querySelector('.div-3').value;
+        const password = document.querySelector('.div-4').value;
+
+        const response = await fetch('http://127.0.0.1:8000/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ 
+            email, 
+            password
+          }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          localStorage.setItem('accessToken', data.access_token);
+          window.location.href = '../home/home-page.html';
+        } else {
+          alert('Login failed: Invalid email or password');
+          document.querySelector('.div-3').value = '';
+          document.querySelector('.div-4').value = '';
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', function() {
+        const loginButton = document.querySelector('.div-5');
+        loginButton.addEventListener('click', function(event) {
+          event.preventDefault(); 
+          login(); 
+        });
+      });
+    </script>
   </head>
   <body>
     <div class="div">
@@ -101,11 +136,9 @@
         class="div-4"
       >
       </input>
-      <a href="../home/home-page.html" style="text-decoration: none;">
         <button class="div-5">
           Let’s find your daisy!
        </button>
-      </a>
     </div>
   </body>
 </html>

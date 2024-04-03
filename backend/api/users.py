@@ -42,7 +42,7 @@ def create_access_token(data: dict, expires_delta: timedelta = None):
 
 in_progress_registrations = {}
 
-
+# CAPT- DONE
 @router.post("/auth/signup/identifier", response_model=dict)
 async def signup_identifier(user_data: dict):
     email = user_data.get("email")
@@ -64,7 +64,7 @@ async def signup_identifier(user_data: dict):
         "message": "Email and password are valid",
     }
 
-
+# CAPT- DONE
 @router.post("/auth/signup/date-of-birth", response_model=dict)
 async def signup_date_of_birth(user_data: dict):
     registration_id = user_data.get("registration_id")
@@ -91,7 +91,7 @@ async def signup_date_of_birth(user_data: dict):
 
     return {"message": "Date of birth is valid"}
 
-
+# CAPT- DONE
 @router.post("/auth/signup/details")
 async def signup_details(user_data: dict):
     registration_id = user_data.get("registration_id")
@@ -127,7 +127,7 @@ def save_uploaded_file(contents, filename, user_id):
         new_file.write(contents)
     return file_path
 
-
+# CAPT- DONE
 @router.post("/auth/signup/photos")
 async def signup_photos(
     registration_id: str = Form(...),
@@ -201,7 +201,7 @@ async def signup_photos(
 #     transaction.commit()
 #     return BaseUser(name=user.name, email=user.email)
 
-
+# CAPT- DONE
 @router.post("/auth/login", response_model=dict)
 async def login_user(login_user: UserLogin):
     user = next((u for u in root.values() if u.email == login_user.email), None)
