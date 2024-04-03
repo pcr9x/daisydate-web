@@ -61,7 +61,8 @@ async def get_all_chat_id():
 
 
 def get_all_chats(user_id: str):
-    results = []
+    results = {}
+    count = 0
     for c in chatting:
         chat = chatting[c]
         if chat.userID1 == user_id or chat.userID2 == user_id:
@@ -70,16 +71,17 @@ def get_all_chats(user_id: str):
                 otherUser = users.root[chat.userID2]
             else:
                 otherUser = users.root[chat.userID1]
-            latesMessage = "" if len(chat.message) == 0 else chat.message[-1]
+            latestMessage = "" if len(chat.message) == 0 else chat.message[-1].message
             chatResponse = ChatResponse(
                 otherUserProfile= "", # add path to other user profile here
                 otherUserName=otherUser.name,
-                latestMessage="",
+                latestMessage=latestMessage,
                 chatID=chat.chatID,
                 user_id=user_id,
                 messages=chat.message
             )
-            results.append(chatResponse)
+            results[count] = chatResponse
+            count += 1
     return results
 
 def get_chat_room(chat_id: str, user_id: str):
@@ -91,12 +93,12 @@ def get_chat_room(chat_id: str, user_id: str):
         otherUser = users.root[chat.userID2]
     else:
         otherUser = users.root[chat.userID1]
-    latesMessage = "" if len(chat.message) == 0 else chat.message[-1]
+    latestMessage = "" if len(chat.message) == 0 else chat.message[-1].message
     print(chat.message)
     chatResponse = ChatResponse(
         otherUserProfile= "", # add path to other user profile here
         otherUserName=otherUser.name,
-        latestMessage="",
+        latestMessage=latestMessage,
         user_id= user_id,
         chatID=chat.chatID,
         messages=chat.message
@@ -109,7 +111,7 @@ async def index(user_id: str, request: Request):
         return chatting
     data = get_all_chats(user_id)
     return templates.TemplateResponse(
-        "chat-page.html", {"request": request, "data": data}
+        "chat-page.html", {"request": request, "data": data, "length": len(data)}
     )
 
 @router.get("/messages/{user_id}/{chat_id}")

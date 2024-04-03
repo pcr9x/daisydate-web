@@ -11,22 +11,43 @@
     </head>
     <body style="height: 100%; width:60%;">
         <div style="height: 100%;">
-            <section style="height: 100%; background-color:#f2eeee;" id="chat-bar">
-                {% for item in data %}
-                    <div style="background-color:white; box-shadow: 2px 2px 10px; height: 50px; display: flex; flex-direction:row; border: 1px solid black; 
+            <section style="height: 100%; overflow:auto; background-color:#f2eeee;" id="chat-bar">
+                {% for index in data %}
+                    <div id="{{ index }}" class="chat-item" user-id="{{data[index].user_id}}" chat-id="{{data[index].chatID}}" style="background-color:white; box-shadow: 2px 2px 10px; height: 50px; display: flex; flex-direction:row; border: 1px solid black; 
                     padding: 1em; border-radius: 20px; margin-top: 1em; margin-left: 0.5em; margin-right: 0.5em;">
                         <div style="width:50px; background-color: red; border-radius:50px;"></div>
-                        <div style="margin-left: 1em;">
-                            <a style="font-family: 'Times New Roman', Times, serif; font-weight: bold; font-size: 1.3rem">
-                                {{item["otherUserName"]}}
+                        <div style="margin-left: 1em; display:flex; flex-direction:column;">
+                            <a id="{{ index }}-name" class="username" style="font-family: 'Times New Roman', Times, serif; font-weight: bold; font-size: 1.3rem">
+                                {{data[index].otherUserName}}
                             </a>
-                            <a>{{item["latesMessage"]}}</a>
+                            <a style="font-family: 'Times New Roman', Times, serif;" class="message">{{data[index].latestMessage}}</a>
                         </div>
                     </div>
                 {% endfor %}
             </section>
         </div>
+        <a id="length" style="display: hidden;">{{length}}</a>
 
-                         <!-- <a href="signup-page.html" class="login-btn">Let’s find your daisy!</a> -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const baseUrl = `http://127.0.0.1:8000`;
+                
+                function navigateToMessagePage(user_id, chat_id) {
+                    const apiUrl = `${baseUrl}/messages/${user_id}/${chat_id}`;
+                    window.location.href = apiUrl;
+                }
+
+                document.getElementById('chat-bar').addEventListener('click', function(event) {
+                    const target = event.target.closest('.chat-item');
+                    if (target) {
+                        const user_id = target.getAttribute('user-id');
+                        const chat_id = target.getAttribute('chat-id');
+                        if (user_id && chat_id) {
+                            navigateToMessagePage(user_id, chat_id);
+                        }
+                    }
+                });
+            });
+        </script>
     </body>
 </html>
