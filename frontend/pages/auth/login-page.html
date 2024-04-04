@@ -94,7 +94,12 @@
 
         if (response.ok) {
           const data = await response.json();
+          
+          // Store accessToken and current_user_id
           localStorage.setItem('accessToken', data.access_token);
+          localStorage.setItem('current_user_id', data.current_user_id);
+
+
           window.location.href = '../home/home-page.html';
         } else {
           alert('Login failed: Invalid email or password');

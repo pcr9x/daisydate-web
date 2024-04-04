@@ -74,11 +74,11 @@
         flex-direction: column;
         padding: 0 16px;
       }
-      .div-9 {
+      .name-age-container {
         color: #454545;
         font: 600 14px Inter, sans-serif;
       }
-      .div-10 {
+      .institution-container {
         color: #888787;
         margin-top: 10px;
         font: 600 12px Inter, sans-serif;
@@ -119,7 +119,7 @@
         background-color: #fff;
         display: flex;
         width: 45px;
-        height:45px;
+        height: 45px;
         padding: 8px;
       }
       .close-icon {
@@ -247,13 +247,7 @@
         flex-direction: column;
         justify-items: center;
         align-items: center;
-        padding: 10px ;
-      }
-      .users-number-indicator {
-        margin-top: 5px;
-        font-family: Inter, sans-serif;
-        font: medium;
-        color: #707070;
+        padding: 10px;
       }
       .filter-container {
         position: absolute;
@@ -261,29 +255,93 @@
         top: 20px;
       }
     </style>
+
+    <script>
+      async function fetchSuggestedUsers() {
+        const currentUserId = localStorage.getItem("current_user_id");
+
+        if (!currentUserId) {
+          console.error("No current user ID available");
+          return;
+        }
+
+         console.log("Current User ID:", currentUserId);
+
+        try {
+          const response = await fetch(
+            `http://127.0.0.1:8000/suggested?current_user_id=${currentUserId}`
+          );
+          if (response.ok) {
+            const suggestedUsers = await response.json();
+            displaySuggestedUsers(suggestedUsers);
+          } else {
+            console.error("Failed to fetch suggested users");
+          }
+        } catch (error) {
+          console.error("Error fetching suggested users:", error);
+        }
+      }
+
+      function displaySuggestedUsers(users) {
+        if (users.length === 0) {
+          console.log("No suggested users found");
+          return;
+        }
+
+        // TODO: Change to loop
+        const user = users[0]; 
+
+        // NAME, AGE
+        const userInfoContainer = document.querySelector(".name-age-container");
+        userInfoContainer.textContent = `${user.name}, ${user.age}`;
+
+        // INSTITUTION
+        const userDetailContainer = document.querySelector(".institution-container");
+        userDetailContainer.textContent =
+          "King Mongkut Institute of Technology Ladkrabang"; // TODO: Change to real institution
+
+        // Update the user's looking for preferences
+        const userPreferencesContainer = document.querySelector(
+          ".div-12 span:last-child"
+        );
+        userPreferencesContainer.textContent = "Short-term, open to long"; // TODO: Change to real preference
+
+        // PHOTOS
+        const userPhotoContainer = document.querySelector(".photos-container");
+        userPhotoContainer.style.backgroundImage = `url(${user.photos[0]})`; 
+
+        // PHOTOS NUMBER INDICATOR
+        const photosNumberIndicator = document.querySelector(
+          ".photos-number-indicator"
+        );
+        if (user.photos.length > 1) {
+          photosNumberIndicator.textContent = `1/${user.photos.length}`; // Show the first photo out of the total number
+        } else {
+          photosNumberIndicator.textContent = ""; 
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", fetchSuggestedUsers);
+    </script>
   </head>
   <body>
     <div class="div">
       <!-- HEADER -->
       <div class="header-container">
         Suggested
-        <div class="users-number-indicator">
-          1/50
-        </div>
         <div class="filter-container">
           <img src="../../assets/icons/actions/filter-icon.svg" />
         </div>
       </div>
       <!-- IMAGES -->
       <div class="photos-container">
-        <div class="photos-number-indicator">1/3</div>
+        <div class="photos-number-indicator"></div>
       </div>
 
       <!-- USER INFORMATION -->
       <div class="information-container">
-        <div class="div-9">Petch, 19</div>
-        <div class="div-10">
-          King Mongkut Institute of technology Ladkrabnag
+        <div class="name-age-container"></div>
+        <div class="institution-container">
         </div>
         <div class="horizontal-line"></div>
         <div class="div-12">
@@ -292,7 +350,6 @@
           </span>
           <br />
           <span style="font-size: 12px; color: rgba(44, 44, 44, 1)">
-            Short-term, open to long
           </span>
         </div>
 
