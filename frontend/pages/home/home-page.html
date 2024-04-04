@@ -15,544 +15,312 @@
 
     <!--=============== CSS ===============-->
     <style>
-  .container {
-    background-color: #fff;
-    display: flex;
-    max-width: 480px;
-    width: 100%;
-    flex-direction: column;
-    margin: 0 auto;
-  }
-
-  .header {
-    border-color: rgba(217, 217, 217, 1);
-    border-style: solid;
-    border-bottom-width: 1px;
-    z-index: 10;
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-    font-weight: 500;
-    text-align: center;
-    justify-content: center;
-    padding: 1px 0;
-  }
-
-  .header-content {
-    background-color: #fff;
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-    align-items: center;
-    padding: 63px 60px 5px;
-  }
-
-  .header-text {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .header-title {
-    color: #2c2c2c;
-    font: 16px Inter, sans-serif;
-  }
-
-  .header-subtitle {
-    color: #707070;
-    align-self: center;
-    margin-top: 7px;
-    font: 12px Inter, sans-serif;
-  }
-
-  .message-section {
-    background-color: #fff;
-    display: flex;
-    width: 100%;
-    gap: 20px;
-    font-size: 14px;
-    color: #2c2c2c;
-    font-weight: 500;
-    text-align: center;
-    padding: 33px 16px 33px 80px;
-  }
-
-  .message-text {
-    font-family: Inter, sans-serif;
-    flex-grow: 1;
-    flex-basis: auto;
-  }
-
-  .message-icon {
-    aspect-ratio: 1;
-    object-fit: auto;
-    object-position: center;
-    width: 12px;
-    fill: #454545;
-    align-self: start;
-  }
-
-  .photo-section {
-    background-color: #ebce38;
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-    font-weight: 500;
-    white-space: nowrap;
-    padding: 80px 80px 16px 16px;
-  }
-
-  .photo-label {
-    color: #454545;
-    align-self: center;
-    margin-top: 110px;
-    font: 16px Inter, sans-serif;
-  }
-
-  .photo-count {
-    justify-content: center;
-    border-radius: 10px;
-    background-color: rgba(112, 112, 112, 0.5);
-    align-self: start;
-    margin-top: 157px;
-    color: #fff;
-    padding: 3px 7px;
-    font: 8px Inter, sans-serif;
-  }
-
-  .profile-section {
-    display: flex;
-    margin-top: 20px;
-    width: 100%;
-    flex-direction: column;
-    padding: 0 16px;
-  }
-
-  .profile-company {
-    color: #454545;
-    font: 600 14px Inter, sans-serif;
-  }
-
-  .profile-school {
-    color: #454545;
-    margin-top: 12px;
-    font: 600 14px Inter, sans-serif;
-  }
-
-  .profile-details {
-    display: flex;
-    margin-top: 9px;
-    gap: 8px;
-    font-size: 10px;
-    color: #707070;
-    font-weight: 400;
-  }
-
-  .profile-age {
-    display: flex;
-    gap: 2px;
-    white-space: nowrap;
-  }
-
-  .profile-age-icon {
-    aspect-ratio: 1;
-    object-fit: auto;
-    object-position: center;
-    width: 18px;
-  }
-
-  .profile-age-text {
-    font-family: Inter, sans-serif;
-  }
-
-  .profile-location {
-    align-self: start;
-    display: flex;
-    margin-top: 4px;
-    gap: 2px;
-    flex-grow: 1;
-    flex-basis: auto;
-  }
-
-  .profile-location-icon {
-    aspect-ratio: 1;
-    object-fit: auto;
-    object-position: center;
-    width: 14px;
-  }
-
-  .profile-location-text {
-    font-family: Inter, sans-serif;
-    flex-grow: 1;
-    flex-basis: auto;
-  }
-
-  .profile-divider {
-    border-color: rgba(217, 217, 217, 1);
-    border-style: solid;
-    border-width: 1px;
-    background-color: #d9d9d9;
-    margin-top: 15px;
-    height: 1px;
-  }
-
-  .profile-relationship {
-    justify-content: center;
-    border-radius: 5px;
-    background-color: #ebce38;
-    margin-top: 16px;
-    width: 145px;
-    max-width: 100%;
-    color: #2c2c2c;
-    padding: 5px;
-    font: 500 10px Inter, sans-serif;
-  }
-
-  .profile-lifestyle {
-    display: flex;
-    margin-top: 13px;
-    gap: 10px;
-    font-size: 12px;
-    color: #353535;
-    font-weight: 300;
-  }
-
-  .lifestyle-section {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .lifestyle-title {
-    color: #454545;
-    font: 500 14px Inter, sans-serif;
-  }
-
-  .lifestyle-items {
-    display: flex;
-    margin-top: 7px;
-    gap: 13px;
-  }
-
-  .lifestyle-item {
-    justify-content: center;
-    border-radius: 20px;
-    background-color: #d9d9d9;
-    display: flex;
-    gap: 5px;
-    white-space: nowrap;
-    padding: 8px 10px;
-  }
-
-  .lifestyle-item-icon {
-    aspect-ratio: 0.92;
-    object-fit: auto;
-    object-position: center;
-    width: 11px;
-    align-self: start;
-  }
-
-  .lifestyle-item-text {
-    font-family: Inter, sans-serif;
-  }
-
-  .lifestyle-item-alt {
-    justify-content: center;
-    border-radius: 20px;
-    background-color: #d9d9d9;
-    display: flex;
-    gap: 5px;
-    padding: 8px 10px;
-  }
-
-  .lifestyle-item-alt-icon {
-    aspect-ratio: 1;
-    object-fit: auto;
-    object-position: center;
-    width: 12px;
-    align-self: start;
-  }
-
-  .lifestyle-item-alt-text {
-    font-family: Inter, sans-serif;
-  }
-
-  .lifestyle-item-frequency {
-    justify-content: center;
-    border-radius: 20px;
-    background-color: #d9d9d9;
-    display: flex;
-    margin-top: 10px;
-    gap: 5px;
-    white-space: nowrap;
-    padding: 8px 10px;
-  }
-
-  .lifestyle-item-frequency-icon {
-    aspect-ratio: 1;
-    object-fit: auto;
-    object-position: center;
-    width: 12px;
-    align-self: start;
-  }
-
-  .lifestyle-item-frequency-text {
-    font-family: Inter, sans-serif;
-  }
-
-  .lifestyle-item-smoking {
-    justify-content: center;
-    border-radius: 20px;
-    background-color: #d9d9d9;
-    display: flex;
-    gap: 5px;
-    white-space: nowrap;
-    margin: auto 0;
-    padding: 8px 10px;
-  }
-
-  .lifestyle-item-smoking-icon {
-    aspect-ratio: 1;
-    object-fit: auto;
-    object-position: center;
-    width: 12px;
-    align-self: start;
-  }
-
-  .lifestyle-item-smoking-text {
-    font-family: Inter, sans-serif;
-  }
-
-  .profile-divider-alt {
-    border-color: rgba(217, 217, 217, 1);
-    border-style: solid;
-    border-width: 1px;
-    background-color: #d9d9d9;
-    margin-top: 10px;
-    height: 1px;
-  }
-
-  .block-section {
-    align-self: center;
-    display: flex;
-    margin-top: 16px;
-    flex-direction: column;
-    font-size: 14px;
-    color: #2c2c2c;
-  }
-
-  .block-title {
-    font-family: Inter, sans-serif;
-    font-weight: 600;
-    align-self: center;
-  }
-
-  .block-description {
-    font-family: Inter, sans-serif;
-    font-weight: 500;
-    margin-top: 7px;
-  }
-
-  .action-buttons {
-    align-self: center;
-    display: flex;
-    margin-top: 63px;
-    gap: 20px;
-  }
-
-  .action-button {
-    justify-content: center;
-    align-items: center;
-    border-radius: 100px;
-    box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.25);
-    background-color: #fff;
-    display: flex;
-    width: 50px;
-    height: 50px;
-    padding: 8px;
-  }
-
-  .action-button-icon {
-    aspect-ratio: 1;
-    object-fit: auto;
-    object-position: center;
-    width: 21px;
-    fill: #454545;
-  }
-
-  .action-button-alt {
-    justify-content: center;
-    align-items: center;
-    border-radius: 100px;
-    box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.25);
-    background-color: #fff;
-    display: flex;
-    width: 35px;
-    height: 35px;
-    margin: auto 0;
-    padding: 2px;
-  }
-
-  .action-button-alt-icon {
-    aspect-ratio: 1;
-    object-fit: auto;
-    object-position: center;
-    width: 20px;
-    fill: #ebce38;
-  }
-
-  .action-button-like {
-    justify-content: center;
-    align-items: center;
-    border-radius: 100px;
-    box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.25);
-    background-color: #fff;
-    display: flex;
-    width: 50px;
-    height: 50px;
-    padding: 4px 3px;
-  }
-
-  .action-button-like-icon {
-    aspect-ratio: 1.08;
-    object-fit: auto;
-    object-position: center;
-    width: 30px;
-    fill: #ebce38;
-  }
-
-  .footer {
-    border-color: rgba(217, 217, 217, 1);
-    border-style: solid;
-    border-top-width: 1px;
-    display: flex;
-    margin-top: 9px;
-    width: 100%;
-    flex-direction: column;
-    font-size: 10px;
-    color: #707070;
-    font-weight: 500;
-    white-space: nowrap;
-    justify-content: center;
-    padding: 1px 0;
-  }
-
-  .footer-content {
-    background-color: #fff;
-    display: flex;
-    width: 100%;
-    align-items: start;
-    gap: 20px;
-    padding: 17px 27px;
-  }
-
-  .footer-item-suggested {
-    align-self: stretch;
-    display: flex;
-    flex-direction: column;
-    color: #ebce38;
-    flex: 1;
-  }
-
-  .footer-item-suggested-icon {
-    aspect-ratio: 1.39;
-    object-fit: auto;
-    object-position: center;
-    width: 50px;
-    align-self: center;
-  }
-
-  .footer-item-suggested-text {
-    font-family: Inter, sans-serif;
-  }
-
-  .footer-item-discover {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-  }
-
-  .footer-item-discover-icon {
-    aspect-ratio: 1.14;
-    object-fit: auto;
-    object-position: center;
-    width: 41px;
-    align-self: center;
-  }
-
-  .footer-item-discover-text {
-    font-family: Inter, sans-serif;
-  }
-
-  .footer-item-chats {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-  }
-
-  .footer-item-chats-icon {
-    aspect-ratio: 1;
-    object-fit: auto;
-    object-position: center;
-    width: 36px;
-    align-self: center;
-  }
-
-  .footer-item-chats-text {
-    font-family: Inter, sans-serif;
-  }
-
-  .footer-item-me {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-  }
-
-  .footer-item-me-icon {
-    aspect-ratio: 1;
-    object-fit: auto;
-    object-position: center;
-    width: 36px;
-    align-self: center;
-  }
-
-  .footer-item-me-text {
-    font-family: Inter, sans-serif;
-  }
-</style>
-  
+      .div {
+        background-color: #fff;
+        display: flex;
+        max-width: 100%;
+        flex-direction: column;
+      }
+
+      .div-3 {
+        background-color: #fff;
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        align-items: end;
+        padding: 46px 16px 5px 80px;
+      }
+      .img {
+        aspect-ratio: 1.41;
+        object-fit: auto;
+        object-position: center;
+        width: 24px;
+      }
+      .div-4 {
+        color: #2c2c2c;
+        font: 16px Inter, sans-serif;
+      }
+      .div-5 {
+        color: #707070;
+        align-self: center;
+        margin-top: 7px;
+        font: 12px Inter, sans-serif;
+      }
+      .photos-container {
+        background-color: #ebce38;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        font-size: 8px;
+        color: #fff;
+        font-weight: 500;
+        white-space: nowrap;
+        aspect-ratio: 1;
+        padding: 80px 15px 16px;
+        height: 400px;
+      }
+      .photos-number-indicator {
+        font-family: Inter, sans-serif;
+        justify-content: center;
+        border-radius: 10px;
+        background-color: rgba(112, 112, 112, 0.5);
+        margin-top: 385px;
+        padding: 3px 7px;
+      }
+      .information-container {
+        display: flex;
+        margin-top: 21px;
+        width: 100%;
+        flex-direction: column;
+        padding: 0 16px;
+      }
+      .div-9 {
+        color: #454545;
+        font: 600 14px Inter, sans-serif;
+      }
+      .div-10 {
+        color: #888787;
+        margin-top: 10px;
+        font: 600 12px Inter, sans-serif;
+      }
+      .horizontal-line {
+        border-color: rgba(217, 217, 217, 1);
+        border-style: solid;
+        border-width: 1px;
+        background-color: #d9d9d9;
+        margin-top: 11px;
+        height: 0.1px;
+        max-width: 93%;
+      }
+      .div-12 {
+        justify-content: center;
+        border-radius: 5px;
+        background-color: #ebce38;
+        margin-top: 18px;
+        width: 152px;
+        max-width: 100%;
+        color: #2c2c2c;
+        padding: 5px;
+        font: 500 10px Inter, sans-serif;
+      }
+      .actions-container {
+        align-self: center;
+        display: flex;
+        margin-top: 24px;
+        gap: 20px;
+        margin-left: -40px;
+        justify-content: space-between;
+      }
+      .close-container {
+        justify-content: center;
+        align-items: center;
+        border-radius: 100px;
+        box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.25);
+        background-color: #fff;
+        display: flex;
+        width: 45px;
+        height:45px;
+        padding: 8px;
+      }
+      .close-icon {
+        aspect-ratio: 1;
+        object-fit: auto;
+        object-position: center;
+        width: 21px;
+        fill: #454545;
+      }
+      .daisy-container {
+        justify-content: center;
+        align-items: center;
+        border-radius: 100px;
+        box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.25);
+        background-color: #fff;
+        display: flex;
+        width: 35px;
+        height: 35px;
+        margin: auto 0;
+        padding: 2px;
+      }
+      .daisy-icon {
+        aspect-ratio: 1;
+        object-fit: auto;
+        object-position: center;
+        width: 20px;
+        fill: #ebce38;
+      }
+      .heart-container {
+        justify-content: center;
+        align-items: center;
+        border-radius: 100px;
+        box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.25);
+        background-color: #fff;
+        display: flex;
+        width: 50px;
+        height: 50px;
+        padding: 4px 3px;
+      }
+      .heart-icon {
+        aspect-ratio: 1.08;
+        object-fit: auto;
+        object-position: center;
+        width: 30px;
+        fill: #ebce38;
+      }
+      .div-17 {
+        border-color: rgba(217, 217, 217, 1);
+        border-style: solid;
+        border-top-width: 1px;
+        display: flex;
+        margin-top: 23px;
+        width: 100%;
+        flex-direction: column;
+        font-size: 10px;
+        color: #707070;
+        font-weight: 500;
+        white-space: nowrap;
+        justify-content: center;
+        padding: 1px 0;
+      }
+      .div-18 {
+        background-color: #fff;
+        display: flex;
+        width: 100%;
+        align-items: start;
+        gap: 20px;
+        padding: 17px 27px;
+      }
+      .div-19 {
+        align-self: stretch;
+        display: flex;
+        flex-direction: column;
+        color: #ebce38;
+        flex: 1;
+      }
+      .img-5 {
+        aspect-ratio: 1.39;
+        object-fit: auto;
+        object-position: center;
+        width: 50px;
+        align-self: center;
+      }
+      .div-20 {
+        font-family: Inter, sans-serif;
+      }
+      .div-21 {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+      }
+      .img-6 {
+        aspect-ratio: 1.14;
+        object-fit: auto;
+        object-position: center;
+        width: 41px;
+        align-self: center;
+      }
+      .div-22 {
+        font-family: Inter, sans-serif;
+      }
+      .div-23 {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+      }
+      .img-7 {
+        aspect-ratio: 1;
+        object-fit: auto;
+        object-position: center;
+        width: 36px;
+        align-self: center;
+      }
+      .img-8 {
+        aspect-ratio: 1;
+        object-fit: auto;
+        object-position: center;
+        width: 36px;
+        align-self: center;
+      }
+      .header-container {
+        font-family: Inter, sans-serif;
+        font: medium;
+        display: flex;
+        flex-direction: column;
+        justify-items: center;
+        align-items: center;
+        padding: 10px ;
+      }
+      .users-number-indicator {
+        margin-top: 5px;
+        font-family: Inter, sans-serif;
+        font: medium;
+        color: #707070;
+      }
+      .filter-container {
+        position: absolute;
+        right: 10px;
+        top: 20px;
+      }
+    </style>
   </head>
   <body>
+    <div class="div">
+      <!-- HEADER -->
+      <div class="header-container">
+        Suggested
+        <div class="users-number-indicator">
+          1/50
+        </div>
+        <div class="filter-container">
+          <img src="../../assets/icons/actions/filter-icon.svg" />
+        </div>
+      </div>
+      <!-- IMAGES -->
+      <div class="photos-container">
+        <div class="photos-number-indicator">1/3</div>
+      </div>
 
-<div class="container">
-  <header class="header">
-    <div class="header-content">
-      <div class="header-text">
-        <h1 class="header-title">Suggested</h1>
-        <p class="header-subtitle">1/ 50</p>
+      <!-- USER INFORMATION -->
+      <div class="information-container">
+        <div class="div-9">Petch, 19</div>
+        <div class="div-10">
+          King Mongkut Institute of technology Ladkrabnag
+        </div>
+        <div class="horizontal-line"></div>
+        <div class="div-12">
+          <span style="font-weight: 400; color: rgba(44, 44, 44, 1)">
+            Looking for
+          </span>
+          <br />
+          <span style="font-size: 12px; color: rgba(44, 44, 44, 1)">
+            Short-term, open to long
+          </span>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="actions-container">
+          <div class="close-container">
+            <img
+              loading="lazy"
+              src="../../assets/icons/actions/cross-icon.svg"
+              class="close-icon"
+            />
+          </div>
+          <div class="daisy-container">
+            <img
+              loading="lazy"
+              src="../../assets/icons/actions/daisy-icon.svg"
+              class="daisy-icon"
+            />
+          </div>
+          <div class="heart-container">
+            <img
+              loading="lazy"
+              src="../../assets/icons/actions/heart-icon.svg"
+              class="heart-icon"
+            />
+          </div>
+        </div>
       </div>
     </div>
-  </header>
-  <section class="message-section">
-    <p class="message-text">They sent you a daisy!</p>
-    <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/5216e2cf57c7efd195cc5e411470619dbeb22fa2242f474605fa97942597ff98?apiKey=67c92db4d0f34497bdd419d560a3c54c&" alt="Daisy icon" class="message-icon" />
-  </section>
-  <section class="photo-section">
-    <p class="photo-label">photo</p>
-    <p class="photo-count">1/3</p>
-  </section>
-  <section class="profile-section">
-    <h2 class="profile-company">Company</h2>
-    <h2 class="profile-school">School</h2>
-    <div class="profile-details">
-      <div class="profile-age">
-        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/ff2826aaec4cdfdf80324c927dc78cac29044f0593aa34417ce20fb6a89eda55?apiKey=67c92db4d0f34497bdd419d560a3c54c&" alt="Age icon" class="profile-age-icon" />
-        <span class="profile-age-text">20</span>
-      </div>
-      <div class="profile-location">
-        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/a7c5307e9641065c3c056b529bbbc529f5dff6bf15844c857f56b7d0365d2ea4?apiKey=67c92db4d0f34497bdd419d560a3c54c&" alt="Location icon" class="profile-location-icon" />
-        <span class="profile-location-text">Anfield, Liverpool, England</span>
-      </div>
-    </div>
-    <div class="profile-divider"></div>
-    
   </body>
 </html>
