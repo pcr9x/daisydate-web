@@ -11,14 +11,14 @@ templates = Jinja2Templates(directory="../frontend/pages")
 
 
 @router.post("/sendMessage/{chat_id}")
-async def send_message(chat_id: str, message: Message):
+async def send_message(chat_id: str, ms: Message):
     # Check if the chat exists
     chat = chatting.get(chat_id)
     if chat is None:
         raise HTTPException(status_code=404, detail="Chat not found")
 
     # Check if the sender is part of the chat
-    sender_id = message.senderID
+    sender_id = ms.senderID
     if sender_id not in [chat.userID1, chat.userID2]:
         raise HTTPException(status_code=403, detail="Sender not part of the chat")
 
@@ -26,7 +26,7 @@ async def send_message(chat_id: str, message: Message):
     recipient_id = chat.userID1 if sender_id == chat.userID2 else chat.userID2
 
     # Add the message to the chat
-    chat.add_new_message(message)
+    chat.message.append(ms)
 
     # Save the updated chat
     chatting[chat_id] = chat
@@ -101,13 +101,13 @@ async def get_all_chat_id():
     return list(chatting.values())
 
 
-# @router.get("/messages/{chat_id}")
-# async def get_messages(chat_id: str):
-#     chat = chatting.get(chat_id)
-#     if chat is None:
-#         raise HTTPException(status_code=404, detail="Chat not found")
+@router.get("/getMessages/{chat_id}")
+async def get_messages(chat_id: str):
+    chat = chatting.get(chat_id)
+    if chat is None:
+        raise HTTPException(status_code=404, detail="Chat not found")
 
-#     return chat.message
+    return chat.message
 
 
 # @router.get("/messages/{user_id}/all")

@@ -60,6 +60,7 @@ def user_screening(current_user: UserInfo = Depends(get_current_user)):
             or current_user.id in user.liked
             or current_user.id in user.daisied
             or current_user.id in user.disliked
+            or user.id == current_user.id
         ):
             filtered_user.remove(user)
 

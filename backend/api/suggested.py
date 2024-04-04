@@ -53,7 +53,11 @@ def user_screening(current_user: UserInfo = Depends(get_current_user)):
     # Filter the original list of users based on the intersection of ids
     filtered_user = [user for user in root.values() if user.id in filtered_user_ids]
     for user in filtered_user:
-        if user.id in current_user.matches or user.id in current_user.liked or user.id in current_user.daisied or user.id in current_user.disliked:
+        if (user.id in current_user.matches or 
+            user.id in current_user.liked or 
+            user.id in current_user.daisied or 
+            user.id in current_user.disliked or
+            user.id == current_user.id):
             filtered_user.remove(user)
 
     # Sort filtered_user based on current user's daisied list
@@ -89,7 +93,7 @@ def isMatch(currentUser, otherUser):
 
 def createChatRoom(user1, user2):
     chatID = str(uuid.uuid4())
-    chatting[chatID] = ChatMessage(chatID, user1, user2)
+    chatting[chatID] = ChatMessage(chatID=chatID, userID1=user1, userID2=user2)
     root[user1].matches.append(user2)
     root[user2].matches.append(user1)
     return {"chatID": chatID}
