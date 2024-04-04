@@ -27,7 +27,7 @@ class ChatMessage(persistent.Persistent):
         self.chatID = chatID
         self.userID1 = userID1
         self.userID2 = userID2
-        self.message: list[Message]
+        self.message: list[Message] = []
 
     def add_new_message(self, message: Message):
         self.message.append(message)
