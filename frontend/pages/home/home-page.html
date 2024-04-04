@@ -254,11 +254,19 @@
         right: 10px;
         top: 20px;
       }
+      .daisies-amount-container {
+        position: absolute;
+        left: 10px;
+        top: 20px;
+      }
     </style>
 
     <script>
+      function getMyDaisiesAmount () {
+      }
+
       async function fetchSuggestedUsers() {
-        // 
+        //
         const accessToken = localStorage.getItem("accessToken");
 
         if (!accessToken) {
@@ -266,13 +274,13 @@
           return;
         }
 
-         console.log("accessToken:", accessToken);
+        console.log("accessToken:", accessToken);
 
         try {
-          const response = await fetch('http://127.0.0.1:8000/suggested', {
-            method: 'GET',
+          const response = await fetch("http://127.0.0.1:8000/suggested", {
+            method: "GET",
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -297,14 +305,17 @@
         }
 
         // TODO: Change to loop
-        const user = users[0]; 
+        const user = users[0];
+        console.log("user:", user);
 
         // NAME, AGE
         const userInfoContainer = document.querySelector(".name-age-container");
         userInfoContainer.textContent = `${user.name}, ${user.age}`;
 
         // INSTITUTION
-        const userDetailContainer = document.querySelector(".institution-container");
+        const userDetailContainer = document.querySelector(
+          ".institution-container"
+        );
         userDetailContainer.textContent =
           "King Mongkut Institute of Technology Ladkrabang"; // TODO: Change to real institution
 
@@ -316,7 +327,8 @@
 
         // PHOTOS
         const userPhotoContainer = document.querySelector(".photos-container");
-        userPhotoContainer.style.backgroundImage = `url(${user.photos[0]})`; 
+        userPhotoContainer.style.backgroundImage = `url('${user.photos[0]}')`;
+        userPhotoContainer.style.backgroundSize = "cover";
 
         // PHOTOS NUMBER INDICATOR
         const photosNumberIndicator = document.querySelector(
@@ -325,7 +337,7 @@
         if (user.photos.length > 1) {
           photosNumberIndicator.textContent = `1/${user.photos.length}`; // Show the first photo out of the total number
         } else {
-          photosNumberIndicator.textContent = ""; 
+          photosNumberIndicator.style.display = "none";
         }
       }
 
@@ -336,9 +348,18 @@
     <div class="div">
       <!-- HEADER -->
       <div class="header-container">
+        <div class="daisies-amount-container">
+          <img
+            loading="lazy"
+            src="../../assets/icons/actions/daisy-icon.svg"
+          />
+        </div>
         Suggested
         <div class="filter-container">
-          <img src="../../assets/icons/actions/filter-icon.svg" />
+          <img
+            loading="lazy"
+            src="../../assets/icons/actions/filter-icon.svg"
+          />
         </div>
       </div>
       <!-- IMAGES -->
@@ -349,16 +370,14 @@
       <!-- USER INFORMATION -->
       <div class="information-container">
         <div class="name-age-container"></div>
-        <div class="institution-container">
-        </div>
+        <div class="institution-container"></div>
         <div class="horizontal-line"></div>
         <div class="div-12">
           <span style="font-weight: 400; color: rgba(44, 44, 44, 1)">
             Looking for
           </span>
           <br />
-          <span style="font-size: 12px; color: rgba(44, 44, 44, 1)">
-          </span>
+          <span style="font-size: 12px; color: rgba(44, 44, 44, 1)"> </span>
         </div>
 
         <!-- ACTIONS -->
