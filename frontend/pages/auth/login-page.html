@@ -94,7 +94,14 @@
 
         if (response.ok) {
           const data = await response.json();
+          // lnwcaptza@gmail.com
+          // capt1234
+          
+          // Store accessToken in localStorage
           localStorage.setItem('accessToken', data.access_token);
+
+          console.log('data:', data);
+
           window.location.href = '../home/home-page.html';
         } else {
           alert('Login failed: Invalid email or password');
