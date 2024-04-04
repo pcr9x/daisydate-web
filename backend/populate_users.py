@@ -51,7 +51,7 @@ user4 = UserInfo(
     password=pwd_context.hash("minji1234"),
     date_of_birth=datetime.strptime("2004-05-07", "%Y-%m-%d"),
     age=(datetime.now() - datetime.strptime("2004-05-07", "%Y-%m-%d")).days // 365,
-    photos=["assets/minji.jpg"],
+    photos=["assets/minji.jpeg"],
     gender="Female",
     id=str(uuid.uuid4()),
 )
@@ -106,7 +106,7 @@ user9 = UserInfo(
     password=pwd_context.hash("sakura1234"),
     date_of_birth=datetime.strptime("1998-03-19", "%Y-%m-%d"),
     age=(datetime.now() - datetime.strptime("1998-03-19", "%Y-%m-%d")).days // 365,
-    photos=["assets/sakura.jpg"],
+    photos=["assets/sakura.jpeg"],
     gender="Female",
     id=str(uuid.uuid4()),
 )
@@ -128,7 +128,7 @@ user11 = UserInfo(
     password=pwd_context.hash("jennie1234"),
     date_of_birth=datetime.strptime("1996-01-16", "%Y-%m-%d"),
     age=(datetime.now() - datetime.strptime("1996-01-16", "%Y-%m-%d")).days // 365,
-    photos=["assets/jennie"],
+    photos=["assets/jennie.jpg"],
     gender="Female",
     id=str(uuid.uuid4()),
 )

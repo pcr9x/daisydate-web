@@ -1,9 +1,5 @@
 from fastapi import HTTPException, APIRouter, status
-from models.users import (
-    UserInfo,
-    UserDetail,
-    NewUserNameRequest,
-)
+from models.users import UserInfo, UserDetail
 from fastapi import APIRouter, HTTPException, status, Depends
 from fastapi.security import OAuth2PasswordBearer
 from models.users import UserInfo, UserDetail
@@ -50,25 +46,6 @@ async def delete_user(user_id: str):
     del root[user_id]
     transaction.commit()
     return {"message": "User deleted successfully"}
-
-
-@router.patch("/account/settings/profileName")
-async def update_user_name(new_user: NewUserNameRequest):
-    if new_user.user_id not in root:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
-        )
-    if not root[new_user.user_id].logged_in:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, detail="User not logged in"
-        )
-    if not new_user.new_user_name:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="invalid user name"
-        )
-    root[new_user.user_id].name = new_user.new_user_name
-    transaction.commit()
-    return {"message": "Rename successfully"}
 
 
 # Helper function to get current user

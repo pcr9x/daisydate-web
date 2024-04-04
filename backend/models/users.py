@@ -67,8 +67,3 @@ class UserInfo(BaseUser):
     matches: List[str] = []
     daisies: int = 100
     logged_in: bool = False
-
-
-class NewUserNameRequest(BaseModel):
-    user_id: str
-    new_user_name: str
