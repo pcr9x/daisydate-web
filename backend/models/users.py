@@ -18,35 +18,37 @@ class UserDetail(BaseModel):
     relationship_goals: str = (
         None  # Long-term, Short-term, New friends, Casual, Just chatting, Open to all
     )
-    languages: str = None # No choices
     height: int = None  # [100, 250]
-    interests: List[str] = (
-        None  # Online Games, Football, Car Racing, Drawing, Theater, Travel, Music, Table Tennis, Anime
-    )
-    education: str = (
-        None  # Bachelors, In College, High School, PhD, In Grad School, Masters, Trade School
-    )
-    pet: str = (
-        None  # Dog, Cat, Reptile, Amphibian, Bird, Fish, Don't have but love, Other, Turtle, Hamster, Rabbit, Pet-free, Want a pet, Allergic to pets
-    )
-    drinking: str = (
-        None  # Not for me, Sober, Sober serious, On special occasions, Socially on weekends, Most Nights
-    )
-    smoking: str = (
-        None  # Social smoker, Smoker when drinking, Non-smoker, Smoker, Trying to quit
-    )
-    workout: str = None  # Everyday, Often, Sometimes, Never
-    job_title: str = None # No choices
-    company: str = None # No choices
-    living_in: str = None # No choices
-    mbti: str = (
-        None  # INTJ, INTP, ENTJ, ENTP, INFJ, INFP, ENFJ, ENFP, ISTJ, ISFJ, ESTJ, ESFJ, ISTP, ISFP, ESTP, ESFP
-    )
+    school: str = None
+    # languages: str = None # No choices
+
+    # interests: List[str] = (
+    #     None  # Online Games, Football, Car Racing, Drawing, Theater, Travel, Music, Table Tennis, Anime
+    # )
+    # education: str = (
+    #     None  # Bachelors, In College, High School, PhD, In Grad School, Masters, Trade School
+    # )
+    # pet: str = (
+    #     None  # Dog, Cat, Reptile, Amphibian, Bird, Fish, Don't have but love, Other, Turtle, Hamster, Rabbit, Pet-free, Want a pet, Allergic to pets
+    # )
+    # drinking: str = (
+    #     None  # Not for me, Sober, Sober serious, On special occasions, Socially on weekends, Most Nights
+    # )
+    # smoking: str = (
+    #     None  # Social smoker, Smoker when drinking, Non-smoker, Smoker, Trying to quit
+    # )
+    # workout: str = None  # Everyday, Often, Sometimes, Never
+    # job_title: str = None # No choices
+    # company: str = None # No choices
+    # living_in: str = None # No choices
+    # mbti: str = (
+    #     None  # INTJ, INTP, ENTJ, ENTP, INFJ, INFP, ENFJ, ENFP, ISTJ, ISFJ, ESTJ, ESFJ, ISTP, ISFP, ESTP, ESFP
+    # )
 
 
 class UserPreferences(BaseModel):
     age: Tuple[int, int] = (18, 100)
-    gender: str = "Everyone" # Everyone, Man, Woman
+    gender: str = "Everyone" # Everyone, Male, Female
     relationship_goals: str = None
 
 

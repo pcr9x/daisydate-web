@@ -14,11 +14,12 @@ user1 = UserInfo(
     date_of_birth=datetime.strptime("2004-07-06", "%Y-%m-%d"),
     age=(datetime.now() - datetime.strptime("2004-07-06", "%Y-%m-%d")).days // 365,
     photos=["assets/petch.jpg"],
-    gender="Man",
+    gender="Male",
     id=str(uuid.uuid4()),
-    preferences={"age": (18,24),
-                 "gender": "Woman",
-    }
+    preferences={
+        "age": (18, 24),
+        "gender": "Female",
+    },
 )
 
 user2 = UserInfo(
@@ -28,9 +29,9 @@ user2 = UserInfo(
     date_of_birth=datetime.strptime("2004-02-28", "%Y-%m-%d"),
     age=(datetime.now() - datetime.strptime("2004-02-28", "%Y-%m-%d")).days // 365,
     photos=["assets/capt.jpg"],
-    gender="Man",
+    gender="Other",
     id=str(uuid.uuid4()),
-    preferences={"age": (19,26)}
+    preferences={"age": (19, 26)},
 )
 
 user3 = UserInfo(
@@ -40,7 +41,7 @@ user3 = UserInfo(
     date_of_birth=datetime.strptime("2004-07-06", "%Y-%m-%d"),
     age=(datetime.now() - datetime.strptime("2004-07-06", "%Y-%m-%d")).days // 365,
     photos=["assets/wit.jpg"],
-    gender="Man",
+    gender="Prefer not to say",
     id=str(uuid.uuid4()),
 )
 
@@ -51,7 +52,7 @@ user4 = UserInfo(
     date_of_birth=datetime.strptime("2004-05-07", "%Y-%m-%d"),
     age=(datetime.now() - datetime.strptime("2004-05-07", "%Y-%m-%d")).days // 365,
     photos=["assets/minji.jpg"],
-    gender="Woman",
+    gender="Female",
     id=str(uuid.uuid4()),
 )
 
@@ -62,7 +63,7 @@ user5 = UserInfo(
     date_of_birth=datetime.strptime("2001-10-08", "%Y-%m-%d"),
     age=(datetime.now() - datetime.strptime("2001-10-08", "%Y-%m-%d")).days // 365,
     photos=["assets/yunjin.jpg"],
-    gender="Woman",
+    gender="Female",
     id=str(uuid.uuid4()),
 )
 
@@ -73,7 +74,7 @@ user6 = UserInfo(
     date_of_birth=datetime.strptime("1993-05-16", "%Y-%m-%d"),
     age=(datetime.now() - datetime.strptime("1993-05-16", "%Y-%m-%d")).days // 365,
     photos=["assets/iu.jpg"],
-    gender="Woman",
+    gender="Female",
     id=str(uuid.uuid4()),
 )
 
@@ -84,7 +85,7 @@ user7 = UserInfo(
     date_of_birth=datetime.strptime("2000-08-01", "%Y-%m-%d"),
     age=(datetime.now() - datetime.strptime("2000-08-01", "%Y-%m-%d")).days // 365,
     photos=["assets/chaewon.jpg"],
-    gender="Woman",
+    gender="Female",
     id=str(uuid.uuid4()),
 )
 
@@ -95,7 +96,7 @@ user8 = UserInfo(
     date_of_birth=datetime.strptime("2004-08-31", "%Y-%m-%d"),
     age=(datetime.now() - datetime.strptime("2004-08-31", "%Y-%m-%d")).days // 365,
     photos=["assets/wonyoung.jpg"],
-    gender="Woman",
+    gender="Female",
     id=str(uuid.uuid4()),
 )
 
@@ -106,7 +107,7 @@ user9 = UserInfo(
     date_of_birth=datetime.strptime("1998-03-19", "%Y-%m-%d"),
     age=(datetime.now() - datetime.strptime("1998-03-19", "%Y-%m-%d")).days // 365,
     photos=["assets/sakura.jpg"],
-    gender="Woman",
+    gender="Female",
     id=str(uuid.uuid4()),
 )
 
@@ -117,7 +118,7 @@ user10 = UserInfo(
     date_of_birth=datetime.strptime("2004-10-06", "%Y-%m-%d"),
     age=(datetime.now() - datetime.strptime("2004-10-06", "%Y-%m-%d")).days // 365,
     photos=["assets/hanni.jpg"],
-    gender="Woman",
+    gender="Female",
     id=str(uuid.uuid4()),
 )
 
@@ -128,7 +129,7 @@ user11 = UserInfo(
     date_of_birth=datetime.strptime("1996-01-16", "%Y-%m-%d"),
     age=(datetime.now() - datetime.strptime("1996-01-16", "%Y-%m-%d")).days // 365,
     photos=["assets/jennie"],
-    gender="Woman",
+    gender="Female",
     id=str(uuid.uuid4()),
 )
 
@@ -139,7 +140,7 @@ user12 = UserInfo(
     date_of_birth=datetime.strptime("2003-09-01", "%Y-%m-%d"),
     age=(datetime.now() - datetime.strptime("2003-09-01", "%Y-%m-%d")).days // 365,
     photos=["assets/yujin.jpg"],
-    gender="Woman",
+    gender="Female",
     id=str(uuid.uuid4()),
 )
 
