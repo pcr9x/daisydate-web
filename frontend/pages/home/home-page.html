@@ -118,8 +118,8 @@
         box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.25);
         background-color: #fff;
         display: flex;
-        width: 45px;
-        height: 45px;
+        width: 50px;
+        height: 50px;
         padding: 8px;
       }
       .close-icon {
@@ -262,19 +262,12 @@
     </style>
 
     <script>
-      function getMyDaisiesAmount () {
-      }
-
       async function fetchSuggestedUsers() {
-        //
         const accessToken = localStorage.getItem("accessToken");
-
         if (!accessToken) {
           console.error("No access token found");
           return;
         }
-
-        console.log("accessToken:", accessToken);
 
         try {
           const response = await fetch("http://127.0.0.1:8000/suggested", {
@@ -339,6 +332,81 @@
         } else {
           photosNumberIndicator.style.display = "none";
         }
+
+        const actionsContainer = document.querySelector(".actions-container");
+        actionsContainer.innerHTML = ""; // Clear previous actions
+
+        actionsContainer.innerHTML += `
+          <button class="close-container" onclick="dislikeUser('${user.id}')">
+            <img loading="lazy" src="../../assets/icons/actions/cross-icon.svg" class="close-icon" />
+          </button>
+          <button class="daisy-container" onclick="daisyUser('${user.id}')">
+            <img loading="lazy" src="../../assets/icons/actions/daisy-icon.svg" class="daisy-icon" />
+          </button>
+          <button class="heart-container" onclick="likeUser('${user.id}')">
+            <img loading="lazy" src="../../assets/icons/actions/heart-icon.svg" class="heart-icon" />
+          </button>
+        `;
+      }
+
+      async function likeUser(otherUserId) {
+        const response = await fetch(
+          `http://127.0.0.1:8000/suggested/${otherUserId}/like`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            },
+          }
+        );
+
+        if (response.ok) {
+          console.log("Like sent successfully");
+          fetchSuggestedUsers(); 
+        } else {
+          console.error("Failed to send like");
+        }
+      }
+
+      async function daisyUser(otherUserId) {
+        const response = await fetch(
+          `http://127.0.0.1:8000/suggested/${otherUserId}/daisy`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            },
+          }
+        );
+
+        if (response.ok) {
+          console.log("Daisy sent successfully");
+          fetchSuggestedUsers(); 
+        } else {
+          console.error("Failed to send daisy");
+        }
+      }
+
+      async function dislikeUser(otherUserId) {
+        const response = await fetch(
+          `http://127.0.0.1:8000/suggested/${otherUserId}/dislike`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            },
+          }
+        );
+
+        if (response.ok) {
+          console.log("Dislike sent successfully");
+          fetchSuggestedUsers(); 
+        } else {
+          console.error("Failed to send dislike");
+        }
       }
 
       document.addEventListener("DOMContentLoaded", fetchSuggestedUsers);
@@ -349,10 +417,7 @@
       <!-- HEADER -->
       <div class="header-container">
         <div class="daisies-amount-container">
-          <img
-            loading="lazy"
-            src="../../assets/icons/actions/daisy-icon.svg"
-          />
+          <img loading="lazy" src="../../assets/icons/actions/daisy-icon.svg" />
         </div>
         Suggested
         <div class="filter-container">
@@ -381,29 +446,7 @@
         </div>
 
         <!-- ACTIONS -->
-        <div class="actions-container">
-          <div class="close-container">
-            <img
-              loading="lazy"
-              src="../../assets/icons/actions/cross-icon.svg"
-              class="close-icon"
-            />
-          </div>
-          <div class="daisy-container">
-            <img
-              loading="lazy"
-              src="../../assets/icons/actions/daisy-icon.svg"
-              class="daisy-icon"
-            />
-          </div>
-          <div class="heart-container">
-            <img
-              loading="lazy"
-              src="../../assets/icons/actions/heart-icon.svg"
-              class="heart-icon"
-            />
-          </div>
-        </div>
+        <div class="actions-container"></div>
       </div>
     </div>
   </body>
