@@ -92,7 +92,7 @@
         height: 0.1px;
         max-width: 93%;
       }
-      .div-12 {
+      .preference-container {
         justify-content: center;
         border-radius: 5px;
         background-color: #ebce38;
@@ -257,11 +257,44 @@
       .daisies-amount-container {
         position: absolute;
         left: 10px;
-        top: 20px;
+        top: 3px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 5px;
       }
     </style>
 
     <script>
+      async function getCurrentUserDetails() {
+        const currentUserId = localStorage.getItem("currentUserId");
+        if (!currentUserId) {
+          console.error("No current user found");
+          return;
+        }
+
+        try {
+          const response = await fetch(
+            `http://127.0.0.1:8000/account/${currentUserId}`,
+            {
+              method: "GET",
+            }
+          );
+
+          if (response.ok) {
+            console.log("Current user fetched successfully");
+            const currentUser = await response.json();
+            console.log("currentUser:", currentUser);
+            document.querySelector(".daisies-amount").textContent =
+              currentUser.daisies;
+          } else {
+            console.error("Failed to fetch current user");
+          }
+        } catch (error) {
+          console.error("Error fetching current user:", error);
+        }
+      }
+
       async function fetchSuggestedUsers() {
         const accessToken = localStorage.getItem("accessToken");
         if (!accessToken) {
@@ -274,8 +307,6 @@
             method: "GET",
             headers: {
               "Content-Type": "application/json",
-            },
-            headers: {
               Authorization: `Bearer ${accessToken}`,
             },
           });
@@ -312,11 +343,31 @@
         userDetailContainer.textContent =
           "King Mongkut Institute of Technology Ladkrabang"; // TODO: Change to real institution
 
-        // Update the user's looking for preferences
+        // PREFERENCES
         const userPreferencesContainer = document.querySelector(
-          ".div-12 span:last-child"
+          ".preference-container"
         );
-        userPreferencesContainer.textContent = "Short-term, open to long"; // TODO: Change to real preference
+        function formatPreferences(preferences) {
+          if (preferences && Object.keys(preferences).length !== 0) {
+            const { age, gender, relationship_goals } = preferences;
+
+            const ageText = age ? `Age ${age[0]} to ${age[1]}` : "Any age";
+
+            const genderText = gender ? gender : "Everyone";
+
+            const relationshipGoalsText = relationship_goals
+              ? relationship_goals
+              : "any relationship goals";
+
+            return `Looking for: ${ageText}, ${genderText}, ${relationshipGoalsText}`;
+          } else {
+            return "No preferences";
+          }
+        }
+
+        userPreferencesContainer.textContent = formatPreferences(
+          user.preferences
+        );
 
         // PHOTOS
         const userPhotoContainer = document.querySelector(".photos-container");
@@ -363,7 +414,7 @@
 
         if (response.ok) {
           console.log("Like sent successfully");
-          fetchSuggestedUsers(); 
+          fetchSuggestedUsers();
         } else {
           console.error("Failed to send like");
         }
@@ -383,7 +434,7 @@
 
         if (response.ok) {
           console.log("Daisy sent successfully");
-          fetchSuggestedUsers(); 
+          fetchSuggestedUsers();
         } else {
           console.error("Failed to send daisy");
         }
@@ -403,13 +454,16 @@
 
         if (response.ok) {
           console.log("Dislike sent successfully");
-          fetchSuggestedUsers(); 
+          fetchSuggestedUsers();
         } else {
           console.error("Failed to send dislike");
         }
       }
 
-      document.addEventListener("DOMContentLoaded", fetchSuggestedUsers);
+      document.addEventListener("DOMContentLoaded", function () {
+        fetchSuggestedUsers();
+        getCurrentUserDetails();
+      });
     </script>
   </head>
   <body>
@@ -418,6 +472,7 @@
       <div class="header-container">
         <div class="daisies-amount-container">
           <img loading="lazy" src="../../assets/icons/actions/daisy-icon.svg" />
+          <p class="daisies-amount"></p>
         </div>
         Suggested
         <div class="filter-container">
@@ -437,7 +492,7 @@
         <div class="name-age-container"></div>
         <div class="institution-container"></div>
         <div class="horizontal-line"></div>
-        <div class="div-12">
+        <div class="preference-container">
           <span style="font-weight: 400; color: rgba(44, 44, 44, 1)">
             Looking for
           </span>
