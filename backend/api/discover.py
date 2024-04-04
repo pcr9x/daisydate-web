@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from models.users import UserLikeRequest
-from api.users import root
+from api.auth import root
 from api.suggested import createChatRoom, isMatch
 import transaction
 

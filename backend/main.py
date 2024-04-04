@@ -1,7 +1,8 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from api import users, websocket, chatting, suggested, discover
-from api.users import get_user, SECRET_KEY, ALGORITHM
+from api import websocket, chatting, suggested, discover, account, auth
+from api.auth import SECRET_KEY, ALGORITHM
+from api.account import get_user
 from datetime import datetime
 import jwt
 
@@ -31,8 +32,8 @@ async def check_token_expiration(request: Request, call_next):
 
             # If token has expired, log out the user
             if expiration_time <= datetime.utcnow():
-                username: str = payload.get("sub")
-                user = get_user(username)
+                user_id: str = payload.get("sub")
+                user = get_user(user_id)
                 if user is not None:
                     user.logged_in = False
     except Exception as e:
@@ -43,7 +44,8 @@ async def check_token_expiration(request: Request, call_next):
 
 
 # Include your regular HTTP routes
-app.include_router(users.router)
+app.include_router(auth.router)
+app.include_router(account.router)
 app.include_router(websocket.router)
 app.include_router(suggested.router)
 app.include_router(chatting.router)

@@ -1,8 +1,8 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, status
 from zodb_utils import get_zodb_storage
 from models.chatting import ChatMessage
-from models.users import UserLikeRequest
-from api.users import root
+from models.users import UserLikeRequest, UserPreferences
+from api.auth import root
 import transaction, uuid
 
 router = APIRouter()
@@ -67,6 +67,18 @@ def user_screening(current_user_id: dict):
     )
 
     return sorted_user
+
+
+@router.put("/suggested/preferences")
+async def adjust_pref(user_id: str, preferences: UserPreferences):
+    if user_id not in root:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
+        )
+
+    root[user_id].preferences = preferences
+    transaction.commit()
+    return {"message": "User's preferences updated successfully"}
 
 
 def isMatch(currentUser, otherUser):

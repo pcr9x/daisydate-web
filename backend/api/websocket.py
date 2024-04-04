@@ -46,7 +46,7 @@ async def websocket_endpoint(websocket: WebSocket, user_id:str, chat_id:str):
     try:
         while True:
             data = await websocket.receive_text()
-            datas = data.split("/");
+            datas = data.split("/")
             await send_message(chat_id=datas[1], message=Message(
                 senderID=datas[0],
                 message=datas[2]

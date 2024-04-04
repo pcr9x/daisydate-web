@@ -1,6 +1,6 @@
 from models.users import UserInfo
 import transaction, uuid
-from api.users import root
+from api.auth import root
 from datetime import datetime
 from passlib.context import CryptContext
 from api.suggested import createChatRoom
