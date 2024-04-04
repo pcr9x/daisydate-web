@@ -1,8 +1,9 @@
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, status, Depends
 from zodb_utils import get_zodb_storage
 from models.chatting import ChatMessage
-from models.users import UserLikeRequest, UserPreferences
+from models.users import UserPreferences, UserInfo
 from api.auth import root
+from api.account import get_current_user
 import transaction, uuid
 
 router = APIRouter()
@@ -12,8 +13,7 @@ chatting = get_zodb_storage(chatting_storage)
 
 
 @router.get("/suggested")
-def user_screening(current_user_id: dict):
-    current_user = root.get(current_user_id["current_user_id"])
+def user_screening(current_user: UserInfo = Depends(get_current_user)):
     pref_age = current_user.preferences.age
 
     # Filter users based on age
@@ -53,7 +53,7 @@ def user_screening(current_user_id: dict):
     # Filter the original list of users based on the intersection of ids
     filtered_user = [user for user in root.values() if user.id in filtered_user_ids]
     for user in filtered_user:
-        if user.id in current_user.matches or user.id in current_user.liked or user.id in current_user.daisied:
+        if user.id in current_user.matches or user.id in current_user.liked or user.id in current_user.daisied or user.id in current_user.disliked:
             filtered_user.remove(user)
 
     # Sort filtered_user based on current user's daisied list
@@ -70,7 +70,10 @@ def user_screening(current_user_id: dict):
 
 
 @router.put("/suggested/preferences")
-async def adjust_pref(user_id: str, preferences: UserPreferences):
+async def adjust_pref(
+    preferences: UserPreferences, current_user: UserInfo = Depends(get_current_user)
+):
+    user_id = current_user.id
     if user_id not in root:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
@@ -91,45 +94,65 @@ def createChatRoom(user1, user2):
     root[user2].matches.append(user1)
     return {"chatID": chatID}
 
+
 @router.post("/suggested/{other_user_id}/like")
-async def like_user(user: UserLikeRequest, other_user_id: str):
+async def like_user(
+    other_user_id: str, current_user: UserInfo = Depends(get_current_user)
+):
     if other_user_id not in root:
         raise HTTPException(status_code=404, detail="Other user not found")
 
-    if user.current_user_id not in root:
+    if current_user.id not in root:
         raise HTTPException(status_code=404, detail="Current user not found")
 
-    root[user.current_user_id].liked.append(other_user_id)
-    root[user.current_user_id].daisies += 25
+    root[current_user.id].liked.append(other_user_id)
+    root[current_user.id].daisies += 25
 
     # Check if the other user has already liked the current user
-    if isMatch(user.current_user_id, other_user_id):
-        createChatRoom(user.current_user_id, other_user_id)
-        root[user.current_user_id].liked.remove(other_user_id)
-        root[other_user_id].liked.remove(user.current_user_id)
+    if isMatch(current_user.id, other_user_id):
+        createChatRoom(current_user.id, other_user_id)
+        root[current_user.id].liked.remove(other_user_id)
+        root[other_user_id].liked.remove(current_user.id)
 
     transaction.commit()
     return {"message": "Like sent successfully"}
 
 
 @router.post("/suggested/{other_user_id}/daisy")
-async def daisy_user(user: UserLikeRequest, other_user_id: str):
+async def daisy_user(
+    other_user_id: str, current_user: UserInfo = Depends(get_current_user)
+):
     if other_user_id not in root:
         raise HTTPException(status_code=404, detail="Other user not found")
 
-    if user.current_user_id not in root:
+    if current_user.id not in root:
         raise HTTPException(status_code=404, detail="Current user not found")
 
-    if root[user.current_user_id].daisies < 100:
+    if root[current_user.id].daisies < 100:
         raise HTTPException(status_code=403, detail="Not enough daisies")
 
-    root[user.current_user_id].daisied.append(other_user_id)
-    root[user.current_user_id].daisies -= 100
+    root[current_user.id].daisied.append(other_user_id)
+    root[current_user.id].daisies -= 100
 
-    if isMatch(user.current_user_id, other_user_id):
-        createChatRoom(user.current_user_id, other_user_id)
-        root[user.current_user_id].daisy.remove(other_user_id)
-        root[other_user_id].daisy.remove(user.current_user_id)
+    if isMatch(current_user.id, other_user_id):
+        createChatRoom(current_user.id, other_user_id)
+        root[current_user.id].daisy.remove(other_user_id)
+        root[other_user_id].daisy.remove(current_user.id)
 
     transaction.commit()
     return {"message": "Daisy sent successfully"}
+
+
+@router.post("/suggested/{other_user_id}/dislike")
+async def dislike_user(
+    other_user_id: str, current_user: UserInfo = Depends(get_current_user)
+):
+    if other_user_id not in root:
+        raise HTTPException(status_code=404, detail="Other user not found")
+
+    if current_user.id not in root:
+        raise HTTPException(status_code=404, detail="Current user not found")
+
+    root[current_user.id].disliked.append(other_user_id)
+    transaction.commit()
+    return {"message": "Dislike sent successfully"}

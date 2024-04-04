@@ -24,7 +24,7 @@ async def get_user(user_id: str):
     return user
 
 
-@router.get("/account/all", response_model=list[UserInfo])
+@router.get("/accounts/all", response_model=list[UserInfo])
 async def get_all_users():
     return list(root.values())
 

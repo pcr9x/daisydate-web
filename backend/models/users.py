@@ -63,14 +63,10 @@ class UserInfo(BaseUser):
     preferences: UserPreferences = UserPreferences()
     liked: List[str] = []
     daisied: List[str] = []
+    disliked: List[str] = []
     matches: List[str] = []
     daisies: int = 100
     logged_in: bool = False
-
-
-class UserLikeRequest(BaseModel):
-    current_user_id: str
-    other_user_id: str
 
 
 class NewUserNameRequest(BaseModel):
