@@ -144,14 +144,20 @@
       <div class="div-2">Tell us about you!</div>
       <input id="name" type="text" placeholder="What's your name?" class="div-3">
       <!-- Gender selection dropdown -->
-      <select class="div-4" name="gender">
+      <select id="gender" class="div-4" name="gender">
           <option value="">What's your gender?</option>
           <option value="male">Male</option>
           <option value="female">Female</option>
           <option value="other">Other</option>
           <option value="prefer_not_to_say">Prefer not to say</option>
       </select>
-      <input id="pref_gender" type="text" placeholder="Show me" class="div-5">
+      <!-- Prefer Gender selection dropdown -->
+      <select id="pref_gender" class="div-4" name="pref_gender">
+          <option value="">Show me</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="everyone">Everyone</option>
+      </select>
       <div class="div-6" onclick="submitDetails()">Add some pictures</div>
     </div>
   </body>
