@@ -94,11 +94,13 @@
 
         if (response.ok) {
           const data = await response.json();
+          // lnwcaptza@gmail.com
+          // capt1234
           
-          // Store accessToken and current_user_id
+          // Store accessToken in localStorage
           localStorage.setItem('accessToken', data.access_token);
-          localStorage.setItem('current_user_id', data.current_user_id);
 
+          console.log('data:', data);
 
           window.location.href = '../home/home-page.html';
         } else {

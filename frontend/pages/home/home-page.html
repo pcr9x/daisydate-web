@@ -258,19 +258,27 @@
 
     <script>
       async function fetchSuggestedUsers() {
-        const currentUserId = localStorage.getItem("current_user_id");
+        // 
+        const accessToken = localStorage.getItem("accessToken");
 
-        if (!currentUserId) {
-          console.error("No current user ID available");
+        if (!accessToken) {
+          console.error("No access token found");
           return;
         }
 
-         console.log("Current User ID:", currentUserId);
+         console.log("accessToken:", accessToken);
 
         try {
-          const response = await fetch(
-            `http://127.0.0.1:8000/suggested?current_user_id=${currentUserId}`
-          );
+          const response = await fetch('http://127.0.0.1:8000/suggested', {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          });
+
           if (response.ok) {
             const suggestedUsers = await response.json();
             displaySuggestedUsers(suggestedUsers);
