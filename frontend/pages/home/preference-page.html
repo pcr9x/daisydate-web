@@ -184,8 +184,6 @@
         const currentUserId = localStorage.getItem("currentUserId");
         const getPrefURL = `http://127.0.0.1:8000/account/preferences/${currentUserId}`;
 
-        // make fetch api for these 3 url below
-
         fetch(getPrefURL)
         .then(response => {
           if (!response.ok) {

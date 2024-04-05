@@ -48,7 +48,7 @@ def get_all_chats(user_id: str):
                 otherUser = root[chat.userID1]
             latestMessage = "" if len(chat.message) == 0 else chat.message[-1].message
             chatResponse = ChatResponse(
-                otherUserProfile= "", # add path to other user profile here
+                otherUserProfile= otherUser.name[0], # add path to other user profile here
                 otherUserName=otherUser.name,
                 latestMessage=latestMessage,
                 chatID=chat.chatID,
@@ -71,7 +71,7 @@ def get_chat_room(chat_id: str, user_id: str):
     latestMessage = "" if len(chat.message) == 0 else chat.message[-1].message
     print(chat.message)
     chatResponse = ChatResponse(
-        otherUserProfile= "", # add path to other user profile here
+        otherUserProfile= otherUser.name[0], # add path to other user profile here
         otherUserName=otherUser.name,
         latestMessage=latestMessage,
         user_id= user_id,
