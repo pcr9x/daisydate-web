@@ -103,8 +103,7 @@ class AgeRange(BaseModel):
 async def edit_user_preferences(user_id:str, age_range: AgeRange):
     if user_id not in root:
         raise HTTPException(status_code=404, detail=f"User with ID: {user_id} not found")
-    root[user_id].preferences.age[0] = age_range.start_age
-    root[user_id].preferences.age[1] = age_range.end_age
+    root[user_id].preferences.age = (age_range.start_age, age_range.end_age)
     return {"message":"edit age successfully"}
     
 @router.post("/account/preferences/newRelationshipGoals/{user_id}/{relationship_goals}")
