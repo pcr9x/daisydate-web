@@ -116,7 +116,18 @@
 
         const registration_id = localStorage.getItem('registration_id'); 
         // Append registration_id to formData
-        formData.append('registration_id', registrationId);
+        formData.append('registration_id', registration_id);
+
+        // Get the file inputs
+        const fileInputs = document.querySelectorAll('input[type="file"]');
+
+        // Append each file to formData
+        fileInputs.forEach(input => {
+          const files = input.files;
+          for (let i = 0; i < files.length; i++) {
+            formData.append('photos', files[i]);
+          }
+        });
 
         try {
           const response = await fetch(
@@ -130,6 +141,10 @@
           if (response.ok) {
             const data = await response.json();
             console.log("Photos uploaded:", data);
+
+            localStorage.setItem('accessToken', data.access_token);
+            localStorage.setItem('currentUserId', data.user_id);
+            
             window.location.href = "../../home/home-page.html";
           } else {
             const errorData = await response.json();

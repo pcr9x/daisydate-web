@@ -141,9 +141,9 @@
       <div class="div-2">What’s your birthday?</div>
       <div class="div-3">
           <!-- Day input -->
-          <input type="number" class="div-4" name="day" min="1" max="31" placeholder="Day" required>
+          <input type="number" class="div-4" id="day" min="1" max="31" placeholder="Day" required>
           <!-- Month input -->
-          <select class="div-5" name="month" required>
+          <select class="div-5" id="month" required>
               <option value="">Month</option>
               <option value="1">January</option>
               <option value="2">February</option>
@@ -159,7 +159,7 @@
               <option value="12">December</option>
           </select>
           <!-- Year input -->
-          <input type="number" class="div-6" name="year" min="2000" max="2024" placeholder="Year" required>
+          <input type="number" class="div-6" id="year" min="2000" max="2024" placeholder="Year" required>
       </div>
       <div class="div-7" onclick="submitDateOfBirth()">Next</div>
     </div>
