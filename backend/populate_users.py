@@ -16,6 +16,12 @@ user1 = UserInfo(
     photos=["assets/petch.jpg"],
     gender="Male",
     id=str(uuid.uuid4()),
+    detail={
+        "bio": "I'm a software engineering student.",
+        "relationship_goals": "Long-term",
+        "height": 185,
+        "school": "KMITL",
+    },
     preferences={
         "age": (18, 24),
         "gender": "Female",
@@ -31,6 +37,12 @@ user2 = UserInfo(
     photos=["assets/capt.jpg"],
     gender="Other",
     id=str(uuid.uuid4()),
+    detail={
+        "bio": "I love Ferrari.",
+        "relationship_goals": "Short-term",
+        "height": 200,
+        "school": "KMITL",
+    },
     preferences={"age": (19, 26)},
 )
 
@@ -42,6 +54,12 @@ user3 = UserInfo(
     age=(datetime.now() - datetime.strptime("2004-07-06", "%Y-%m-%d")).days // 365,
     photos=["assets/wit.jpg"],
     gender="Prefer not to say",
+    detail={
+        "bio": "I love SEP.",
+        "relationship_goals": "Casual",
+        "height": 180,
+        "school": "KMITL",
+    },
     id=str(uuid.uuid4()),
 )
 
@@ -54,6 +72,12 @@ user4 = UserInfo(
     photos=["assets/minji.jpeg"],
     gender="Female",
     id=str(uuid.uuid4()),
+    detail={
+        "bio": "I'm a member of NewJeans.",
+        "relationship_goals": "Long-term",
+        "height": 169,
+        "school": "Chulalongkorn University",
+    },
 )
 
 user5 = UserInfo(
@@ -65,6 +89,12 @@ user5 = UserInfo(
     photos=["assets/yunjin.jpg"],
     gender="Female",
     id=str(uuid.uuid4()),
+    detail={
+        "bio": "I'm a member of LE SSERAFIM.",
+        "relationship_goals": "New friends",
+        "height": 172,
+        "school": "Srinakarinwirot University"
+    }
 )
 
 user6 = UserInfo(
@@ -76,6 +106,12 @@ user6 = UserInfo(
     photos=["assets/iu.jpg"],
     gender="Female",
     id=str(uuid.uuid4()),
+    detail={
+        "bio": "I'm a singer.",
+        "relationship_goals": "Just chatting",
+        "height": 162,
+        "school": "Chulalongkorn University",
+    },
 )
 
 user7 = UserInfo(
@@ -87,6 +123,12 @@ user7 = UserInfo(
     photos=["assets/chaewon.jpg"],
     gender="Female",
     id=str(uuid.uuid4()),
+    detail={
+        "bio": "I'm a member of LE SSERAFIM.",
+        "relationship_goals": "Long-term",
+        "height": 164,
+        "school": "Mahidol University",
+    },
 )
 
 user8 = UserInfo(
@@ -98,6 +140,12 @@ user8 = UserInfo(
     photos=["assets/wonyoung.jpg"],
     gender="Female",
     id=str(uuid.uuid4()),
+    detail={
+        "bio": "I'm a member of IVE.",
+        "relationship_goals": "New friends",
+        "height": 173,
+        "school": "Srinakarinwirot University",
+    },
 )
 
 user9 = UserInfo(
@@ -109,6 +157,12 @@ user9 = UserInfo(
     photos=["assets/sakura.jpeg"],
     gender="Female",
     id=str(uuid.uuid4()),
+    detail={
+        "bio": "I'm a member of LE SSERAFIM.",
+        "relationship_goals": "Open to all",
+        "height": 163,
+        "school": "UTCC",
+    },
 )
 
 user10 = UserInfo(
@@ -120,6 +174,12 @@ user10 = UserInfo(
     photos=["assets/hanni.jpg"],
     gender="Female",
     id=str(uuid.uuid4()),
+    detail={
+        "bio": "I'm a member of NewJeans.",
+        "relationship_goals": "Casual",
+        "height": 162,
+        "school": "Kasetsart University",
+    },
 )
 
 user11 = UserInfo(
@@ -131,6 +191,12 @@ user11 = UserInfo(
     photos=["assets/jennie.jpg"],
     gender="Female",
     id=str(uuid.uuid4()),
+    detail={
+        "bio": "I'm a singer, actress, and model under OA (ODD ATELIER) Entertainment.",
+        "relationship_goals": "Short-term",
+        "height": 163,
+        "school": "Srinakarinwirot University",
+    },
 )
 
 user12 = UserInfo(
@@ -142,6 +208,12 @@ user12 = UserInfo(
     photos=["assets/yujin.jpg"],
     gender="Female",
     id=str(uuid.uuid4()),
+    detail={
+        "bio": "I'm a member of IVE.",
+        "relationship_goals": "Casual",
+        "height": 173,
+        "school": "Thammasat University",
+    },
 )
 
 

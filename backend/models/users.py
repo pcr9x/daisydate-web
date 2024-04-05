@@ -67,3 +67,8 @@ class UserInfo(BaseUser):
     matches: List[str] = []
     daisies: int = 100
     logged_in: bool = False
+
+
+class AgeRange(BaseModel):
+    start_age: int
+    end_age: int

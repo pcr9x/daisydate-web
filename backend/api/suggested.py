@@ -60,30 +60,33 @@ def user_screening(current_user: UserInfo = Depends(get_current_user)):
             user.id == current_user.id):
             filtered_user.remove(user)
 
-    # Sort filtered_user based on current user's daisied list
-    sorted_user = sorted(
-        filtered_user,
-        key=lambda user: (
-            current_user.daisied.index(user.id)
-            if user.id in current_user.daisied
-            else float("inf")
-        ),
-    )
+    for p in root.values():
+        if current_user.id in p.daisied and p.id not in filtered_user_ids:
+            filtered_user.append(p)
+
+    # Sort filtered_user based on other user's daisied list
+    sorted_user = []
+    for p in filtered_user:
+        if current_user.id in p.daisied:
+            sorted_user.insert(0, p)
+        else:
+            sorted_user.append(p)
 
     return sorted_user
 
 
 @router.put("/suggested/preferences")
 async def adjust_pref(
-    preferences: UserPreferences, current_user: UserInfo = Depends(get_current_user)
+    pref: UserPreferences, current_user: UserInfo = Depends(get_current_user)
 ):
     user_id = current_user.id
     if user_id not in root:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
         )
+    current_user.preferences = pref
 
-    root[user_id].preferences = preferences
+    root[user_id] = current_user
     transaction.commit()
     return {"message": "User's preferences updated successfully"}
 
@@ -108,9 +111,11 @@ async def like_user(
 
     if current_user.id not in root:
         raise HTTPException(status_code=404, detail="Current user not found")
+    
+    current_user.liked.append(other_user_id)
+    current_user.daisies += 25
 
-    root[current_user.id].liked.append(other_user_id)
-    root[current_user.id].daisies += 25
+    root[current_user.id] = current_user
 
     # Check if the other user has already liked the current user
     if isMatch(current_user.id, other_user_id):
@@ -134,9 +139,11 @@ async def daisy_user(
 
     if root[current_user.id].daisies < 100:
         raise HTTPException(status_code=403, detail="Not enough daisies")
+    
+    current_user.daisied.append(other_user_id)
+    current_user.daisies -= 100
 
-    root[current_user.id].daisied.append(other_user_id)
-    root[current_user.id].daisies -= 100
+    root[current_user.id] = current_user
 
     if isMatch(current_user.id, other_user_id):
         createChatRoom(current_user.id, other_user_id)
@@ -157,6 +164,8 @@ async def dislike_user(
     if current_user.id not in root:
         raise HTTPException(status_code=404, detail="Current user not found")
 
-    root[current_user.id].disliked.append(other_user_id)
+    current_user.disliked.append(other_user_id)
+
+    root[current_user.id] = current_user
     transaction.commit()
     return {"message": "Dislike sent successfully"}
