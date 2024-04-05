@@ -263,6 +263,12 @@
         justify-content: space-between;
         gap: 5px;
       }
+
+      .chat-container {
+        position: absolute;
+        right: 50px;
+        top: 12px;
+      }
     </style>
 
     <script>
@@ -465,7 +471,14 @@
         getCurrentUserDetails();
         const prefNav = document.getElementById('filter-container').addEventListener('click', () => {
           window.location.href = "http://127.0.0.1:5500/frontend/pages/home/preference-page.html?";
-        })
+        });
+
+        const chatNav = document.getElementById('chat-container').addEventListener('click', () => {
+          const currentUserId = localStorage.getItem("currentUserId");
+          if(currentUserId){
+            window.location.href = `http://127.0.0.1:8000/messages/${currentUserId}`;
+          }
+        });
       });
     </script>
   </head>
@@ -478,6 +491,12 @@
           <p class="daisies-amount"></p>
         </div>
         Suggested
+        <div class="chat-container" id="chat-container">
+          <img
+            loading="lazy"
+            src="../../assets/icons/bottom-bar/chats-icon.svg"
+          >
+        </div>
         <div class="filter-container" id="filter-container">
           <img
             loading="lazy"
