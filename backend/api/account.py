@@ -5,6 +5,7 @@ from fastapi.security import OAuth2PasswordBearer
 from models.users import UserInfo, UserDetail
 from api.auth import root, SECRET_KEY, ALGORITHM
 import jwt, transaction
+from pydantic import BaseModel
 
 router = APIRouter()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/token")
@@ -79,3 +80,36 @@ async def logout_user(current_user: UserInfo = Depends(get_current_user)):
     root[current_user.id] = current_user
     transaction.commit()
     return {"message": "Logout successful"}
+
+@router.get("/account/preferences/{user_id}")
+async def user_preferences(user_id: str):
+    if user_id not in root:
+        raise HTTPException(status_code=404, detail=f"User with ID: {user_id} not found")
+    return root[user_id].preferences
+     
+     
+@router.post("/account/preferences/newGender/{user_id}/{gender}")
+async def edit_user_preferences(user_id:str, gender:str):
+    if user_id not in root:
+        raise HTTPException(status_code=404, detail=f"User with ID: {user_id} not found")
+    root[user_id].preferences.gender = gender
+    return {"message": "edit gender successfully"}
+
+class AgeRange(BaseModel):
+    start_age: int
+    end_age: int
+    
+@router.post("/account/preferences/newAgeRange/{user_id}")
+async def edit_user_preferences(user_id:str, age_range: AgeRange):
+    if user_id not in root:
+        raise HTTPException(status_code=404, detail=f"User with ID: {user_id} not found")
+    root[user_id].preferences.age[0] = age_range.start_age
+    root[user_id].preferences.age[1] = age_range.end_age
+    return {"message":"edit age successfully"}
+    
+@router.post("/account/preferences/newRelationshipGoals/{user_id}/{relationship_goals}")
+async def edit_user_preferences(user_id:str, relationship_goals):
+    if user_id not in root:
+        raise HTTPException(status_code=404, detail=f"User with ID: {user_id} not found")
+    root[user_id].preferences.relationship_goals = relationship_goals
+    return {"message":"edit relationship goals successfully"}   

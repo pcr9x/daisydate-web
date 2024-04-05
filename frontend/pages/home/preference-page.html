@@ -94,34 +94,330 @@
         background-color: #d9d9d9;
         margin-top: 15px;
       }
+
+      .input-bar{
+        position: absolute;
+        max-width: 480px;
+        width: 100%;
+        bottom: 40%;
+        background-color: white;
+        height: 300px;
+        z-index: 1;
+        border-top-left-radius: 50px;
+        border-top-right-radius: 50px;
+        box-shadow:inset 0px 5px 5px -5px black;
+        border: 0.5px solid black;
+      }
+
+      .select-form{
+        display: flex;
+        justify-content: center;
+        padding-top: 2rem;
+      }
+
+      .select-input{
+        padding: 1rem;
+        border-radius: 30px;
+      }
+
+      .submit-button{
+        padding: 1rem;
+        margin-left: 2rem;
+        border-radius: 30px;
+        border: 0px;
+        background-color: #ebce38;
+      }
+
+      .age-label{
+        margin-left: 1rem;
+        margin-right: 1rem;
+        align-self: center;
+        font-size: 1.5rem;
+      }
+
+      .text-input{
+        padding: 1rem;
+        border-radius: 30px;
+      }
+
     </style>
   </head>
   <body>
     <section class="preferences-container">
         <img
+          id="arrow-left-icon"
           src="../../assets/icons/arrows/arrow-left-icon.svg"
           alt="arrow-left-icon"
           class="arrow-left-icon"
         />
-      <div class="preferences-content">
+      <div class="preferences-content" id="preferences-content">
         <h2 class="preferences-title">What's your type?</h2>
         <p class="preferences-description">
           Preferences help us personalize your daily bath in <br />
           Suggested. Changes apply on the next day.
         </p>
         <div class="preferences-divider" aria-hidden="true"></div>
-        <h3 class="preferences-label">Gender</h3>
-        <p class="preferences-value">Women</p>
+        <h3 class="preferences-label" >Gender</h3>
+        <div id="gender-input">
+          <p class="preferences-value" id="gender-label"></p>
+        </div>
         <div class="preferences-divider-small" aria-hidden="true"></div>
         <div class="preferences-divider-small-alt" aria-hidden="true"></div>
         <h3 class="preferences-label">Age</h3>
-        <p class="preferences-value">18 - 26</p>
+        <div id="age-input">
+          <p class="preferences-value" id="age-label"></p>
+        </div>
         <div class="preferences-divider-small" aria-hidden="true"></div>
         <div class="preferences-divider-small-alt" aria-hidden="true"></div>
         <h3 class="preferences-label">Relationship Goals</h3>
-        <p class="preferences-value">Open to all</p>
+        <div id="relationship-goal-input">
+          <p class="preferences-value" id="relationship-goals-label"></p> 
+        </div>
         <div class="preferences-divider-small-alt" aria-hidden="true"></div>
       </div>
     </section>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('arrow-left-icon').addEventListener('click', () => {
+          window.location.href = "http://127.0.0.1:5500/frontend/pages/home/home-page.html";
+        })
+        const currentUserId = localStorage.getItem("currentUserId");
+        const getPrefURL = `http://127.0.0.1:8000/account/preferences/${currentUserId}`;
+
+        // make fetch api for these 3 url below
+
+        fetch(getPrefURL)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          // Process the retrieved data
+          const genderLabel = document.getElementById('gender-label');
+          genderLabel.innerHTML = data.gender;
+
+          const ageLabel = document.getElementById('age-label');
+          ageLabel.innerHTML = `${data.age[0]}-${data.age[1]}`;
+
+          const relationshipGoalsLabel = document.getElementById('relationship-goals-label');
+          if( data.relationship_goals){
+            relationshipGoalsLabel.innerHTML = data.relationship_goals;
+          }
+          console.log(data);
+          // Here you can update your UI with the retrieved data
+        })
+        .catch(error => {
+          console.error('There was a problem with the fetch operation:', error);
+        });
+      });
+      document.getElementById('gender-input').addEventListener('click', () => {
+        const container=  document.getElementById('preferences-content');
+
+        const form = document.createElement('form');
+        const selectInput = document.createElement('select');
+        const op1 = document.createElement('option');
+        const op2 = document.createElement('option');
+        const op3 = document.createElement('option');
+        const submitButton = document.createElement('input');
+        submitButton.type = 'submit';
+        submitButton.innerHTML = "Submit";
+        form.className = "select-form";
+        selectInput.className = 'select-input';
+        submitButton.className = 'submit-button';
+
+        op1.innerHTML = "Male";
+        op2.innerHTML = "Female";
+        op3.innerHTML = "Other";
+
+        selectInput.appendChild(op1);
+        selectInput.appendChild(op2);
+        selectInput.appendChild(op3);
+        form.appendChild(selectInput);
+        form.appendChild(submitButton);
+
+        const inputBar = document.createElement('div');
+        inputBar.className = "input-bar";
+
+        inputBar.appendChild(form);
+        container.appendChild(inputBar);
+
+          //fetch api
+
+        form.addEventListener('submit', (event) => {
+          //event.preventDefault(); // Prevent default form submission behavior
+          
+          // Get selected gender value
+          const selectedGender = selectInput.value;
+  
+          // Create data object to send in the request body
+          const data = {
+              gender: selectedGender
+          };
+  
+          // Send POST new gender request to the server
+          const currentUserId = localStorage.getItem("currentUserId");
+          const postNewGenderURL = `http://127.0.0.1:8000/account/preferences/newGender/${currentUserId}`;
+          fetch(`${postNewGenderURL}/${selectedGender}`, {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(data)
+          })
+          .then(response => {
+              if (!response.ok) {
+                  throw new Error('Network response was not ok');
+              }
+              return response.json();
+          })
+          .then(responseData => {
+              console.log(responseData); // Log response data
+              // Optionally, update UI or perform further actions based on response
+          })
+          .catch(error => {
+              console.error('There was a problem with the fetch operation:', error);
+          });
+        });
+      });
+
+      document.getElementById('age-input').addEventListener('click', () => {
+        const container=  document.getElementById('preferences-content');
+
+        const form = document.createElement('form');
+        const selectInput1 = document.createElement('select');
+        const selectInput2 = document.createElement('select');
+        const submitButton = document.createElement('input');
+        submitButton.type = 'submit';
+        submitButton.innerHTML = "Submit";
+        form.className = "select-form";
+        selectInput1.className = 'select-input';
+        selectInput2.className = 'select-input';
+        submitButton.className = 'submit-button';
+
+        for(let i = 18; i < 100; i++){
+          const option1 = document.createElement('option');
+          const option2 = document.createElement('option');
+          option1.innerHTML = i;
+          option2.innerHTML = i;
+          selectInput1.appendChild(option1);
+          selectInput2.appendChild(option2);
+        }
+
+        const a = document.createElement('a');
+        a.innerHTML = "to";
+        a.className = "age-label";
+        form.appendChild(selectInput1);
+        form.appendChild(a);
+        form.appendChild(selectInput2);
+        form.appendChild(submitButton);
+
+        const inputBar = document.createElement('div');
+        inputBar.className = "input-bar";
+
+        inputBar.appendChild(form);
+        container.appendChild(inputBar);
+
+        form.addEventListener('submit', (event) => {
+          //event.preventDefault(); // Prevent default form submission behavior
+          
+          // Get selected gender value
+          const selectedStartAge = selectInput1.value;
+          const selectedEndAge = selectInput2.value;
+  
+          // Create data object to send in the request body
+          const data = {
+              start_age:parseInt(selectedStartAge),
+              end_age:parseInt(selectedEndAge)
+          };
+  
+          // Send POST new gender request to the server
+          const currentUserId = localStorage.getItem("currentUserId");
+          const postNewAgeRangeURL = `http://127.0.0.1:8000/account/preferences/newAgeRange/${currentUserId}`;
+          if(parseInt(selectedStartAge) <= parseInt(selectedEndAge)){
+            fetch(postNewAgeRangeURL, {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(data)
+          })
+          .then(response => {
+              if (!response.ok) {
+                  throw new Error('Network response was not ok');
+              }
+              return response.json();
+          })
+          .then(responseData => {
+              console.log(responseData); // Log response data
+              // Optionally, update UI or perform further actions based on response
+          })
+          .catch(error => {
+              console.error('There was a problem with the fetch operation:', error);
+          });
+          }
+        });
+      });
+
+      document.getElementById('relationship-goal-input').addEventListener('click', () => {
+        const container=  document.getElementById('preferences-content');
+
+        const form = document.createElement('form');
+        const submitButton = document.createElement('input');
+        const textInput = document.createElement('input');
+        textInput.type = 'text';
+        textInput.className = 'text-input';
+        submitButton.type = 'submit';
+        submitButton.innerHTML = 'Submit';
+        submitButton.className = 'submit-button';
+        form.className = 'select-form';
+
+        form.appendChild(textInput);
+        form.appendChild(submitButton);
+
+        const inputBar = document.createElement('div');
+        inputBar.className = 'input-bar';
+
+        inputBar.appendChild(form);
+        container.appendChild(inputBar);
+        form.addEventListener('submit', (event) => {
+          //event.preventDefault(); // Prevent default form submission behavior
+          
+          // Get selected gender value
+          const selectedRelationshipGoals = textInput.value;
+  
+          // Create data object to send in the request body
+          const data ={ 
+              relationship_goals: selectedRelationshipGoals
+          };
+  
+          // Send POST new gender request to the server
+          const currentUserId = localStorage.getItem("currentUserId");
+          const postNewRelationshipURL = `http://127.0.0.1:8000/account/preferences/newRelationshipGoals/${currentUserId}/${selectedRelationshipGoals}`;
+          fetch(postNewRelationshipURL, {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(data)
+          })
+          .then(response => {
+              if (!response.ok) {
+                  throw new Error('Network response was not ok');
+              }
+              return response.json();
+          })
+          .then(responseData => {
+              console.log(responseData); // Log response data
+              // Optionally, update UI or perform further actions based on response
+          })
+          .catch(error => {
+              console.error('There was a problem with the fetch operation:', error);
+          });
+        });
+
+      });
+    </script>
   </body>
 </html>

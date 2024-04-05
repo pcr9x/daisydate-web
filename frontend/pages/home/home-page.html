@@ -463,6 +463,9 @@
       document.addEventListener("DOMContentLoaded", function () {
         fetchSuggestedUsers();
         getCurrentUserDetails();
+        const prefNav = document.getElementById('filter-container').addEventListener('click', () => {
+          window.location.href = "http://127.0.0.1:5500/frontend/pages/home/preference-page.html?";
+        })
       });
     </script>
   </head>
@@ -475,7 +478,7 @@
           <p class="daisies-amount"></p>
         </div>
         Suggested
-        <div class="filter-container">
+        <div class="filter-container" id="filter-container">
           <img
             loading="lazy"
             src="../../assets/icons/actions/filter-icon.svg"
