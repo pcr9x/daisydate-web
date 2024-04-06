@@ -18,7 +18,6 @@ class UserDetail(BaseModel):
     relationship_goals: str = (
         None  # Long-term, Short-term, New friends, Casual, Just chatting, Open to all
     )
-    height: int = None  # [100, 250]
     school: str = None
     # languages: str = None # No choices
 
@@ -72,3 +71,9 @@ class UserInfo(BaseUser):
 class AgeRange(BaseModel):
     start_age: int
     end_age: int
+
+class EditProfile(BaseModel):
+  photo: str = None
+  bio: str = None
+  relationship_goals: str = None
+  school: str = None

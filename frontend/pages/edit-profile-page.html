@@ -1,287 +1,246 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Daisydate | Just buy them a daisy</title>
-    <link
-      rel="stylesheet"
-      href="https://pyscript.net/releases/2024.1.1/core.css"
-    />
-    <script
-      type="module"
-      src="https://pyscript.net/releases/2024.1.1/core.js"
-    ></script>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Daisydate | Just buy them a daisy</title>
+  <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css" />
+  <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
 
-    <!--=============== CSS ===============-->
-    <style>
-      .div {
-        background-color: #fff;
-        display: flex;
-        max-width: 400px;
-        flex-direction: column;
-        align-items: center;
-        padding: 20px 0px 20px 30px;
-      }
-      .div-2 {
-        text-align: center;
-        color: #2c2c2c;
-        font: 500 20px Inter, sans-serif;
-      }
-      .div-3 {
-        color: #2c2c2c;
-        margin-top: 21px;
-        font: 500 14px Inter, sans-serif;
-      }
-      .div-4 {
-        align-self: stretch;
-        display: flex;
-        margin-top: 16px;
-        width: 100%;
-        flex-direction: column;
-        padding: 0 16px;
-      }
-      .div-5 {
-        display: flex;
-        gap: 16px;
-      }
-      .div-6 {
-        background-color: #d9d9d9;
-        width: 240px;
-        height: 240px;
-        aspect-ratio: 1;
-      }
-      .div-7 {
-        display: flex;
-        flex-direction: column;
-      }
-      .div-8 {
-        background-color: #d9d9d9;
-        width: 112px;
-        height: 112px;
-      }
-      .div-9 {
-        background-color: #d9d9d9;
-        margin-top: 16px;
-        width: 112px;
-        height: 112px;
-      }
-      .div-10 {
-        display: flex;
-        margin-top: 16px;
-        gap: 16px;
-      }
-      .div-11 {
-        background-color: #d9d9d9;
-        width: 112px;
-        height: 112px;
-      }
-      .div-12 {
-        background-color: #d9d9d9;
-        width: 112px;
-        height: 112px;
-      }
-      .div-13 {
-        background-color: #d9d9d9;
-        width: 112px;
-        height: 112px;
-      }
-      .div-14 {
-        border-radius: 15px;
-        background-color: #ebce38;
-        margin-top: 29px;
-        display: flex;
-        align-items: center;
-        color: #000;
-        justify-content: center;
-        padding: 23px 60px;
-        font: 500 16px Inter, sans-serif;
-      }
+  <!--=============== CSS ===============-->
+  <style>
+    .div {
+      background-color: #fff;
+      display: flex;
+      max-width: 400px;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 0px 20px 20px;
+    }
+    .div-2 {
+      text-align: center;
+      color: #2c2c2c;
+      font: 500 20px Inter, sans-serif;
+    }
+    .div-3 {
+      color: #2c2c2c;
+      margin-top: 21px;
+      font: 500 14px Inter, sans-serif;
+    }
+    .div-4 {
+      align-self: stretch;
+      display: flex;
+      margin-top: 16px;
+      width: 100%;
+      flex-direction: column;
+      padding: 0 16px;
+    }
+    .div-5 {
+      display: flex;
+      gap: 16px;
+    }
+    .div-6 {
+      background-color: #d9d9d9;
+      width: 240px;
+      height: 240px;
+      aspect-ratio: 1;
+    }
+    .div-7 {
+      display: flex;
+      flex-direction: column;
+    }
+    .div-8 {
+      background-color: #d9d9d9;
+      width: 112px;
+      height: 112px;
+    }
+    .div-9 {
+      background-color: #d9d9d9;
+      margin-top: 16px;
+      width: 112px;
+      height: 112px;
+    }
+    .div-10 {
+      display: flex;
+      margin-top: 16px;
+      gap: 16px;
+    }
+    .div-11 {
+      background-color: #d9d9d9;
+      width: 112px;
+      height: 112px;
+    }
+    .div-12 {
+      background-color: #d9d9d9;
+      width: 112px;
+      height: 112px;
+    }
+    .div-13 {
+      background-color: #d9d9d9;
+      width: 112px;
+      height: 112px;
+    }
+    .div-14 {
+      border-radius: 15px;
+      background-color: #ebce38;
+      margin-top: 29px;
+      display: flex;
+      align-items: center;
+      color: #000;
+      justify-content: center;
+      padding: 23px 60px;
+      font: 500 16px Inter, sans-serif;
+    }
 
-      .informations-container {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-        margin-top: 10px;
-        width: 100%;
-      }
-      .bio-container {
-        background-color: #d9d9d9;
-        margin-top: 16px;
-        height: 70px;
-        border: none;
-        border-radius: 10px;
-        padding: 10px;
-        width: 96%;
-      }
-      .relationship-container {
-        background-color: #d9d9d9;
-        margin-top: 16px;
-        height: 60px;
-        border: none;
-        border-radius: 10px;
-        padding: 10px;
-        width: 100%;
-      }
-      .school-container {
-        background-color: #d9d9d9;
-        margin-top: 16px;
-        height: 60px;
-        border: none;
-        border-radius: 10px;
-        padding: 10px;
-        width: 100%;
-      }
-    </style>
-    <script>
-      function updateImagePreview(input) {
-        if (input.files && input.files[0]) {
-          var reader = new FileReader();
-          reader.onload = function (e) {
-            input.style.backgroundImage = "url(" + e.target.result + ")";
-            input.style.backgroundSize = "cover";
-            input.style.backgroundPosition = "center";
-          };
-          reader.readAsDataURL(input.files[0]);
-        }
-      }
+    .informations-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 10px;
+      width: 100%;
+    }
+    .bio-container {
+      background-color: #d9d9d9;
+      margin-top: 16px;
+      border: none;
+      border-radius: 10px;
+      padding: 10px;
+      width: 96%;
+    }
 
-      async function submitPhotos() {
-        const form = document.getElementById("photo-form");
-        const formData = new FormData(form);
+    .relationship-container,
+    .school-container {
+      background-color: #d9d9d9;
+      margin-top: 16px;
+      border: none;
+      border-radius: 10px;
+      padding: 10px;
+      width: 96%; /* Changed width to 96% */
+    }
+    .user-profile-container {
+      background-color: #d9d9d9;
+      margin-top: 16px;
+      border: none;
+      border-radius: 10px;
+      padding: 10px;
+      width: 96%;
+      height: 400px;
+    }
+  </style>
+  <script>
+    function updateImagePreview(input) {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          input.style.backgroundImage = "url(" + e.target.result + ")";
+          input.style.backgroundSize = "cover";
+          input.style.backgroundPosition = "center";
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
 
-        const registration_id = localStorage.getItem('registration_id'); 
-        // Append registration_id to formData
-        formData.append('registration_id', registration_id);
+    async function getUserProfileDetails() {
+      const currentUserId = localStorage.getItem("currentUserId");
 
-        // Get the file inputs
-        const fileInputs = document.querySelectorAll('input[type="file"]');
+      try {
+        const response = await fetch(
+          `http://127.0.0.1:8000/account/userDetails/${currentUserId}`
+        );
+        const data = await response.json();
+        displayUserProfileDetails(data);
+        console.log('my user data:', data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
 
-        // Append each file to formData
-        fileInputs.forEach(input => {
-          const files = input.files;
-          for (let i = 0; i < files.length; i++) {
-            formData.append('photos', files[i]);
-          }
+    function displayUserProfileDetails(data) {
+      const userImageContainer = document.querySelector(".user-profile-container");
+      const bioContainer = document.querySelector(".bio-container");
+      const relationshipGoalsContainer = document.querySelector(".relationship-container");
+      const schoolContainer = document.querySelector(".school-container");
+      photoUrl = `../../backend/${data.photos[0]}`
+      userImageContainer.style.backgroundImage = `url(${photoUrl})`;
+      userImageContainer.style.backgroundSize = "cover";
+      bioContainer.value = data.bio ? data.bio : "Enter your bio here";
+      relationshipGoalsContainer.value = data.relationship_goals ? data.relationship_goals : "Relationship Goals";
+      schoolContainer.value = data.school ? data.school : "School";
+    }
+
+
+    function updateProfileDetails() {
+      const bio = document.querySelector(".bio-container").value;
+      const relationshipGoals = document.querySelector(".relationship-container").value;
+      const school = document.querySelector(".school-container").value;
+      const currentUserId = localStorage.getItem("currentUserId");
+
+      const formData = new FormData();
+      formData.append("bio", bio);
+      formData.append("relationship_goals", relationshipGoals);
+      formData.append("school", school);
+
+      try {
+        fetch(`http:///account/detail/${currentUserId}`, {
+          method: "PUT",
+          body: formData,
         });
 
-        try {
-          const response = await fetch(
-            "http://127.0.0.1:8000/auth/signup/photos",
-            {
-              method: "POST",
-              body: formData, // FormData will be sent as multipart/form-data
-            }
-          );
+        console.log("Profile details updated successfully");
 
-          if (response.ok) {
-            const data = await response.json();
-            console.log("Photos uploaded:", data);
-
-            localStorage.setItem('accessToken', data.access_token);
-            localStorage.setItem('currentUserId', data.user_id);
-            
-            window.location.href = "../../home-page.html";
-          } else {
-            const errorData = await response.json();
-            alert("Failed to upload photos: " + errorData.detail);
-          }
-        } catch (error) {
-          console.error("Error during photo upload:", error);
-          alert("An error occurred while uploading photos.");
-        }
+        window.location.href = "./home-page.html";
+      } catch (error) {
+        console.error(error);
       }
-    </script>
-  </head>
-  <body>
-    <div class="div">
-      <div class="div-2">Edit Profile</div>
-      <form id="photo-form" class="div-4" enctype="multipart/form-data">
-        <div class="div-5">
-          <input
-            type="file"
-            accept="image/*"
-            class="div-6"
-            onchange="updateImagePreview(this)"
-          />
-          <div class="div-7">
-            <input
-              type="file"
-              accept="image/*"
-              class="div-8"
-              onchange="updateImagePreview(this)"
-            />
-            <input
-              type="file"
-              accept="image/*"
-              class="div-9"
-              onchange="updateImagePreview(this)"
-            />
-          </div>
-        </div>
-        <div class="div-10">
-          <input
-            type="file"
-            accept="image/*"
-            class="div-11"
-            onchange="updateImagePreview(this)"
-          />
-          <input
-            type="file"
-            accept="image/*"
-            class="div-12"
-            onchange="updateImagePreview(this)"
-          />
-          <input
-            type="file"
-            accept="image/*"
-            class="div-13"
-            onchange="updateImagePreview(this)"
-          />
-        </div>
-        <form 
-          id="informations-form" 
-          class="informations-container"
-          enctype="multipart/form-data"
-        >
-        <div>
-          <input
-            type="text"
-            placeholder="Bio"
-            class="bio-container"
-          />
-        </div>
-        <div>
-          <select id="gender" class="relationship-container" name="gender">
-            <option value="">Relationship Goals</option>
-            <option value="Male">Long-term</option>
-            <option value="Short-term">Short term</option>
-            <option value="New friends">New friends</option>
-            <option value="Open to all">Open to all</option>
-            <option value="Casual">Casual</option>
-          </select>
-        </div>
-        <div>
-          <select id="school" class="school-container" name="school">
-            <option value="">School</option>
-            <option value="Chula">Chula</option>
-            <option value="Thammasat">Thammasat</option>
-            <option value="KMITL">KMITL</option>
-            <option value="KMUTT">KMUTT</option>
-            <option value="KU">KU</option>
-            <option value="ABAC">ABAC</option>
-            <option value="BU">BU</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
-        
-        </form>
-        <input type="button" value="Done" class="div-14" 
-          onclick="submitPhotos()" 
-        />
-        
-        </div>
-        
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      getUserProfileDetails();
+    });
+  </script>
+</head>
+<body>
+<div class="div">
+  <div class="div-2">Edit Profile</div>
+  <form id="informations-form" class="informations-container" >
+    <input
+        type="file"
+        accept="image/*"
+        class="user-profile-container"
+        onchange="updateImagePreview(this)"
+      />
+    <div>
+      <input
+        type="text"
+        placeholder="Bio"
+        class="bio-container"
+      />
     </div>
-  </body>
+    <div>
+      <select id="relationship" class="relationship-container" name="relationship">
+        <option value="">Relationship Goals</option>
+        <option value="Long-term">Long-term</option>
+        <option value="Short-term">Short term</option>
+        <option value="New friends">New friends</option>
+        <option value="Open to all">Open to all</option>
+        <option value="Casual">Casual</option>
+      </select>
+    </div>
+    <div>
+      <select id="school" class="school-container" name="school">
+        <option value="">School</option>
+        <option value="Chula">Chula</option>
+        <option value="Thammasat">Thammasat</option>
+        <option value="KMITL">KMITL</option>
+        <option value="KMUTT">KMUTT</option>
+        <option value="KU">KU</option>
+        <option value="ABAC">ABAC</option>
+        <option value="BU">BU</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+  </form>
+  <input type="button" value="Done" class="div-14" onclick="updateProfileDetails()" />
+</div>
+</body>
 </html>

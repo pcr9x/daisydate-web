@@ -1,10 +1,11 @@
 from fastapi import HTTPException, APIRouter, status
-from models.users import UserInfo, UserDetail
+from models.users import UserInfo, UserDetail, EditProfile
 from fastapi import APIRouter, HTTPException, status, Depends
 from fastapi.security import OAuth2PasswordBearer
 from models.users import UserInfo, UserDetail, AgeRange
-from api.auth import root, SECRET_KEY, ALGORITHM
+from api.auth import root, SECRET_KEY, ALGORITHM, save_uploaded_file
 import jwt, transaction
+from pydantic import BaseModel
 
 router = APIRouter()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/token")
@@ -27,13 +28,24 @@ async def get_all_users():
 
 
 @router.put("/account/detail/{user_id}")
-async def update_user(user_id: str, detail: UserDetail):
+async def update_user(user_id: str, detail: EditProfile):
     if user_id not in root:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
         )
-
-    root[user_id].detail = detail
+        
+    photo_paths = []
+    for photo in detail.photos:
+        contents = await photo.read()
+        file_path = save_uploaded_file(contents, photo.filename, user_id)
+        photo_paths.append(file_path)
+        
+    user = root[user_id]
+    user.detail.bio = detail.bio
+    user.detail.relationship_goals = detail.relationship_goals
+    user.detail.school = detail.school
+    user.photos = photo_paths
+    root[user_id] = user
     transaction.commit()
     return {"message": "User's detail updated successfully"}
 
@@ -131,3 +143,19 @@ async def edit_user_preferences(user_id: str, relationship_goals):
     root[user_id] = user
     transaction.commit()
     return {"message": "edit relationship goals successfully"}
+
+class UserDetailResponse(BaseModel):
+    bio:str
+    relationship_goals:str
+    school:str
+    photos: list[str]
+
+@router.get("/account/userDetails/{user_id}", response_model=UserDetailResponse)
+async def get_user(user_id: str):
+    if user_id not in root:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
+        )
+
+    user = root[user_id]
+    return UserDetailResponse(bio=user.detail.bio, relationship_goals=user.detail.relationship_goals, school=user.detail.school, photos=user.photos)
