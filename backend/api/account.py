@@ -151,7 +151,7 @@ class UserDetailResponse(BaseModel):
     photos: list[str]
 
 @router.get("/account/userDetails/{user_id}", response_model=UserDetailResponse)
-async def get_user(user_id: str):
+async def get_user_datail(user_id: str):
     if user_id not in root:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
