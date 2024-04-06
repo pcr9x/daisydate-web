@@ -388,7 +388,8 @@
 
         // PHOTOS
         const userPhotoContainer = document.querySelector(".photos-container");
-        userPhotoContainer.style.backgroundImage = `url('${user.photos[0]}')`;
+        const photoUrl = `../../backend/${user.photos[0]}`;
+        userPhotoContainer.style.backgroundImage = `url('${photoUrl}')`;
         userPhotoContainer.style.backgroundSize = "cover";
 
         // PHOTOS NUMBER INDICATOR
@@ -406,13 +407,13 @@
 
         actionsContainer.innerHTML += `
           <button class="close-container" onclick="dislikeUser('${user.id}')">
-            <img loading="lazy" src="../../assets/icons/actions/cross-icon.svg" class="close-icon" />
+            <img loading="lazy" src="../assets/icons/actions/cross-icon.svg" class="close-icon" />
           </button>
           <button class="daisy-container" onclick="daisyUser('${user.id}')">
-            <img loading="lazy" src="../../assets/icons/actions/daisy-icon.svg" class="daisy-icon" />
+            <img loading="lazy" src="../assets/icons/actions/daisy-icon.svg" class="daisy-icon" />
           </button>
           <button class="heart-container" onclick="likeUser('${user.id}')">
-            <img loading="lazy" src="../../assets/icons/actions/heart-icon.svg" class="heart-icon" />
+            <img loading="lazy" src="../assets/icons/actions/heart-icon.svg" class="heart-icon" />
           </button>
         `;
       }
@@ -509,28 +510,28 @@
       <!-- HEADER -->
       <div class="header-container">
         <div class="daisies-amount-container">
-          <img loading="lazy" src="../../assets/icons/actions/daisy-icon.svg" />
+          <img loading="lazy" src="../assets/icons/actions/daisy-icon.svg" />
           <p class="daisies-amount"></p>
         </div>
         Suggested
         <div class="chat-container" id="chat-container">
           <img
             loading="lazy"
-            src="../../assets/icons/bottom-bar/chats-icon.svg"
+            src="../assets/icons/bottom-bar/chats-icon.svg"
             height="20px"
           />
         </div>
         <div class="profile-container" id="profile-container">
           <img
             loading="lazy"
-            src="../../assets/icons/bottom-bar/profile-icon.svg"
+            src="../assets/icons/bottom-bar/profile-icon.svg"
             height="20px"
           />
         </div>
         <div class="filter-container" id="filter-container">
           <img
             loading="lazy"
-            src="../../assets/icons/actions/filter-icon.svg"
+            src="../assets/icons/actions/filter-icon.svg"
           />
         </div>
       </div>
