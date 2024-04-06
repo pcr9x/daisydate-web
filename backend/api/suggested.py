@@ -52,14 +52,16 @@ async def user_screening(current_user: UserInfo = Depends(get_current_user)):
     )
 
     # Filter the original list of users based on the intersection of ids
-    filtered_user = [user for user in root.values() if user.id in filtered_user_ids]
-    for user in filtered_user:
-        if (user.id in current_user.matches or 
-            user.id in current_user.liked or 
-            user.id in current_user.daisied or 
-            user.id in current_user.disliked or
-            user.id == current_user.id):
-            filtered_user.remove(user)
+    filtered_user = [
+        user
+        for user in root.values()
+        if user.id in filtered_user_ids
+        and user.id not in current_user.matches
+        and user.id not in current_user.liked
+        and user.id not in current_user.daisied
+        and user.id not in current_user.disliked
+        and user.id != current_user.id
+    ]
 
     for p in root.values():
         if current_user.id in p.daisied and p.id not in filtered_user_ids:
@@ -73,10 +75,7 @@ async def user_screening(current_user: UserInfo = Depends(get_current_user)):
         else:
             sorted_user.append(p)
 
-    sorted_user = deque(sorted_user)
-    user = sorted_user.popleft()
-
-    return user
+    return sorted_user
 
 
 @router.put("/suggested/preferences")

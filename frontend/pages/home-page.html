@@ -339,14 +339,14 @@
         }
       }
 
-      function displaySuggestedUsers(user) {
-        // if (users.length === 0) {
-        //   console.log("No suggested users found");
-        //   return;
-        // }
+      function displaySuggestedUsers(users) {
+        if (users.length === 0) {
+          console.log("No suggested users found");
+          return;
+        }
 
         // TODO: Change to loop
-        // const user = users[0];
+        const user = users[0];
         console.log("user:", user);
 
         // NAME, AGE
