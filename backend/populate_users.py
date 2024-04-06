@@ -55,7 +55,7 @@ user3 = UserInfo(
     photos=["assets/wit.jpg"],
     gender="Prefer not to say",
     detail={
-        "bio": "I love SEP.",
+        "bio": "I love Software engineering principle.",
         "relationship_goals": "Casual",
         "height": 180,
         "school": "KMITL",

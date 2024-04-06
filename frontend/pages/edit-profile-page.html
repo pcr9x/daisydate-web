@@ -21,9 +21,10 @@
         max-width: 400px;
         flex-direction: column;
         align-items: center;
-        padding: 54px 0 20px;
+        padding: 20px 0px 20px 30px;
       }
       .div-2 {
+        text-align: center;
         color: #2c2c2c;
         font: 500 20px Inter, sans-serif;
       }
@@ -96,6 +97,41 @@
         padding: 23px 60px;
         font: 500 16px Inter, sans-serif;
       }
+
+      .informations-container {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        margin-top: 10px;
+        width: 100%;
+      }
+      .bio-container {
+        background-color: #d9d9d9;
+        margin-top: 16px;
+        height: 70px;
+        border: none;
+        border-radius: 10px;
+        padding: 10px;
+        width: 96%;
+      }
+      .relationship-container {
+        background-color: #d9d9d9;
+        margin-top: 16px;
+        height: 60px;
+        border: none;
+        border-radius: 10px;
+        padding: 10px;
+        width: 100%;
+      }
+      .school-container {
+        background-color: #d9d9d9;
+        margin-top: 16px;
+        height: 60px;
+        border: none;
+        border-radius: 10px;
+        padding: 10px;
+        width: 100%;
+      }
     </style>
     <script>
       function updateImagePreview(input) {
@@ -159,8 +195,7 @@
   </head>
   <body>
     <div class="div">
-      <div class="div-2">Add your photo!</div>
-      <div class="div-3">Add at least 2 photo</div>
+      <div class="div-2">Edit Profile</div>
       <form id="photo-form" class="div-4" enctype="multipart/form-data">
         <div class="div-5">
           <input
@@ -204,8 +239,49 @@
             onchange="updateImagePreview(this)"
           />
         </div>
-        <input type="button" value="Let’s find my daisy!" class="div-14" onclick="submitPhotos()" />
-      </div>
+        <form 
+          id="informations-form" 
+          class="informations-container"
+          enctype="multipart/form-data"
+        >
+        <div>
+          <input
+            type="text"
+            placeholder="Bio"
+            class="bio-container"
+          />
+        </div>
+        <div>
+          <select id="gender" class="relationship-container" name="gender">
+            <option value="">Relationship Goals</option>
+            <option value="Male">Long-term</option>
+            <option value="Short-term">Short term</option>
+            <option value="New friends">New friends</option>
+            <option value="Open to all">Open to all</option>
+            <option value="Casual">Casual</option>
+          </select>
+        </div>
+        <div>
+          <select id="school" class="school-container" name="school">
+            <option value="">School</option>
+            <option value="Chula">Chula</option>
+            <option value="Thammasat">Thammasat</option>
+            <option value="KMITL">KMITL</option>
+            <option value="KMUTT">KMUTT</option>
+            <option value="KU">KU</option>
+            <option value="ABAC">ABAC</option>
+            <option value="BU">BU</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        
+        </form>
+        <input type="button" value="Done" class="div-14" 
+          onclick="submitPhotos()" 
+        />
+        
+        </div>
+        
     </div>
   </body>
 </html>

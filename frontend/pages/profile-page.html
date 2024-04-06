@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Daisydate | Just buy them a daisy</title>
+    <link
+      rel="stylesheet"
+      href="https://pyscript.net/releases/2024.1.1/core.css"
+    />
+    <script
+      type="module"
+      src="https://pyscript.net/releases/2024.1.1/core.js"
+    ></script>
+
+    <!--=============== CSS ===============-->
+    <style>
+      .div {
+        background-color: #fff;
+        display: flex;
+        max-width: 100%;
+        flex-direction: column;
+      }
+
+      .div-3 {
+        background-color: #fff;
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        align-items: end;
+        padding: 46px 16px 5px 80px;
+      }
+      .img {
+        aspect-ratio: 1.41;
+        object-fit: auto;
+        object-position: center;
+        width: 24px;
+      }
+      .div-4 {
+        color: #2c2c2c;
+        font: 16px Inter, sans-serif;
+      }
+      .div-5 {
+        color: #707070;
+        align-self: center;
+        margin-top: 7px;
+        font: 12px Inter, sans-serif;
+      }
+      .photos-container {
+        background-color: #ebce38;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        font-size: 8px;
+        color: #fff;
+        font-weight: 500;
+        white-space: nowrap;
+        aspect-ratio: 1;
+        padding: 80px 15px 16px;
+        height: 400px;
+      }
+      .photos-number-indicator {
+        font-family: Inter, sans-serif;
+        justify-content: center;
+        border-radius: 10px;
+        background-color: rgba(112, 112, 112, 0.5);
+        margin-top: 385px;
+        padding: 3px 7px;
+      }
+      .information-container {
+        display: flex;
+        margin-top: 21px;
+        width: 100%;
+        flex-direction: column;
+        padding: 0 16px;
+      }
+      .name-age-container {
+        color: #454545;
+        font: 600 14px Inter, sans-serif;
+      }
+      .institution-container {
+        color: #888787;
+        margin-top: 10px;
+        font: 600 12px Inter, sans-serif;
+      }
+      .horizontal-line {
+        border-color: rgba(217, 217, 217, 1);
+        border-style: solid;
+        border-width: 1px;
+        background-color: #d9d9d9;
+        margin-top: 11px;
+        height: 0.1px;
+        max-width: 93%;
+      }
+      .preference-container {
+        justify-content: center;
+        border-radius: 5px;
+        background-color: #ebce38;
+        margin-top: 18px;
+        width: 152px;
+        max-width: 100%;
+        color: #2c2c2c;
+        padding: 5px;
+        font: 500 10px Inter, sans-serif;
+      }
+      .actions-container {
+        align-self: center;
+        display: flex;
+        margin-top: 24px;
+        gap: 20px;
+        margin-left: -40px;
+        justify-content: space-between;
+      }
+      .close-container {
+        justify-content: center;
+        align-items: center;
+        border-radius: 100px;
+        box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.25);
+        background-color: #fff;
+        display: flex;
+        width: 50px;
+        height: 50px;
+        padding: 8px;
+      }
+      .close-icon {
+        aspect-ratio: 1;
+        object-fit: auto;
+        object-position: center;
+        width: 21px;
+        fill: #454545;
+      }
+      .daisy-container {
+        justify-content: center;
+        align-items: center;
+        border-radius: 100px;
+        box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.25);
+        background-color: #fff;
+        display: flex;
+        width: 35px;
+        height: 35px;
+        margin: auto 0;
+        padding: 2px;
+      }
+      .daisy-icon {
+        aspect-ratio: 1;
+        object-fit: auto;
+        object-position: center;
+        width: 20px;
+        fill: #ebce38;
+      }
+      .heart-container {
+        justify-content: center;
+        align-items: center;
+        border-radius: 100px;
+        box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.25);
+        background-color: #fff;
+        display: flex;
+        width: 50px;
+        height: 50px;
+        padding: 4px 3px;
+      }
+      .heart-icon {
+        aspect-ratio: 1.08;
+        object-fit: auto;
+        object-position: center;
+        width: 30px;
+        fill: #ebce38;
+      }
+      .div-17 {
+        border-color: rgba(217, 217, 217, 1);
+        border-style: solid;
+        border-top-width: 1px;
+        display: flex;
+        margin-top: 23px;
+        width: 100%;
+        flex-direction: column;
+        font-size: 10px;
+        color: #707070;
+        font-weight: 500;
+        white-space: nowrap;
+        justify-content: center;
+        padding: 1px 0;
+      }
+      .div-18 {
+        background-color: #fff;
+        display: flex;
+        width: 100%;
+        align-items: start;
+        gap: 20px;
+        padding: 17px 27px;
+      }
+      .div-19 {
+        align-self: stretch;
+        display: flex;
+        flex-direction: column;
+        color: #ebce38;
+        flex: 1;
+      }
+      .img-5 {
+        aspect-ratio: 1.39;
+        object-fit: auto;
+        object-position: center;
+        width: 50px;
+        align-self: center;
+      }
+      .div-20 {
+        font-family: Inter, sans-serif;
+      }
+      .div-21 {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+      }
+      .img-6 {
+        aspect-ratio: 1.14;
+        object-fit: auto;
+        object-position: center;
+        width: 41px;
+        align-self: center;
+      }
+      .div-22 {
+        font-family: Inter, sans-serif;
+      }
+      .div-23 {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+      }
+      .img-7 {
+        aspect-ratio: 1;
+        object-fit: auto;
+        object-position: center;
+        width: 36px;
+        align-self: center;
+      }
+      .img-8 {
+        aspect-ratio: 1;
+        object-fit: auto;
+        object-position: center;
+        width: 36px;
+        align-self: center;
+      }
+      .header-container {
+        font-family: Inter, sans-serif;
+        font: medium;
+        display: flex;
+        flex-direction: column;
+        justify-items: center;
+        align-items: center;
+        padding: 10px;
+      }
+      .edit-profile-container {
+        position: absolute;
+        right: 10px;
+        top: 20px;
+        color: #ebce38;
+        cursor: pointer;
+      }
+      .daisies-amount-container {
+        position: absolute;
+        left: 10px;
+        top: 3px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 5px;
+      }
+
+      .chat-container {
+        position: absolute;
+        right: 50px;
+        top: 20px;
+      }
+    </style>
+
+    <script>
+      async function getCurrentUserDetails() {
+        const currentUserId = localStorage.getItem("currentUserId");
+        if (!currentUserId) {
+          console.error("No current user found");
+          return;
+        }
+
+        try {
+          const response = await fetch(
+            `http://127.0.0.1:8000/account/${currentUserId}`,
+            {
+              method: "GET",
+            }
+          );
+
+          if (response.ok) {
+            console.log("Current user fetched successfully");
+            const currentUser = await response.json();
+            console.log("currentUser:", currentUser);
+            document.querySelector(".daisies-amount").textContent =
+              currentUser.daisies;
+
+            displayMyProfile(currentUser);
+          } else {
+            console.error("Failed to fetch current user");
+          }
+        } catch (error) {
+          console.error("Error fetching current user:", error);
+        }
+      }
+
+      function displayMyProfile(user) {
+        // NAME, AGE
+        const userInfoContainer = document.querySelector(".name-age-container");
+        userInfoContainer.textContent = `${user.name}, ${user.age}`;
+
+        // INSTITUTION
+        const userDetailContainer = document.querySelector(
+          ".institution-container"
+        );
+        userDetailContainer.textContent = `${
+          user.detail.school ? user.detail.school : "No institution"
+        }`;
+
+        // PREFERENCES
+        const userPreferencesContainer = document.querySelector(
+          ".preference-container"
+        );
+        function formatPreferences(preferences) {
+          if (preferences && Object.keys(preferences).length !== 0) {
+            const { age, gender, relationship_goals } = preferences;
+
+            const ageText = age ? `Age ${age[0]} to ${age[1]}` : "Any age";
+
+            const genderText = gender ? gender : "Everyone";
+
+            const relationshipGoalsText = relationship_goals
+              ? relationship_goals
+              : "any relationship goals";
+
+            return `Looking for: ${ageText}, ${genderText}, ${relationshipGoalsText}`;
+          } else {
+            return "No preferences";
+          }
+        }
+
+        userPreferencesContainer.textContent = formatPreferences(
+          user.preferences
+        );
+
+        // PHOTOS
+        const userPhotoContainer = document.querySelector(".photos-container");
+        console.log("user.photos:", user.photos);
+        userPhotoContainer.style.backgroundImage = `url('${user.photos[0]}')`;
+        userPhotoContainer.style.backgroundSize = "cover";
+
+        // PHOTOS NUMBER INDICATOR
+        const photosNumberIndicator = document.querySelector(
+          ".photos-number-indicator"
+        );
+        if (user.photos.length > 1) {
+          photosNumberIndicator.textContent = `1/${user.photos.length}`; // Show the first photo out of the total number
+        } else {
+          photosNumberIndicator.style.display = "none";
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        getCurrentUserDetails();
+
+        const navigateToEditProfile = document
+          .getElementById("edit-profile-container")
+          .addEventListener("click", () => {
+            window.location.href = "./edit-profile-page.html";
+          });
+      });
+    </script>
+  </head>
+  <body>
+    <div class="div">
+      <!-- HEADER -->
+      <div class="header-container">
+        <div class="daisies-amount-container">
+          <img loading="lazy" src="../../assets/icons/actions/daisy-icon.svg" />
+          <p class="daisies-amount"></p>
+        </div>
+        My Profile
+        <div class="edit-profile-container" id="edit-profile-container">
+          Edit
+        </div>
+      </div>
+      <!-- IMAGES -->
+      <div class="photos-container">
+        <div class="photos-number-indicator"></div>
+      </div>
+      <!-- USER INFORMATION -->
+      <div class="information-container">
+        <div class="name-age-container"></div>
+        <div class="institution-container"></div>
+        <div class="horizontal-line"></div>
+        <div class="preference-container">
+          <span style="font-weight: 400; color: rgba(44, 44, 44, 1)">
+            Looking for
+          </span>
+          <br />
+          <span style="font-size: 12px; color: rgba(44, 44, 44, 1)"> </span>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="actions-container"></div>
+      </div>
+    </div>
+  </body>
+</html>

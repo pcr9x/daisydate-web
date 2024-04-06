@@ -253,6 +253,7 @@
         position: absolute;
         right: 10px;
         top: 20px;
+        cursor: pointer;
       }
       .daisies-amount-container {
         position: absolute;
@@ -262,12 +263,21 @@
         align-items: center;
         justify-content: space-between;
         gap: 5px;
+        cursor: pointer;
       }
 
       .chat-container {
         position: absolute;
+        right: 90px;
+        top: 20px;
+        cursor: pointer;
+      }
+
+      .profile-container {
+        position: absolute;
         right: 50px;
-        top: 12px;
+        top: 20px;
+        cursor: pointer;
       }
     </style>
 
@@ -346,8 +356,9 @@
         const userDetailContainer = document.querySelector(
           ".institution-container"
         );
-        userDetailContainer.textContent =
-          "King Mongkut Institute of Technology Ladkrabang"; // TODO: Change to real institution
+        userDetailContainer.textContent = `${
+          user.detail.school ? user.detail.school : "No institution"
+        }`;
 
         // PREFERENCES
         const userPreferencesContainer = document.querySelector(
@@ -469,16 +480,27 @@
       document.addEventListener("DOMContentLoaded", function () {
         fetchSuggestedUsers();
         getCurrentUserDetails();
-        const prefNav = document.getElementById('filter-container').addEventListener('click', () => {
-          window.location.href = "http://127.0.0.1:5500/frontend/pages/home/preference-page.html?";
-        });
+        const prefNav = document
+          .getElementById("filter-container")
+          .addEventListener("click", () => {
+            window.location.href =
+              "http://127.0.0.1:8080/pages/home/preference-page.html";
+          });
 
-        const chatNav = document.getElementById('chat-container').addEventListener('click', () => {
-          const currentUserId = localStorage.getItem("currentUserId");
-          if(currentUserId){
-            window.location.href = `http://127.0.0.1:8000/messages/${currentUserId}`;
-          }
-        });
+        const chatNav = document
+          .getElementById("chat-container")
+          .addEventListener("click", () => {
+            const currentUserId = localStorage.getItem("currentUserId");
+            if (currentUserId) {
+              window.location.href = `http://127.0.0.1:8000/messages/${currentUserId}`;
+            }
+          });
+
+        const navigateToProfile = document
+          .getElementById("profile-container")
+          .addEventListener("click", () => {
+            window.location.href = "./profile-page.html";
+          });
       });
     </script>
   </head>
@@ -495,7 +517,15 @@
           <img
             loading="lazy"
             src="../../assets/icons/bottom-bar/chats-icon.svg"
-          >
+            height="20px"
+          />
+        </div>
+        <div class="profile-container" id="profile-container">
+          <img
+            loading="lazy"
+            src="../../assets/icons/bottom-bar/profile-icon.svg"
+            height="20px"
+          />
         </div>
         <div class="filter-container" id="filter-container">
           <img
