@@ -347,7 +347,8 @@
         // PHOTOS
         const userPhotoContainer = document.querySelector(".photos-container");
         console.log("user.photos:", user.photos);
-        userPhotoContainer.style.backgroundImage = `url('${user.photos[0]}')`;
+        const photoUrl = `../../backend/${user.photos[0]}`;
+        userPhotoContainer.style.backgroundImage = `url('${photoUrl}')`;
         userPhotoContainer.style.backgroundSize = "cover";
 
         // PHOTOS NUMBER INDICATOR
@@ -377,7 +378,7 @@
       <!-- HEADER -->
       <div class="header-container">
         <div class="daisies-amount-container">
-          <img loading="lazy" src="../../assets/icons/actions/daisy-icon.svg" />
+          <img loading="lazy" src="../assets/icons/actions/daisy-icon.svg" />
           <p class="daisies-amount"></p>
         </div>
         My Profile
