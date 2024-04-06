@@ -181,7 +181,7 @@
       formData.append("school", school);
 
       try {
-        fetch(`http:///account/detail/${currentUserId}`, {
+        fetch(`http://127.0.0.1:8000/account/detail/${currentUserId}`, {
           method: "PUT",
           body: formData,
         });

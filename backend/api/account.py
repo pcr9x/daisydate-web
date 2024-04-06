@@ -1,4 +1,4 @@
-from fastapi import HTTPException, APIRouter, status
+from fastapi import HTTPException, APIRouter, status, Form
 from models.users import UserInfo, UserDetail, EditProfile
 from fastapi import APIRouter, HTTPException, status, Depends
 from fastapi.security import OAuth2PasswordBearer
@@ -28,23 +28,21 @@ async def get_all_users():
 
 
 @router.put("/account/detail/{user_id}")
-async def update_user(user_id: str, detail: EditProfile):
+async def update_user(
+    user_id: str,
+    bio: str = Form(...),
+    relationship_goals: str = Form(...),
+    school: str = Form(...),
+):
     if user_id not in root:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
         )
-        
-    photo_paths = []
-    for photo in detail.photos:
-        contents = await photo.read()
-        file_path = save_uploaded_file(contents, photo.filename, user_id)
-        photo_paths.append(file_path)
-        
+
     user = root[user_id]
-    user.detail.bio = detail.bio
-    user.detail.relationship_goals = detail.relationship_goals
-    user.detail.school = detail.school
-    user.photos = photo_paths
+    user.detail.bio = bio
+    user.detail.relationship_goals = relationship_goals
+    user.detail.school = school
     root[user_id] = user
     transaction.commit()
     return {"message": "User's detail updated successfully"}

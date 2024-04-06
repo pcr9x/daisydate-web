@@ -1,138 +1,153 @@
 <!DOCTYPE html>
-<html lang="en" style="height: 100vh; overflow:hidden; background-color:#ebce38; display:flex; justify-content: center;">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
+<html lang="en" style="height: 100vh; overflow:hidden; background-color: white; display:flex; justify-content: center;">
 
-        <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css" />
-        <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-       <!--=============== CSS ===============-->
+    <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css" />
+    <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
 
-        <title>Chat</title>
-    </head>
-    <body style="width:60%; display:flex; justify-content:center; flex-direction:column;">
-        <div id="nav-chat-page" style="width: 100%; background-color:aliceblue; padding:10px; box-sizing:border-box; height:5%;">
-            <svg width="30" height="20" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M18 5H3.83L7.41 1.41L6 0L0 6L6 12L7.41 10.58L3.83 7H18V5Z" fill="#EBCE38"/>
-            </svg>    
-        </div>
-        <div id="chat-div" style="width:100%; height:85%; background-color: rgb(255, 219, 225); overflow:auto; padding:1rem; box-sizing:border-box;">
-            <!-- <div id="chat-div" style="height: 100%; display:flex; flex-direction: column;"> -->
-            {% for message in data.messages %}
-                {% if message.senderID == data.user_id %}
-                    <div style="display: flex; justify-content:flex-end;">
-                        <div style=" margin-top: 1rem; flex-direction:column; width:fit-content; display:flex; align-items:flex-end; max-width:90%;">
-                            <div style="background-color: white; max-width:80%;
+    <!--=============== CSS ===============-->
+
+    <title>Chat</title>
+</head>
+
+<body style="width:100%; display:flex; justify-content:center; flex-direction:column;">
+    <div id="nav-chat-page"
+        style="width: 100%; background-color:aliceblue; padding:10px; box-sizing:border-box; height:5%;">
+        <svg width="30" height="20" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18 5H3.83L7.41 1.41L6 0L0 6L6 12L7.41 10.58L3.83 7H18V5Z" fill="#EBCE38" />
+        </svg>
+    </div>
+    <div id="chat-div"
+        style="width:100%; height:85%; background-color: white; overflow:auto; padding:1rem; box-sizing:border-box;">
+        <!-- <div id="chat-div" style="height: 100%; display:flex; flex-direction: column;"> -->
+        {% for message in data.messages %}
+        {% if message.senderID == data.user_id %}
+        <div style="display: flex; justify-content:flex-end;">
+            <div
+                style=" margin-top: 1rem; flex-direction:column; width:fit-content; display:flex; align-items:flex-end; max-width:90%;">
+                <div
+                    style="background-color: #ebce38; max-width:80%;
                                 width:fit-content; border-radius:40px; padding:1rem; display:inline-block; max-width: 80%; word-wrap:break-word;">
-                                <a style="font-family:'Times New Roman', Times, serif; font-weight:semi-bold;
+                    <a style="font-family:'Times New Roman', Times, serif; font-weight:semi-bold; color: white;
                                 font-size:1.5rem;">{{message.message}}</a>
-                            </div>
-                            <a>{{message.timeStamp}}</a>
-                        </div>
-                    </div>
+                </div>
+                <a id="time-stamp" class="message-time-stamp">{{message.timeStamp}}</a>
+            </div>
+        </div>
 
-                {% else %}
-                    <div style="display: flex; margin-top: 1rem; flex-direction:column;">
-                        <div style="background-color: white;
+        {% else %}
+        <div style="display: flex; margin-top: 1rem; flex-direction:column;">
+            <div
+                style="background-color: white;
                         width:fit-content; border-radius:40px; padding:1rem; display:inline-block; max-width: 80%; word-wrap:break-word;">
-                            <a style="font-family:'Times New Roman', Times, serif; font-weight:semi-bold;
+                <a style="font-family:'Times New Roman', Times, serif; font-weight:semi-bold;
                             font-size:1.5rem;">{{message.message}}</a>
-                        </div>
-                        <a>{{message.timeStamp}}</a>
-                    </div>
-                {% endif %}
-            {% endfor %}
-            <!-- </div> -->
-            <a id="user_id" style="display: none;">{{data.user_id}}</a>
-            <a id="chat_id" style="display: none;">{{data.chatID}}</a>
+            </div>
+            <a id="time-stamp" class="message-time-stamp">{{message.timeStamp}}</a>
         </div>
-        <div style="background-color: white; height:10%; width:100%; display:flex; justify-content:space-evenly; align-items:center;">
-            <input id="message-input" placeholder="say something..." type="text" style="width: 60%; height:60%;
-                padding-left:0.5em; border-radius:50px; background-color:#ebce38">
-            <button onclick="sendMessage()" id="send-button" style="width: 10%; border-radius:50px; background-color:white; height:60%;">
-                <svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M18 5H3.83L7.41 1.41L6 0L0 6L6 12L7.41 10.58L3.83 7H18V5Z" fill="#EBCE38"/>
-                </svg>
-            </button>
-        </div>
-        <script>
-            const user_id = document.getElementById('user_id').innerHTML;
-            const chat_id = document.getElementById('chat_id').innerHTML;
-            var ws = new WebSocket(`ws://${window.location.host}/ws/${user_id}/${chat_id}`);
+        {% endif %}
+        {% endfor %}
+        <!-- </div> -->
+        <a id="user_id" style="display: none;">{{data.user_id}}</a>
+        <a id="chat_id" style="display: none;">{{data.chatID}}</a>
+    </div>
+    <div
+        style="background-color: white; height:10%; width:100%; display:flex; justify-content:space-evenly; align-items:center;">
+        <input id="message-input" placeholder="Message..." type="text" style="width: 60%; height:60%;
+                padding-left:1.5em; border-radius:50px; background-color: white">
+        <button onclick="sendMessage()" id="send-button"
+            style="width: 10%; border-radius:50px; background-color:white; height:60%;">
+            <svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18 5H3.83L7.41 1.41L6 0L0 6L6 12L7.41 10.58L3.83 7H18V5Z" fill="#EBCE38" />
+            </svg>
+        </button>
+    </div>
+    <script>
+        const user_id = document.getElementById('user_id').innerHTML;
+        const chat_id = document.getElementById('chat_id').innerHTML;
+        var ws = new WebSocket(`ws://${window.location.host}/ws/${user_id}/${chat_id}`);
 
-            ws.onmessage = function(event) {
-                let chatDiv = document.getElementById('chat-div');
-                const datas = event.data.split("/");
-                if(datas[0] === user_id){
-                    chatDiv.appendChild(createChatElementOnRight(datas[2])); 
-                } else{
-                    chatDiv.appendChild(createChatElementOnLeft(datas[2]));
-                }
-            };
-
-            function sendMessage() {
-                let messageInput = document.getElementById('message-input');
-                let message = messageInput.value;
-                ws.send(`${user_id}/${chat_id}/${message}`);
-                messageInput.value = '';
-
+        ws.onmessage = function (event) {
+            let chatDiv = document.getElementById('chat-div');
+            const datas = event.data.split("/");
+            if (datas[0] === user_id) {
+                chatDiv.appendChild(createChatElementOnRight(datas[2]));
+            } else {
+                chatDiv.appendChild(createChatElementOnLeft(datas[2]));
             }
+        };
 
-            function getTime(){
-                let now = new Date();
-                // Get the current date and time components
-                let year = now.getFullYear();
-                let month = (now.getMonth() + 1).toString().padStart(2, '0'); // Adding 1 because January is 0-indexed
-                let day = now.getDate().toString().padStart(2, '0');
-                let hours = now.getHours().toString().padStart(2, '0');
-                let minutes = now.getMinutes().toString().padStart(2, '0');
-                let seconds = now.getSeconds().toString().padStart(2, '0');
-                let milliseconds = now.getMilliseconds().toString().padStart(3, '0');
-                // Concatenate the components to form the desired format
-                return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}`;
-            }
+        function sendMessage() {
+            let messageInput = document.getElementById('message-input');
+            let message = messageInput.value;
+            ws.send(`${user_id}/${chat_id}/${message}`);
+            messageInput.value = '';
 
-            function createChatElementOnRight(text){
-                let div1 = document.createElement('div');
-                let div2 = document.createElement('div');
-                let div3 = document.createElement('div');
-                div1.setAttribute('style','display: flex; justify-content:flex-end;');
-                div2.setAttribute('style', 'margin-top: 1rem; flex-direction:column; width:fit-content; display:flex; align-items:flex-end; max-width:90%;');
-                div3.setAttribute('style', 'background-color: white; max-width:80%; width:fit-content; border-radius:40px; padding:1rem; display:inline-block; max-width: 80%; word-wrap:break-word;');
-                let msg = document.createElement('a');
-                let time = document.createElement('a');
-                msg.innerHTML = text;
-                time.innerHTML = getTime();
-                time.setAttribute("style","width:fit-content;")
-                msg.setAttribute("style","font-family:'Times New Roman', Times, serif; font-weight:semi-bold; font-size:1.5rem;");
-                div3.appendChild(msg);
-                div2.appendChild(div3);
-                div2.appendChild(time);
-                div1.appendChild(div2);
-                return div1;
-            }
-
-            function createChatElementOnLeft(text){
-                const div1 = document.createElement('div');
-                const div2  = document.createElement('div');
-                const msg = document.createElement('a');
-                const time = document.createElement('a');
-                msg.innerHTML = text;
-                time.innerHTML = getTime();
-                div1.setAttribute('style', 'display: flex; margin-top: 1rem; flex-direction:column;');
-                div2.setAttribute('style','background-color: white; width:fit-content; border-radius:40px; padding:1rem; display:inline-block; max-width: 80%; word-wrap:break-word;');
-                msg.setAttribute('style',"font-family:'Times New Roman', Times, serif; font-weight:semi-bold; font-size:1.5rem;");
-                div2.appendChild(msg);
-                div1.appendChild(div2);
-                div1.appendChild(time);
-                return div1;
-            }
-
-            document.getElementById('nav-chat-page').addEventListener('click', () => {
-                window.location.href = `http://127.0.0.1:8000/messages/${user_id}`;
+            // Update message timestamps
+            const messageTimeStamps = document.querySelectorAll('.message-time-stamp');
+            messageTimeStamps.forEach((timestamp) => {
+                timestamp.innerHTML = getTime();
             });
+        }
 
-        </script>    
-    </body>
+        function getTime() {
+            const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+            const now = new Date();
+            const month = months[now.getMonth()];
+            const day = now.getDate();
+            let hour = now.getHours();
+            const ampm = hour >= 12 ? 'PM' : 'AM';
+            hour = hour % 12;
+            hour = hour ? hour : 12;
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            return `${month} ${day} AT ${hour}:${minutes} ${ampm}`;
+        }
+
+
+        // function createChatElementOnRight(text){
+        //     let div1 = document.createElement('div');
+        //     let div2 = document.createElement('div');
+        //     let div3 = document.createElement('div');
+        //     div1.setAttribute('style','display: flex; justify-content:flex-end;');
+        //     div2.setAttribute('style', 'margin-top: 1rem; flex-direction:column; width:fit-content; display:flex; align-items:flex-end; max-width:90%;');
+        //     div3.setAttribute('style', 'background-color: white; max-width:80%; width:fit-content; border-radius:40px; padding:1rem; display:inline-block; max-width: 80%; word-wrap:break-word;');
+        //     let msg = document.createElement('a');
+        //     let time = document.createElement('a');
+        //     msg.innerHTML = text;
+        //     time.innerHTML = getTime();
+        //     time.setAttribute("style","width:fit-content;")
+        //     msg.setAttribute("style","font-family:'Times New Roman', Times, serif; font-weight:semi-bold; font-size:1.5rem;");
+        //     div3.appendChild(msg);
+        //     div2.appendChild(div3);
+        //     div2.appendChild(time);
+        //     div1.appendChild(div2);
+        //     return div1;
+        // }
+
+        // function createChatElementOnLeft(text){
+        //     const div1 = document.createElement('div');
+        //     const div2  = document.createElement('div');
+        //     const msg = document.createElement('a');
+        //     const time = document.createElement('a');
+        //     msg.innerHTML = text;
+        //     time.innerHTML = getTime();
+        //     div1.setAttribute('style', 'display: flex; margin-top: 1rem; flex-direction:column;');
+        //     div2.setAttribute('style','background-color: white; width:fit-content; border-radius:40px; padding:1rem; display:inline-block; max-width: 80%; word-wrap:break-word;');
+        //     msg.setAttribute('style',"font-family:'Times New Roman', Times, serif; font-weight:semi-bold; font-size:1.5rem;");
+        //     div2.appendChild(msg);
+        //     div1.appendChild(div2);
+        //     div1.appendChild(time);
+        //     return div1;
+        // }
+
+        document.getElementById('nav-chat-page').addEventListener('click', () => {
+            window.location.href = `http://127.0.0.1:8000/messages/${user_id}`;
+        });
+
+    </script>
+</body>
+
 </html>
