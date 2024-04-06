@@ -179,7 +179,7 @@
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('arrow-left-icon').addEventListener('click', () => {
-          window.location.href = "http://127.0.0.1:5500/frontend/pages/home/home-page.html";
+          window.location.href = "http://localhost:8080/pages/home-page.html";
         })
         const currentUserId = localStorage.getItem("currentUserId");
         const getPrefURL = `http://127.0.0.1:8000/account/preferences/${currentUserId}`;
