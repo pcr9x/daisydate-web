@@ -4,6 +4,7 @@ from models.chatting import ChatMessage
 from models.users import UserPreferences, UserInfo
 from api.auth import root
 from api.account import get_current_user
+from collections import deque
 import transaction, uuid
 
 router = APIRouter()
@@ -13,7 +14,7 @@ chatting = get_zodb_storage(chatting_storage)
 
 # CAPT- DONE
 @router.get("/suggested")
-def user_screening(current_user: UserInfo = Depends(get_current_user)):
+async def user_screening(current_user: UserInfo = Depends(get_current_user)):
     pref_age = current_user.preferences.age
 
     # Filter users based on age
@@ -72,7 +73,10 @@ def user_screening(current_user: UserInfo = Depends(get_current_user)):
         else:
             sorted_user.append(p)
 
-    return sorted_user
+    sorted_user = deque(sorted_user)
+    user = sorted_user.popleft()
+
+    return user
 
 
 @router.put("/suggested/preferences")
@@ -97,8 +101,12 @@ def isMatch(currentUser, otherUser):
 def createChatRoom(user1, user2):
     chatID = str(uuid.uuid4())
     chatting[chatID] = ChatMessage(chatID=chatID, userID1=user1, userID2=user2)
-    root[user1].matches.append(user2)
-    root[user2].matches.append(user1)
+    u1 = root[user1]
+    u2 = root[user2]
+    u1.matches.append(u2)
+    u2.matches.append(u1)
+    root[user1] = u1
+    root[user2] = u2
     return {"chatID": chatID}
 
 

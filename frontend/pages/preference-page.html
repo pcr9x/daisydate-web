@@ -146,7 +146,7 @@
     <section class="preferences-container">
         <img
           id="arrow-left-icon"
-          src="../../assets/icons/arrows/arrow-left-icon.svg"
+          src="../assets/icons/arrows/arrow-left-icon.svg"
           alt="arrow-left-icon"
           class="arrow-left-icon"
         />
@@ -179,7 +179,7 @@
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('arrow-left-icon').addEventListener('click', () => {
-          window.location.href = "http://localhost:8080/pages/home-page.html";
+          window.location.href = "./home-page.html";
         })
         const currentUserId = localStorage.getItem("currentUserId");
         const getPrefURL = `http://127.0.0.1:8000/account/preferences/${currentUserId}`;

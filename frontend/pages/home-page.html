@@ -329,6 +329,7 @@
 
           if (response.ok) {
             const suggestedUsers = await response.json();
+            console.log(suggestedUsers)
             displaySuggestedUsers(suggestedUsers);
           } else {
             console.error("Failed to fetch suggested users");
@@ -338,14 +339,14 @@
         }
       }
 
-      function displaySuggestedUsers(users) {
-        if (users.length === 0) {
-          console.log("No suggested users found");
-          return;
-        }
+      function displaySuggestedUsers(user) {
+        // if (users.length === 0) {
+        //   console.log("No suggested users found");
+        //   return;
+        // }
 
         // TODO: Change to loop
-        const user = users[0];
+        // const user = users[0];
         console.log("user:", user);
 
         // NAME, AGE
@@ -485,7 +486,7 @@
           .getElementById("filter-container")
           .addEventListener("click", () => {
             window.location.href =
-              "http://127.0.0.1:8080/pages/preference-page.html";
+              "./preference-page.html";
           });
 
         const chatNav = document
